@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eros Rich Method™ 診断</title>
+<style>
+  :root{
+    --bg:#fbf7f2; --ink:#43293b; --rose:#d4547a; --rose-deep:#b53a63; --rose-soft:#f3d9e2;
+    --gold:#c2a15c; --gold-soft:#e9dcc2; --muted:#9a8494; --night:#2b1e2e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.85;}
+  .wrap{max-width:520px;margin:0 auto;padding:36px 20px 80px;}
+  .brand{text-align:center;margin-bottom:30px;}
+  .brand .rule{width:54px;height:1px;background:var(--gold);margin:0 auto 16px;position:relative;}
+  .brand .rule::after{content:"";position:absolute;left:50%;top:-3px;width:7px;height:7px;transform:translateX(-50%) rotate(45deg);background:var(--gold);}
+  h1{font-size:23px;letter-spacing:.13em;font-weight:600;}
+  h1 .tm{font-size:11px;vertical-align:super;}
+  .brand p{font-size:11.5px;letter-spacing:.12em;color:var(--muted);margin-top:8px;}
+  .sec-label{font-size:12px;letter-spacing:.3em;color:var(--rose);margin:26px 0 12px;display:flex;align-items:center;gap:12px;font-weight:600;}
+  .sec-label::after{content:"";flex:1;height:1px;background:var(--rose-soft);}
+  .field{margin-bottom:16px;}
+  label{display:block;font-size:12.5px;color:#6b5262;margin-bottom:6px;letter-spacing:.06em;}
+  label .req{color:var(--rose);font-size:11px;margin-left:4px;}
+  input[type=text],input[type=date],input[type=time],textarea,select{
+    width:100%;background:#fff;border:1px solid #e4d5cf;border-radius:6px;padding:12px 13px;
+    font-family:inherit;font-size:16px;color:var(--ink);outline:none;-webkit-appearance:none;appearance:none;
+  }
+  input:focus,textarea:focus,select:focus{border-color:var(--rose);}
+  textarea{height:96px;resize:none;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.7;}
+  .btn{
+    width:100%;margin-top:24px;padding:16px;border:none;border-radius:6px;cursor:pointer;
+    font-family:inherit;font-size:15px;letter-spacing:.3em;text-indent:.3em;font-weight:600;
+    color:#fff;background:linear-gradient(135deg,var(--rose),var(--rose-deep));
+    box-shadow:0 6px 22px rgba(212,84,122,.28);transition:transform .15s;
+  }
+  .btn:active{transform:scale(.98);}
+  .btn.ghost{background:transparent;color:#a4854a;border:1px solid var(--gold);box-shadow:none;letter-spacing:.2em;font-size:13px;padding:13px;}
+  .err{display:none;margin-top:12px;padding:12px 14px;border-radius:6px;border:1px solid #e0a5a5;color:#b05555;font-size:13px;background:#fff;}
+  .err.show{display:block;}
+  .client-head{text-align:center;margin-bottom:16px;padding:20px 16px;background:#fff;border:1px solid var(--gold-soft);border-radius:10px;}
+  .client-head .nm{font-size:19px;letter-spacing:.18em;font-weight:600;}
+  .client-head .sub{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.1em;}
+  .meishiki{background:#fff;border:1px solid var(--gold-soft);border-radius:10px;overflow:hidden;margin-bottom:12px;}
+  .meishiki table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .meishiki th,.meishiki td{border:1px solid #f0e4dc;padding:8px 3px;text-align:center;}
+  .meishiki th{background:#fdf1f5;color:var(--rose);font-weight:600;font-size:11.5px;}
+  .meishiki td.lbl{background:#fbf5f0;color:#8a6f52;font-size:10.5px;}
+  .meishiki .kanshi{font-size:16px;font-weight:600;letter-spacing:.08em;}
+  .caution{font-size:11.5px;color:#a4854a;background:#fdf8ec;border:1px solid #ecdfc0;border-radius:6px;padding:10px 12px;margin-bottom:14px;line-height:1.7;}
+  .card{background:#fff;border:1px solid #eee1da;border-radius:12px;margin-bottom:20px;overflow:hidden;}
+  .card-h{padding:12px 18px;background:linear-gradient(135deg,#fdf1f5,#fbf7f2);border-bottom:1px solid var(--rose-soft);font-size:12px;letter-spacing:.22em;color:var(--rose);font-weight:600;}
+  .card-b{padding:18px;}
+  .catch{font-size:18px;font-weight:700;line-height:1.6;margin-bottom:12px;}
+  .catch::before{content:"“";color:var(--gold);margin-right:2px;}
+  .catch::after{content:"”";color:var(--gold);margin-left:2px;}
+  .bodytext{font-size:13.5px;color:#4c3345;}
+  .bodytext p{margin-bottom:.9em;}
+  .bodytext p:last-child{margin-bottom:0;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 2px;}
+  .chip{font-size:11.5px;padding:5px 12px;border-radius:999px;background:#fdf1f5;color:var(--rose-deep);border:1px solid var(--rose-soft);letter-spacing:.05em;}
+  .zubo{margin:10px 0 4px;}
+  .zubo li{list-style:none;position:relative;padding:9px 10px 9px 34px;font-size:13.5px;color:#4c3345;border-bottom:1px dashed #f0e0e6;}
+  .zubo li:last-child{border-bottom:none;}
+  .zubo li::before{content:"✓";position:absolute;left:8px;top:8px;color:var(--rose);font-weight:700;}
+  .zubo-title{font-size:11.5px;letter-spacing:.15em;color:var(--gold);margin-bottom:4px;font-weight:600;}
+  .action-line{margin-top:12px;padding:11px 14px;background:#fdf8ec;border-left:3px solid var(--gold);font-size:13px;color:#6d5836;border-radius:0 6px 6px 0;}
+  .mech{margin:12px 0 4px;}
+  .mech-row{display:flex;align-items:stretch;margin-bottom:9px;border:1px solid #f0e0e6;border-radius:9px;overflow:hidden;}
+  .mech-row .m-star{flex-shrink:0;width:86px;background:#fdf1f5;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8px 4px;border-right:1px solid #f0e0e6;text-align:center;}
+  .mech-row .m-star b{font-size:14px;color:var(--rose-deep);}
+  .mech-row .m-star span{font-size:9px;color:var(--muted);letter-spacing:.05em;}
+  .mech-row .m-body{padding:9px 12px;font-size:12.5px;color:#4c3345;flex:1;}
+  .mech-row .m-body b{color:var(--gold);font-size:11px;letter-spacing:.1em;display:block;}
+  .tenkan{margin-top:14px;padding:16px;border-radius:10px;background:linear-gradient(135deg,#43293b,#5a3049);color:#f6e8ee;text-align:center;}
+  .tenkan .t-label{font-size:10px;letter-spacing:.35em;color:#d9a8bc;margin-bottom:6px;}
+  .tenkan .t-body{font-size:15.5px;font-weight:700;line-height:1.7;}
+  .layer{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed #f0e0e6;}
+  .layer:last-of-type{border-bottom:none;}
+  .layer .star{flex-shrink:0;width:64px;height:64px;border-radius:50%;border:1.5px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,#fdf6ec,transparent);}
+  .layer .star b{font-size:17px;}
+  .layer .star span{font-size:9px;color:var(--muted);}
+  .layer .txt{font-size:13px;color:#4c3345;}
+  .layer .txt b{display:block;font-size:13.5px;color:var(--rose-deep);margin-bottom:2px;}
+  .swatches{display:flex;gap:10px;margin:12px 0;}
+  .sw{flex:1;text-align:center;}
+  .sw i{display:block;height:44px;border-radius:8px;border:1px solid rgba(0,0,0,.06);}
+  .sw span{font-size:10.5px;color:var(--muted);display:block;margin-top:5px;line-height:1.4;}
+  .sns{margin-top:10px;}
+  .sns li{list-style:none;font-size:13px;background:#faf5f7;border:1px solid #f3e4ea;border-radius:8px;padding:10px 13px;margin-bottom:8px;color:#4c3345;}
+  .sns li::before{content:"POST ";font-size:9px;letter-spacing:.15em;color:var(--rose);font-weight:700;}
+  .ab{display:flex;flex-direction:column;gap:12px;}
+  .ab .plan{border:1px solid var(--rose-soft);border-radius:10px;padding:14px;}
+  .ab .plan .tag{display:inline-block;font-size:10px;letter-spacing:.2em;background:var(--rose);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:6px;}
+  .ab .plan.b .tag{background:var(--gold);}
+  .ab .plan b{display:block;font-size:14.5px;margin-bottom:4px;}
+  .ab .plan p{font-size:12.5px;color:#5c4453;}
+  .rolemodel{margin-top:10px;font-size:12px;color:#8a6f52;}
+  .rolemodel::before{content:"◆ ロールモデル: ";color:var(--gold);}
+  .timeline{margin-top:6px;}
+  .tstep{display:flex;gap:12px;padding:10px 0;}
+  .tstep .when{flex-shrink:0;width:52px;text-align:center;font-size:10.5px;letter-spacing:.1em;color:#fff;background:var(--rose);border-radius:6px;padding:6px 0;height:fit-content;}
+  .tstep:nth-child(2) .when{background:#c9788f;}
+  .tstep:nth-child(3) .when{background:var(--gold);}
+  .tstep p{font-size:13px;color:#4c3345;}
+  .brandgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:6px;}
+  .bname{border:1px solid var(--gold-soft);border-radius:9px;padding:11px 12px;background:#fffdf9;}
+  .bname b{display:block;font-size:14px;margin-bottom:2px;}
+  .bname span{font-size:10.5px;color:var(--muted);line-height:1.5;display:block;}
+  .card.eros{background:var(--night);border-color:#4a3350;}
+  .card.eros .card-h{background:linear-gradient(135deg,#3a2740,#2b1e2e);border-bottom-color:#553a5c;color:#e3a7c0;}
+  .card.eros .card-b{color:#e9d9e2;}
+  .card.eros .catch{color:#f4dce8;}
+  .card.eros .bodytext{color:#dcc6d4;}
+  .card.eros .zubo li{color:#dcc6d4;border-bottom-color:#4a3350;}
+  .card.eros .zubo li::before{color:#e3a7c0;}
+  .card.eros .zubo-title{color:#c99;}
+  .card.eros .action-line{background:#3a2740;border-left-color:#e3a7c0;color:#e9cfdc;}
+  .card.eros .persona-in,.card.eros .persona-out{font-size:12px;color:#b78aa3;padding:10px 0;line-height:1.9;}
+  .card.eros .nickname{display:inline-block;font-size:12px;background:#3a2740;border:1px solid #6b4a72;color:#eec3d6;border-radius:999px;padding:5px 14px;margin-bottom:10px;letter-spacing:.05em;}
+  .gen-wait{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;padding:4px 0;}
+  .card.eros .gen-wait{color:#b78aa3;}
+  .dotpulse{display:inline-flex;gap:5px;}
+  .dotpulse i{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:dp 1.2s infinite ease-in-out;}
+  .dotpulse i:nth-child(2){animation-delay:.2s}
+  .dotpulse i:nth-child(3){animation-delay:.4s}
+  @keyframes dp{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+  @media (prefers-reduced-motion:reduce){.dotpulse i{animation:none;opacity:.6}}
+  .paywall{border:1.5px solid var(--gold);border-radius:14px;background:linear-gradient(160deg,#fffdf8,#fdf3f0);padding:24px 20px;text-align:center;margin:26px 0;}
+  .paywall .pw-title{font-size:16px;font-weight:700;letter-spacing:.08em;}
+  .paywall .price{font-size:30px;color:var(--rose-deep);font-weight:700;margin:8px 0 2px;}
+  .paywall .price small{font-size:12px;color:var(--muted);font-weight:400;}
+  .paywall ul{margin:14px 0;text-align:left;}
+  .paywall li{list-style:none;font-size:13px;padding:7px 0 7px 26px;position:relative;color:#4c3345;border-bottom:1px dashed #eddfd2;}
+  .paywall li:last-child{border-bottom:none;}
+  .paywall li::before{content:"♦";position:absolute;left:6px;color:var(--gold);}
+  .codebox{margin-top:14px;}
+  .codebox input{text-align:center;letter-spacing:.2em;}
+  .legal{font-size:10.5px;color:var(--muted);line-height:1.9;margin-top:30px;padding-top:16px;border-top:1px solid #eadfd8;}
+  .hidden{display:none;}
+  /* チャット */
+  .cb{max-width:85%;padding:11px 14px;border-radius:14px;font-size:13.5px;line-height:1.8;white-space:pre-wrap;word-break:break-word;}
+  .cb-u{align-self:flex-end;background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;border-bottom-right-radius:4px;}
+  .cb-a{align-self:flex-start;background:#faf5f7;border:1px solid #f0e0e6;color:#4c3345;border-bottom-left-radius:4px;}
+  .cb-wait{color:var(--muted);letter-spacing:.3em;animation:dp 1.2s infinite ease-in-out;}
+  #chatInput{flex:1;}
+  #chatSend{flex-shrink:0;width:74px;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--rose),var(--rose-deep));}
+  #chatSend:disabled{opacity:.5;}
+  #chatTimer{font-size:11px;color:var(--rose-deep);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <div class="rule"></div>
+    <h1>Eros Rich Method<span class="tm">™</span></h1>
+    <p>成金四柱推命 × 恋愛と性の傾向診断</p>
+  </div>
+
+  <!-- STEP1: 無料入力 -->
+  <div id="viewFreeForm">
+    <div class="card"><div class="card-b" style="font-size:13px;color:#5c4453;">
+      生年月日から命式を自動算出し、あなたの<b style="color:var(--rose);">恋愛の傾向・性の傾向</b>を無料で診断します。まずは30秒。
+    </div></div>
+    <div class="sec-label">無料かんたん診断</div>
+    <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:きわ"></div>
+    <div class="row2">
+      <div class="field"><label for="gender">性別</label><select id="gender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
+      <div class="field"><label for="bday">生年月日<span class="req">必須</span></label><input type="date" id="bday"></div>
+    </div>
+    <div class="field"><label for="btime">出生時間(任意・不明なら空欄)</label><input type="time" id="btime"></div>
+    <div class="field"><label for="quickDream">叶えたい未来(恋愛・性について・ひとことでOK)<span class="req">必須</span></label><input type="text" id="quickDream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい"></div>
+    <div class="field"><label for="quickWorry">いま一番モヤモヤしていること(ひとことでOK・任意)</label><input type="text" id="quickWorry" placeholder="例:好きになる人がいつも同じタイプで疲れる / 本当の気持ちが分からなくなる"></div>
+    <button class="btn" id="freeBtn">無料で占う</button>
+    <div class="err" id="freeErr"></div>
+  </div>
+
+  <!-- STEP2: 無料結果 -->
+  <div id="viewFreeResult" class="hidden">
+    <div class="client-head"><div class="nm" id="fName"></div><div class="sub" id="fBirth"></div></div>
+    <div class="meishiki" id="fChart"></div>
+    <div class="caution hidden" id="fNote"></div>
+    <div id="freeBlocks"></div>
+    <div class="paywall" id="paywall">
+      <div class="pw-title">完全版 鑑定書</div>
+      <div class="price">¥3,500<small> (税込)</small></div>
+      <ul>
+        <li>恋愛・性の傾向を、現在地の解剖からじっくり診断</li>
+        <li>恋愛的な魅力の三層構造 / 非言語的な吸引力</li>
+        <li>NG恋愛行動とリカバリー法</li>
+        <li>悩みの命式的原因と解決策</li>
+        <li>相性占い — ぶつかるポイントとリカバリー法まで</li>
+        <li>Erosパート(18歳以上・任意)</li>
+        <li>短期・中期・長期アクションプラン</li>
+        <li><b>鑑定士とチャットで60分・相談し放題</b>(気になる人との相性の追加質問もOK)</li>
+      </ul>
+      <div style="font-size:11.5px;color:var(--muted);">お支払い後にお渡しする「解禁コード」を入力してください。</div>
+      <div class="codebox"><input type="text" id="unlockCode" placeholder="解禁コード"></div>
+      <button class="btn" id="unlockBtn" style="margin-top:12px;">完全版をひらく</button>
+      <div class="err" id="unlockErr"></div>
+    </div>
+
+    <!-- 恋愛相性だけ(全年齢) -->
+    <div class="paywall" id="paywallLove">
+      <div class="pw-title">恋愛の相性だけ診断</div>
+      <div class="price">¥500<small> (税込・年齢制限なし)</small></div>
+      <ul>
+        <li>お相手との相性 — 本質的な関係性・強み</li>
+        <li>ぶつかる場面とその占術的メカニズム</li>
+        <li>リカバリー法 / この関係を活かす一手</li>
+      </ul>
+      <div style="font-size:11.5px;color:var(--muted);">お支払い後にお渡しする「解禁コード」を入力してください。</div>
+      <div class="codebox"><input type="text" id="unlockCodeLove" placeholder="解禁コード"></div>
+      <button class="btn" id="unlockBtnLove" style="margin-top:12px;">恋愛相性をひらく</button>
+      <div class="err" id="unlockErrLove"></div>
+    </div>
+
+    <!-- Erosパートだけ(18歳以上限定) -->
+    <div class="paywall" id="paywallEros" style="border-color:#6b4a72;background:linear-gradient(160deg,#2b1e2e,#231824);">
+      <div class="pw-title" style="color:#eec3d6;">Eros Rich™ — Erosパート単体</div>
+      <div class="price" style="color:#e3a7c0;">¥3,000<small style="color:#b78aa3;"> (税込・18歳以上限定)</small></div>
+      <ul style="color:#dcc6d4;">
+        <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第一の神殿 — 性愛の幸せを感じる状況・相手像</li>
+        <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第二の神殿 — 性欲の波と『内なる男と女』</li>
+        <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第三の神殿 — 悩みの解剖と、性を資産に変える</li>
+      </ul>
+      <div style="font-size:11.5px;color:#b78aa3;">お支払い後にお渡しする「解禁コード」を入力してください。18歳以上の方のみご利用いただけます。</div>
+      <div class="codebox"><input type="text" id="unlockCodeEros" placeholder="解禁コード"></div>
+      <button class="btn" id="unlockBtnEros" style="margin-top:12px;">Erosパートをひらく</button>
+      <div class="err" id="unlockErrEros"></div>
+    </div>
+    <button class="btn ghost" id="backBtn1">入力に戻る</button>
+  </div>
+
+  <!-- STEP3: 完全版入力 -->
+  <div id="viewFullForm" class="hidden">
+    <div class="sec-label">完全版 — あなたのこと</div>
+    <div class="card"><div class="card-b" style="font-size:12.5px;color:#5c4453;">
+      詳しく書くほど、鑑定書は「あなただけの一冊」になります。書ける範囲でかまいません。
+    </div></div>
+    <div class="field"><label for="upbringing">生い立ち(育った環境・家族・人生の大きな出来事など)</label><textarea id="upbringing" placeholder="例:厳しい家庭で育ち、ずっと良い子を演じてきた。20代で上京して…"></textarea></div>
+    <div class="field"><label for="current">現状くわしく(恋愛・人間関係・性のことなど、いまの状況)</label><textarea id="current" placeholder="例:付き合っても長続きしない。本音を出すのが怖くて、いつも一歩引いてしまう…"></textarea></div>
+    <div class="field"><label for="dream">将来的に叶えたい関係・生活(最初の入力を反映済み。詳しく書き足せます)</label><textarea id="dream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい"></textarea></div>
+    <div class="field"><label for="worry">いちばん深い悩み<span class="req">必須</span></label><textarea id="worry" placeholder="例:好きになるほど不安になって、うまくいかなくなる"></textarea></div>
+
+    <div class="sec-label">相性占い(任意)</div>
+    <div class="field"><label for="relType">占いたい相手との関係</label>
+      <select id="relType">
+        <option value="">相性占いはしない</option>
+        <option>恋人</option><option>夫婦・パートナー</option><option>片想いの相手</option>
+        <option>家族(親)</option><option>家族(子ども)</option><option>兄弟姉妹</option>
+        <option>友人</option><option>上司</option><option>部下・後輩</option><option>ビジネスパートナー</option>
+      </select>
+    </div>
+    <div id="partnerFields" class="hidden">
+      <div class="row2">
+        <div class="field"><label for="pName">お相手の呼び名</label><input type="text" id="pName" placeholder="例:たかし"></div>
+        <div class="field"><label for="pBday">お相手の生年月日</label><input type="date" id="pBday"></div>
+      </div>
+      <div class="field"><label for="pTime">お相手の出生時間(任意)</label><input type="time" id="pTime"></div>
+      <div class="field"><label for="relDetail">お相手との現状・気になっていること(任意)</label><textarea id="relDetail" placeholder="例:最近すれ違いが多い / 結婚の話が進まない / 仕事の指示が理不尽に感じる"></textarea></div>
+    </div>
+
+    <div class="field" style="margin-top:18px;">
+      <label style="display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--rose-soft);border-radius:6px;padding:13px;">
+        <input type="checkbox" id="erosOn" style="width:18px;height:18px;margin-top:3px;accent-color:var(--rose);">
+        <span style="font-size:12.5px;color:#6b5262;"><b style="color:var(--rose);">Erosパートを含める</b>(18歳以上向け)<br>語り手の人格が切り替わり、本能・官能の領域まで踏み込みます。</span>
+      </label>
+    </div>
+    <button class="btn" id="fullBtn">完全版鑑定書をつくる</button>
+    <div class="err" id="fullErr"></div>
+  </div>
+
+  <!-- STEP4: 完全版結果 -->
+  <div id="viewFullResult" class="hidden">
+    <div class="client-head"><div class="nm" id="rName"></div><div class="sub">Eros Rich Method™ 完全版鑑定書</div></div>
+    <div id="fullBlocks"></div>
+    <div class="card hidden" id="chatCard">
+      <div class="card-h" style="display:flex;justify-content:space-between;align-items:center;"><span>鑑定士と対話 — なんでも聞いてください</span><span id="chatTimer">--:--</span></div>
+      <div class="card-b">
+        <div id="chatMsgs" style="display:flex;flex-direction:column;gap:10px;max-height:440px;overflow-y:auto;padding-bottom:4px;"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <input type="text" id="chatInput" placeholder="質問をどうぞ">
+          <button id="chatSend">送る</button>
+        </div>
+        <p class="hint">例:「彼との相性は? 1992年4月2日生まれ」「今の仕事は続けるべき?」— 生年月日を書くと、その場で命式を計算して読みます。</p>
+      </div>
+    </div>
+    <div class="legal">
+      【法的・倫理的注意喚起】本診断は、あなたの可能性を多角的に探求し、自己理解を深めるための「分析結果」を提供するものです。ビジネスの成功、特定の成果、心身の健康を保証するものではありません。心身の不調や深い精神的苦痛、トラウマに関するお悩みは、必ず専門の医療機関やカウンセラー、その他の資格を持つ専門家にご相談ください。最終的な判断と行動は、ご自身の責任において行われることをお願いいたします。
+    </div>
+    <button class="btn ghost" id="backBtn2">最初に戻る</button>
+  </div>
+
+  <!-- 恋愛相性(単体・全年齢): 入力 -->
+  <div id="viewLoveForm" class="hidden">
+    <div class="sec-label">恋愛の相性 — お二人のこと</div>
+    <div class="field"><label for="loveRelType">お相手との関係<span class="req">必須</span></label>
+      <select id="loveRelType">
+        <option value="">選んでください</option>
+        <option>恋人</option><option>夫婦・パートナー</option><option>片想いの相手</option>
+        <option>家族(親)</option><option>家族(子ども)</option><option>兄弟姉妹</option>
+        <option>友人</option><option>上司</option><option>部下・後輩</option><option>ビジネスパートナー</option>
+      </select>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="lovePName">お相手の呼び名<span class="req">必須</span></label><input type="text" id="lovePName" placeholder="例:たかし"></div>
+      <div class="field"><label for="lovePBday">お相手の生年月日<span class="req">必須</span></label><input type="date" id="lovePBday"></div>
+    </div>
+    <div class="field"><label for="lovePTime">お相手の出生時間(任意)</label><input type="time" id="lovePTime"></div>
+    <div class="field"><label for="loveDetail">今、気になっていること(任意)</label><textarea id="loveDetail" placeholder="例:最近すれ違いが多い / 結婚の話が進まない"></textarea></div>
+    <button class="btn" id="loveBtn">恋愛相性を診断する</button>
+    <div class="err" id="loveErr"></div>
+  </div>
+
+  <!-- 恋愛相性(単体): 結果 -->
+  <div id="viewLoveResult" class="hidden">
+    <div class="client-head"><div class="nm" id="loveName"></div><div class="sub">恋愛相性診断</div></div>
+    <div id="loveBlocks"></div>
+    <div class="legal">
+      【注意】本診断は自己理解・関係理解を深めるための分析結果です。関係性の断定や保証を行うものではありません。深刻なお悩みは専門家にご相談ください。
+    </div>
+    <button class="btn ghost" id="backBtnLove">最初に戻る</button>
+  </div>
+
+  <!-- Erosパート(単体・18歳以上): 入力 -->
+  <div id="viewErosForm" class="hidden">
+    <div class="sec-label" style="color:#e3a7c0;">Eros Rich™ — Erosパート</div>
+    <div class="field"><label for="erosDream">叶えたい状態・理想<span class="req">必須</span></label><textarea id="erosDream" placeholder="例:自分の欲望にもっと素直に、満たされた関係を築きたい"></textarea></div>
+    <div class="field"><label for="erosWorry">いちばん深い悩み<span class="req">必須</span></label><textarea id="erosWorry" placeholder="例:性欲の波が激しくて、自分でもよく分からない"></textarea></div>
+    <div class="field" style="margin-top:8px;">
+      <label style="display:flex;gap:10px;align-items:flex-start;background:#2b1e2e;border:1px solid #553a5c;border-radius:6px;padding:13px;">
+        <input type="checkbox" id="erosAgeCheck" style="width:18px;height:18px;margin-top:3px;">
+        <span style="font-size:12.5px;color:#dcc6d4;">私は<b style="color:#e3a7c0;">18歳以上</b>であることを確認しました。</span>
+      </label>
+    </div>
+    <button class="btn" id="erosBtn">Erosパートをひらく</button>
+    <div class="err" id="erosErr"></div>
+  </div>
+
+  <!-- Erosパート(単体): 結果 -->
+  <div id="viewErosResult" class="hidden">
+    <div class="client-head"><div class="nm" id="erosName"></div><div class="sub">Eros Rich Method™ — Erosパート</div></div>
+    <div id="erosBlocks"></div>
+    <div class="legal">
+      【法的・倫理的注意喚起】本診断は自己理解を深めるための分析結果であり、効果や成果を保証するものではありません。心身の不調や深い悩みは、必ず専門の医療機関やカウンセラーにご相談ください。
+    </div>
+    <button class="btn ghost" id="backBtnEros">最初に戻る</button>
+  </div>
+
+</div>
+
+<script>
+/* ================= 設定 ================= */
+const MODE = "production"; // "claude"=Claude内テスト用 / "production"=本番(Worker経由)
+const WORKER_URL = "https://uranai.nasebanaru0120.workers.dev"; // 本番URL設定済み(2026-08-06)
+const CHAT_MINUTES = 60; // 対話モードの持ち時間(分)
+let CURRENT_TIER = "free";
+
+/* ================= 命式計算エンジン ================= */
+const STEMS=["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+const BRANCHES=["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+const STAGES=["長生","沐浴","冠帯","建禄","帝旺","衰","病","死","墓","絶","胎","養"];
+const ENERGY={長生:9,沐浴:7,冠帯:10,建禄:11,帝旺:12,衰:8,病:4,死:2,墓:5,絶:1,胎:3,養:6};
+const TUHEN_TABLE=[["比肩","劫財"],["食神","傷官"],["偏財","正財"],["偏官","正官"],["偏印","印綬"]];
+const GOGYO=["木","木","火","火","土","土","金","金","水","水"];
+const KANSHI_STORY={"甲":"大樹","乙":"草花","丙":"太陽","丁":"灯火","戊":"山","己":"畑","庚":"刀剣","辛":"宝石","壬":"大海","癸":"雨露"};
+const ZOKAN={"子":[["壬",10],["癸",99]],"丑":[["癸",9],["辛",3],["己",99]],"寅":[["戊",7],["丙",7],["甲",99]],"卯":[["甲",5],["乙",99]],"辰":[["乙",9],["癸",3],["戊",99]],"巳":[["戊",5],["庚",9],["丙",99]],"午":[["丙",10],["己",9],["丁",99]],"未":[["丁",9],["乙",3],["己",99]],"申":[["戊",10],["壬",3],["庚",99]],"酉":[["庚",9],["辛",99]],"戌":[["辛",9],["丁",3],["戊",99]],"亥":[["甲",12],["壬",99]]};
+const CHOSEI={"甲":[11,1],"乙":[6,-1],"丙":[2,1],"丁":[9,-1],"戊":[2,1],"己":[9,-1],"庚":[5,1],"辛":[0,-1],"壬":[8,1],"癸":[3,-1]};
+function jdnFromDate(y,m,d){const a=Math.floor((14-m)/12),y2=y+4800-a,m2=m+12*a-3;return d+Math.floor((153*m2+2)/5)+365*y2+Math.floor(y2/4)-Math.floor(y2/100)+Math.floor(y2/400)-32045;}
+function dateFromJdn(j){let a=j+32044,b=Math.floor((4*a+3)/146097),c=a-Math.floor(146097*b/4);let d2=Math.floor((4*c+3)/1461),e=c-Math.floor(1461*d2/4),m2=Math.floor((5*e+2)/153);return{d:e-Math.floor((153*m2+2)/5)+1,m:m2+3-12*Math.floor(m2/10),y:100*b+d2-4800+Math.floor(m2/10)};}
+function sunLon(jd){const T=(jd-2451545)/36525,rad=Math.PI/180;const L0=280.46646+36000.76983*T+0.0003032*T*T;const M=(357.52911+35999.05029*T-0.0001537*T*T)*rad;const C=(1.914602-0.004817*T-0.000014*T*T)*Math.sin(M)+(0.019993-0.000101*T)*Math.sin(2*M)+0.000289*Math.sin(3*M);const Om=(125.04-1934.136*T)*rad;let lam=L0+C-0.00569-0.00478*Math.sin(Om);lam%=360;if(lam<0)lam+=360;return lam;}
+const wrap180=x=>((x+180)%360+360)%360-180;
+function findTerm(year,angle,mA,dA){let lo=jdnFromDate(year,mA,dA)-0.5-9/24-10,hi=lo+20;for(let i=0;i<80;i++){const mid=(lo+hi)/2;if(wrap180(sunLon(mid)-angle)<0)lo=mid;else hi=mid;}const jdUT=(lo+hi)/2,jdJST=jdUT+9/24+0.5,Z=Math.floor(jdJST),dt=dateFromJdn(Z);return{jdUT,y:dt.y,m:dt.m,d:dt.d,jdn:Z};}
+const SETSU=[[285,1,6,1],[315,2,4,2],[345,3,6,3],[15,4,5,4],[45,5,6,5],[75,6,6,6],[105,7,7,7],[135,8,8,8],[165,9,8,9],[195,10,8,10],[225,11,7,11],[255,12,7,0]];
+function calcMeishiki(y,m,d,hh,mi){
+  let timeGiven=!(hh===undefined||hh===null||isNaN(hh));
+  if(!timeGiven){hh=10;mi=0;}
+  let note23=false;
+  if(hh===23){const nd=dateFromJdn(jdnFromDate(y,m,d)+1);y=nd.y;m=nd.m;d=nd.d;hh=0;mi=0;note23=true;}
+  const birthJdUT=jdnFromDate(y,m,d)-0.5+(hh+mi/60-9)/24;
+  let terms=[];
+  for(const yr of[y-1,y]){for(const s of SETSU){const t=findTerm(yr,s[0],s[1],s[2]);t.branch=s[3];t.angle=s[0];terms.push(t);}}
+  terms.sort((a,b)=>a.jdUT-b.jdUT);
+  let cur=null,next=null;
+  for(const t of terms){if(t.jdUT<=birthJdUT)cur=t;else if(!next)next=t;}
+  const risshun=terms.find(t=>t.y===y&&t.angle===315);
+  const gy=(risshun&&birthJdUT>=risshun.jdUT)?y:y-1;
+  const yearStem=((gy-4)%10+10)%10,yearBranch=((gy-4)%12+12)%12;
+  const monthBranch=cur.branch;
+  const monthStem=(((yearStem%5)*2+2)+((monthBranch-2+12)%12))%10;
+  const jdnBirth=jdnFromDate(y,m,d);
+  const dayIdx60=((jdnBirth+49)%60+60)%60;
+  const dayStem=dayIdx60%10,dayBranch=dayIdx60%12;
+  const nDays=jdnBirth-cur.jdn+1;
+  const zokan=b=>{const t=ZOKAN[BRANCHES[b]];let acc=0;for(const[s,dd]of t){acc+=dd;if(nDays<=acc)return s;}return t[t.length-1][0];};
+  const tuhen=o=>{const de=Math.floor(dayStem/2),oe=Math.floor(o/2);return TUHEN_TABLE[(oe-de+5)%5][(dayStem%2)===(o%2)?0:1];};
+  const stage=b=>{const[st,dir]=CHOSEI[STEMS[dayStem]];return STAGES[dir===1?(b-st+12)%12:(st-b+12)%12];};
+  const kNum=(s,b)=>{for(let i=0;i<60;i++)if(i%10===s&&i%12===b)return i+1;return 0;};
+  const tenchu=n=>["戌亥","申酉","午未","辰巳","寅卯","子丑"][Math.floor((n-1)/10)];
+  const gs=s=>((STEMS.indexOf(s)%2===0)?"+":"-")+GOGYO[STEMS.indexOf(s)];
+  const pillars={};
+  for(const[key,sI,bI]of[["year",yearStem,yearBranch],["month",monthStem,monthBranch],["day",dayStem,dayBranch]]){
+    const zk=zokan(bI),stg=stage(bI);
+    pillars[key]={stem:STEMS[sI],branch:BRANCHES[bI],kanshi:STEMS[sI]+BRANCHES[bI],num:kNum(sI,bI),
+      gogyo:gs(STEMS[sI]),tuhen:key==="day"?"—":tuhen(sI),zokan:zk,zokanTuhen:tuhen(STEMS.indexOf(zk)),stage:stg,energy:ENERGY[stg]};
+  }
+  const boundary=(cur.jdn===jdnBirth)||(next&&next.jdn===jdnBirth);
+  return{pillars,nikkan:STEMS[dayStem],nDays,note23,timeGiven,boundary,
+    tenchuDay:tenchu(pillars.day.num),tenchuYear:tenchu(pillars.year.num),
+    totalEnergy:pillars.year.energy+pillars.month.energy+pillars.day.energy};
+}
+function gogyoRelation(s1,s2){
+  const i1=STEMS.indexOf(s1),i2=STEMS.indexOf(s2);
+  const e1=Math.floor(i1/2),e2=Math.floor(i2/2);
+  const G=["木","火","土","金","水"];
+  if(e1===e2)return`比和 — 同じ${G[e1]}の気同士。似た者共鳴、同時にライバル性も生む関係`;
+  if((e1+1)%5===e2)return`相生 — あなた(${G[e1]})が相手(${G[e2]})を生み育てる。与える側に回りやすい関係`;
+  if((e2+1)%5===e1)return`相生 — 相手(${G[e2]})があなた(${G[e1]})を生み育てる。受け取る側に回りやすい関係`;
+  if((e1+2)%5===e2)return`相剋 — あなた(${G[e1]})が相手(${G[e2]})を剋す。主導権を握りやすいが、押しすぎ注意の関係`;
+  return`相剋 — 相手(${G[e2]})があなた(${G[e1]})を剋す。影響を受けやすく、緊張感が刺激にも負担にもなる関係`;
+}
+
+/* ================= ナレッジ ================= */
+const KNOWLEDGE=`
+【十二運星の本質(成金覚醒エネルギー)】
+胎=オリジナリティに拘る存在。周囲からの助けと好感を集める/養=可愛がられ、良き師や大物に育てられ受け取り上手/長生=頼られたい向上心、吸収と学習が好き/沐浴=感受性・自由・熱中。夢中にさせ巻き込む/冠帯=華やかで社交的、目立つほど良い/建禄=積み重ねの人。「この人なら間違いない」の安定感/帝旺=一国の主。自分の世界観と信念を表現/衰=ご意見番。経験と知識で物申すプロデュース力/病=想像力と思考の爆発。夢と可能性を見せる/死=本質・直感・ストイック。正論と熱さ、マインドが商品/墓=探求家・ヲタ気質。知識量で信頼される/絶=自由なエネルギー体。圧倒的自己開示、脱・普通の光
+【十二運星の陰転(覚醒への恐れ)】
+胎=「できてないじゃん」と見られる疑念、忖度、積み重ならないコンプレックス/養=評価や幸せを他人に委ねがち、愛されてるか気になる/長生=常に正解を選べているか気になる、好き嫌いを隠す/沐浴=煽るくせに責任は持ちたくない、熱がないと自分を見失う/冠帯=嫉妬や競争意識が凄い、馬鹿になれない/建禄=完成度と評価に執着して動けない/帝旺=他人の言動がケチに感じて怒る、常にTOP争い/衰=思い通りに人が動かないと自責、内心全部論破したい/病=「自分はおかしいんじゃ」と不安、頭の暴走に行動が追いつかない/死=本質にこだわりすぎて自他に厳しい、万人受けコンプ/墓=分析とジャッジがエグい、頭だけで解決しようとする/絶=共感できないくせに愛されたがる、普通のふりをする、診断ツールにハマる
+【軸の分類】自分軸(自己開示ブランディング)=沐浴・死・建禄・絶/他人軸(信頼・愛ブランディング)=養・衰・冠帯・墓/お金軸(実績・成功法則ブランディング)=胎・帝旺・長生・病
+【通変星:顧客が求めるもの・その作用】偏官=本能に従う勇気を与える突破力/正官=常識を越える勇気、規律と信頼/食神=面白さ・無駄こそ豊か/傷官=美・センス・感情の鋭さ/比肩=唯一無二・マイペースの貫き/劫財=何が何でも手に入れる勝負強さ/偏財=大きなお金と不特定多数への信頼/正財=目の前の人と堅実なお金への信頼/偏印=自由・変化・枠外しの発想/印綬=答え・決定・安心を与える知性
+【売り方の傾向】胎=直感のままやる/養=影響力ある人の中で目立ち推してもらう/長生=好きな人のやり方を学びファンに売る/沐浴=ライブローンチ・シェア戦争/冠帯=ライブローンチ・待ちの姿勢/建禄=実践会・体験会/帝旺=LINEやメルマガで熱量を伝え続ける/衰=実際に会う・質疑応答/病=ライブローンチ&個別LINE/死=リールや切り抜きシェア/墓=文章重要・コラボ/絶=質疑応答でぶっ飛んでみせる
+【柱の役割と作用】年柱=社会に見せる看板。無意識に発揮され他人から最も魅力と判断される(成金覚醒ポイント:十二運=覚醒エネルギー、蔵干通変星=看板メニュー、通変星=シェアポイント)/月柱=仕事の才能と運営スタイル。言葉の選び方=思考として自然と出る/日柱=最も本質的な欲求(Eros)と自分の愛し方。疲れたらここで充電する/年柱を意識せず月柱・日柱だけでビジネスすると「良いものなのに売れない」現象が起きる
+【日干の自然イメージ】甲=大樹(まっすぐ伸びる)/乙=草花(しなやかに絡み咲く)/丙=太陽(照らし与える)/丁=灯火(近くを温め燃え移る)/戊=山(動かず受け止める)/己=畑(育て耕す)/庚=刀剣(斬り拓く)/辛=宝石(磨かれて輝く)/壬=大海(呑み込み流れる)/癸=雨露(静かに染み込む)`;
+
+const STYLE=`
+執筆規則(最重要):
+1. 【占術の因果を必ず示す】現象や性格を語るときは、必ず「どの柱のどの星が、どんな作用で、その現象を起こしているか」を明示する。「年柱の絶が枠を壊す作用を持つから、あなたは組織に馴染めた試しがない」のように、星→作用→現象の因果で語る。単なる性格の言い当てや、本人が書いた経歴の要約・オウム返しは禁止。本人がまだ言語化していない構造を星から導き出すこと
+2. 【思考の転換を必ず入れる】各セクションに、固定観念をひっくり返すパラダイムシフトを入れる(例:「結婚は終着駅じゃない。世界征服のための戦略的合併よ」)。悩みは解決するものではなく「読み替える」もの
+3. 【概念の再発明】星や現象に、この鑑定だけのオリジナルの呼び名を与えてよい(例:偏印=「枠外しの星」)。ありきたりな占い語彙で終わらせない
+4. 高級感がありつつパンチのある断言調。キャッチコピーのような短い一撃
+5. 生い立ち・現状は「答え合わせの証拠」として一言引用する程度に留め、主役はあくまで星の作用
+6. 収入や成功の保証表現は禁止。ロールモデルは実在の人物・企業のみ
+7. 出力は必ず指定されたJSONのみ。コードブロック記号や前置きは一切禁止。各テキストは指定文字数厳守`;
+
+function ctxOf(c,ms){
+  const p=ms.pillars;
+  return `【クライアント】呼び名:${c.name}さん/性別:${c.gender}/生年月日:${c.bday}
+${c.job?`仕事:${c.job}/月収目標:${c.income}`:""}
+${c.upbringing?`生い立ち:${c.upbringing}`:""}
+${c.current?`現状:${c.current}`:""}
+${c.dream?`叶えたい生活:${c.dream}`:""}
+悩み:${c.worry||c.quickWorry||"未回答"}
+【命式(自動計算済み・正確)】日干:${ms.nikkan}(${KANSHI_STORY[ms.nikkan]})
+年柱:${p.year.kanshi} 通変星=${p.year.tuhen} 蔵干通変星=${p.year.zokanTuhen} 十二運=${p.year.stage}
+月柱:${p.month.kanshi} 通変星=${p.month.tuhen} 蔵干通変星=${p.month.zokanTuhen} 十二運=${p.month.stage}
+日柱:${p.day.kanshi} 蔵干通変星=${p.day.zokanTuhen} 十二運=${p.day.stage}
+運勢エネルギー:${ms.totalEnergy} 天中殺:${ms.tenchuDay}(日柱)・${ms.tenchuYear}(年柱)
+${KNOWLEDGE}
+${STYLE}`;
+}
+
+async function askJSON(ctx,prompt,retry){
+  let res,data;
+  try{
+    res=await fetch(WORKER_URL,{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ctx,prompt,tier:CURRENT_TIER,code:(C&&C.code)||""})
+    });
+  }catch(e){
+    throw new Error("通信エラー: サーバーに接続できません。電波状況をご確認の上、時間をおいてお試しください。");
+  }
+  try{data=await res.json();}catch(e){throw new Error("応答の読み取りに失敗しました(HTTP "+res.status+")");}
+  if(data.error){throw new Error(data.error);}
+  const raw=String(data.text||"").trim();
+  let t=raw.replace(/```json|```/g,"").trim();
+  try{return JSON.parse(t);}catch(e){}
+  const m=t.match(/\{[\s\S]*\}/);
+  if(m){try{return JSON.parse(m[0]);}catch(e){}}
+  if(!retry){return askJSON(ctx,prompt+"\n\n※前回の出力はJSONとして不正でした。必ず有効なJSONオブジェクトのみを出力してください。",true);}
+  throw new Error("AIの応答を解析できませんでした。もう一度お試しください。");
+}
+const failMsg=e=>`<p style="color:#b05555;font-size:12.5px;line-height:1.8;">生成に失敗しました。<br><span style="font-size:11px;color:#a98;">詳細: ${esc(e&&e.message?e.message:e)}</span></p>`;
+
+/* ================= 描画部品 ================= */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const paras=t=>String(t??"").split(/\n+/).filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join("");
+const chips=a=>a&&a.length?`<div class="chips">${a.map(t=>`<span class="chip">${esc(t)}</span>`).join("")}</div>`:"";
+const zubo=(a,title)=>a&&a.length?`<div class="zubo-title">${title||"こんなこと、ありませんか?"}</div><ul class="zubo">${a.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>`:"";
+const mech=a=>a&&a.length?`<div class="mech">${a.map(r=>`<div class="mech-row"><div class="m-star"><b>${esc(r.star)}</b><span>${esc(r.pos)}</span></div><div class="m-body"><b>${esc(r.effect)}</b>${esc(r.result)}</div></div>`).join("")}</div>`:"";
+const tenkan=t=>t?`<div class="tenkan"><div class="t-label">思考の転換</div><div class="t-body">${esc(t)}</div></div>`:"";
+function cardShell(container,title,eros){
+  const el=document.createElement("div");
+  el.className="card"+(eros?" eros":"");
+  el.innerHTML=`<div class="card-h">${esc(title)}</div><div class="card-b"><div class="gen-wait"><span class="dotpulse"><i></i><i></i><i></i></span>星を読み解いています…</div></div>`;
+  container.appendChild(el);
+  return el.querySelector(".card-b");
+}
+function chartHTML(ms){
+  const p=ms.pillars,ks=["day","month","year"];
+  return `<table>
+    <tr><th style="width:20%"></th><th>日柱</th><th>月柱</th><th>年柱</th></tr>
+    <tr><td class="lbl">干支</td>${ks.map(k=>`<td><span style="font-size:9px;color:var(--muted);display:block;">${p[k].gogyo}</span><span class="kanshi">${p[k].kanshi}</span></td>`).join("")}</tr>
+    <tr><td class="lbl">通変星</td>${ks.map(k=>`<td>${p[k].tuhen}</td>`).join("")}</tr>
+    <tr><td class="lbl">蔵干通変星</td>${ks.map(k=>`<td>${p[k].zokanTuhen}</td>`).join("")}</tr>
+    <tr><td class="lbl">十二運星</td>${ks.map(k=>`<td><b style="color:var(--rose-deep);">${p[k].stage}</b></td>`).join("")}</tr>
+    <tr><td class="lbl">天中殺</td><td colspan="3" style="font-size:12px;">${ms.tenchuDay} <span style="font-size:10px;color:var(--muted);">(日柱)</span> ・ ${ms.tenchuYear} <span style="font-size:10px;color:var(--muted);">(年柱)</span></td></tr>
+    <tr><td class="lbl">エネルギー</td>${ks.map(k=>`<td>${p[k].energy}</td>`).join("")}</tr>
+  </table>`;
+}
+
+/* ================= 状態 ================= */
+let C={};let MS=null;
+const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult"].forEach(v=>$(v).classList.toggle("hidden",v!==id));window.scrollTo({top:0,behavior:"smooth"});};
+
+/* ================= 無料診断 ================= */
+$("freeBtn").addEventListener("click",async()=>{
+  CURRENT_TIER="free";
+  const err=$("freeErr");err.classList.remove("show");
+  C={name:$("callname").value.trim(),gender:$("gender").value,bday:$("bday").value,dream:$("quickDream").value.trim(),quickWorry:$("quickWorry").value.trim()};
+  if(!C.name||!C.bday){err.textContent="呼び名と生年月日を入力してください。";err.classList.add("show");return;}
+  if(!C.dream){err.textContent="叶えたい未来を入力してください。";err.classList.add("show");return;}
+  const[y,m,d]=C.bday.split("-").map(Number);
+  let hh,mi;const tv=$("btime").value;
+  if(tv){const t=tv.split(":");hh=+t[0];mi=+t[1];}
+  MS=calcMeishiki(y,m,d,hh,mi);
+  $("fName").textContent=C.name+" さん";
+  $("fBirth").textContent=C.bday+" 生";
+  $("fChart").innerHTML=chartHTML(MS);
+  const notes=[];
+  if(MS.note23)notes.push("23時台生まれのため翌日として計算しています。");
+  if(MS.boundary)notes.push("節入り日生まれのため、出生時間により命式が変わる場合があります。");
+  $("fNote").classList.toggle("hidden",!notes.length);
+  $("fNote").textContent=notes.join(" ");
+  $("freeBlocks").innerHTML="";
+  show("viewFreeResult");
+  const body=cardShell($("freeBlocks"),`${C.name}さんの恋愛・性の傾向`);
+  try{
+    const j=await askJSON(ctxOf(C,MS),
+`無料の簡易診断。恋愛の傾向と性の傾向を中心に読み解く。「${C.dream}」という叶えたい未来に対して、
+年柱・月柱・日柱それぞれの性質がどう絡み合って作用しているかを解き明かし、単独の星の説明で終わらせず、
+3つの組み合わせとして統合的に語ること。JSON形式のみで出力:
+{"catch":"この人の恋愛・性の本質を一撃で言い当てる25字以内のキャッチコピー(星の作用に基づく)",
+"mech":[{"star":"${MS.pillars.year.stage}","pos":"年柱・十二運","effect":"この星の作用名(12字以内)","result":"「${C.dream}」に向けて、この星がどう作用しているか。45字以内"},
+        {"star":"${MS.pillars.month.stage}","pos":"月柱・十二運","effect":"作用名(12字以内)","result":"「${C.dream}」に向けて、この星がどう作用しているか。45字以内"},
+        {"star":"${MS.pillars.day.stage}","pos":"日柱・十二運","effect":"作用名(12字以内)","result":"「${C.dream}」に向けて、この星がどう作用しているか。45字以内"}],
+"synthesis":"3つの星の組み合わせが、叶えたい未来への道筋としてどう絡み合っているかの統合的な解説。単なる列挙ではなく、因果の連鎖として語る。130字以内",
+"zuboshi":["3つの星の陰転を素材に、恋愛面で思わず『私のことだ』と声が出る図星を2つ。各42字以内",""],
+"tenkan":"その弱さこそが恋愛の魅力である、という思考の転換のパンチライン。38字以内",
+"hint":"恋愛・性の傾向をもっと深く知る方向性のヒント(完全版への興味が残る程度に)。65字以内",
+"tags":["キーワード3つ(各6字以内)","",""]}`);
+    body.innerHTML=`
+      <div class="catch">${esc(j.catch)}</div>
+      ${chips(j.tags)}
+      <div class="zubo-title" style="margin-top:12px;">星の作用 — なぜそうなるのか</div>
+      ${mech(j.mech)}
+      <div class="bodytext" style="margin-top:12px;">${paras(j.synthesis)}</div>
+      ${zubo(j.zuboshi)}
+      ${tenkan(j.tenkan)}
+      <div class="action-line">${esc(j.hint)}</div>`;
+  }catch(e){body.innerHTML=failMsg(e);}
+});
+
+/* ================= ペイウォール ================= */
+async function verifyCode(tier,code){
+  const r=await fetch(WORKER_URL.replace(/\/$/,"")+"/verify",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({tier,code})
+  });
+  return r.json();
+}
+$("unlockBtn").addEventListener("click",async()=>{
+  const err=$("unlockErr");err.classList.remove("show");
+  const code=$("unlockCode").value.trim();
+  if(!code){err.textContent="コードを入力してください。";err.classList.add("show");return;}
+  $("unlockBtn").disabled=true;
+  try{
+    const d=await verifyCode("full",code);
+    if(d.ok){C.code=code;CURRENT_TIER="full";$("dream").value=C.dream||"";show("viewFullForm");}
+    else{err.textContent="コードが正しくありません。お支払い後にお渡ししたコードをご確認ください。";err.classList.add("show");}
+  }catch(e){err.textContent="通信エラー: サーバーに接続できません。";err.classList.add("show");}
+  $("unlockBtn").disabled=false;
+});
+$("relType").addEventListener("change",()=>{$("partnerFields").classList.toggle("hidden",!$("relType").value);});
+$("backBtn1").addEventListener("click",()=>show("viewFreeForm"));
+$("backBtn2").addEventListener("click",()=>show("viewFreeForm"));
+
+/* --- 恋愛相性(単体・全年齢)のペイウォール --- */
+$("unlockBtnLove").addEventListener("click",async()=>{
+  const err=$("unlockErrLove");err.classList.remove("show");
+  const code=$("unlockCodeLove").value.trim();
+  if(!code){err.textContent="コードを入力してください。";err.classList.add("show");return;}
+  $("unlockBtnLove").disabled=true;
+  try{
+    const d=await verifyCode("love",code);
+    if(d.ok){C.codeLove=code;show("viewLoveForm");}
+    else{err.textContent="コードが正しくありません。お支払い後にお渡ししたコードをご確認ください。";err.classList.add("show");}
+  }catch(e){err.textContent="通信エラー: サーバーに接続できません。";err.classList.add("show");}
+  $("unlockBtnLove").disabled=false;
+});
+
+/* --- Erosパート(単体・18歳以上)のペイウォール --- */
+$("unlockBtnEros").addEventListener("click",async()=>{
+  const err=$("unlockErrEros");err.classList.remove("show");
+  const code=$("unlockCodeEros").value.trim();
+  if(!code){err.textContent="コードを入力してください。";err.classList.add("show");return;}
+  $("unlockBtnEros").disabled=true;
+  try{
+    const d=await verifyCode("eros",code);
+    if(d.ok){C.codeEros=code;show("viewErosForm");}
+    else{err.textContent="コードが正しくありません。お支払い後にお渡ししたコードをご確認ください。";err.classList.add("show");}
+  }catch(e){err.textContent="通信エラー: サーバーに接続できません。";err.classList.add("show");}
+  $("unlockBtnEros").disabled=false;
+});
+$("backBtnLove").addEventListener("click",()=>show("viewFreeForm"));
+$("backBtnEros").addEventListener("click",()=>show("viewFreeForm"));
+
+/* ================= 完全版 ================= */
+$("fullBtn").addEventListener("click",async()=>{
+  const err=$("fullErr");err.classList.remove("show");
+  Object.assign(C,{
+    upbringing:$("upbringing").value.trim(),current:$("current").value.trim(),
+    dream:$("dream").value.trim()||C.dream,worry:$("worry").value.trim(),
+    eros:$("erosOn").checked,relType:$("relType").value,
+    pName:$("pName").value.trim(),pBday:$("pBday").value,relDetail:$("relDetail").value.trim()
+  });
+  if(!C.dream||!C.worry){err.textContent="「叶えたい生活」と「いちばん深い悩み」は必須です。";err.classList.add("show");return;}
+  if(C.relType&&(!C.pName||!C.pBday)){err.textContent="相性占いにはお相手の呼び名と生年月日が必要です。不要な場合は「相性占いはしない」を選んでください。";err.classList.add("show");return;}
+
+  let PMS=null;
+  if(C.relType){
+    const[py,pm,pd]=C.pBday.split("-").map(Number);
+    let ph,pmin;const ptv=$("pTime").value;
+    if(ptv){const t=ptv.split(":");ph=+t[0];pmin=+t[1];}
+    PMS=calcMeishiki(py,pm,pd,ph,pmin);
+  }
+  $("rName").textContent=C.name+" さん";
+  $("fullBlocks").innerHTML="";
+  show("viewFullResult");
+  const FB=$("fullBlocks"),ctx=ctxOf(C,MS),p=MS.pillars;
+  $("chatCard").classList.remove("hidden");
+  $("chatMsgs").innerHTML='<div class="cb cb-a">鑑定書がすべて出そろうと、ここから対話がはじまります。上のカードを読みながら少々お待ちを…</div>';
+  $("chatInput").disabled=true;$("chatSend").disabled=true;$("chatTimer").textContent="準備中";
+
+  const chartCard=document.createElement("div");
+  chartCard.className="meishiki";chartCard.innerHTML=chartHTML(MS);
+  FB.appendChild(chartCard);
+
+  /* ================= セクション定義(⓪〜⑮ 完全版) ================= */
+  const SECS=[];
+  const add=(title,prompt,render,opts)=>SECS.push(Object.assign({title,prompt,render},opts||{}));
+
+  /* ⓪ 現在地点 */
+  add("⓪ 現在地点 — なぜ、いまここにいるのか",
+`⓪現在地点。悩みと理想の未来を引用した旅の宣言と、現状が命式のどの星のどんな作用で必然的に起きているかの解剖。JSON形式のみで出力:
+{"declare":"「${C.worry}という現在地から、${C.dream}という未来へ」の趣旨を、この人の言葉を引用しつつ格調高く宣言する文。90字以内",
+"mech":[{"star":"星名","pos":"柱と種別","effect":"作用名(12字以内)","result":"人生でどう現れているか。50字以内"} を年柱・月柱・日柱から1つずつ計3つ],
+"body":"3つの作用の組み合わせが現在の状況を生んでいる構造の解説。本人の記述の要約ではなく星から因果を導く。160字以内",
+"tenkan":"現在地の読み替えパンチライン。38字以内"}`,
+  (j,b)=>{b.innerHTML=`<div class="bodytext" style="font-size:14px;font-weight:600;margin-bottom:12px;">${paras(j.declare)}</div>${mech(j.mech)}<div class="bodytext" style="margin-top:12px;">${paras(j.body)}</div>${tenkan(j.tenkan)}`;});
+
+  /* あなたの魅力の三層構造(恋愛版) */
+  add("あなたの恋愛的な魅力の三層構造",
+`年柱の三層構造を、恋愛面での魅力として読み解く宣言。JSON形式のみで出力:
+{"catch":"恋愛面での魅力の核を突く25字以内のキャッチコピー",
+"layers":[
+ {"star":"YEAR_STAGE","label":"第一印象の輝き","copy":"第一階層:出会った瞬間、相手が惹きつけられる輝きの正体と作用。60字以内"},
+ {"star":"YEAR_ZOKAN","label":"惹かれるポイント","copy":"第二階層:相手が具体的に『いいな』と感じる魅力ポイント。60字以内"},
+ {"star":"YEAR_TUHEN","label":"深まるほど分かる魅力","copy":"第三階層:付き合いが深まるほど相手が惚れ直す本質的な魅力。60字以内"}],
+"total":"三層を統合した、この人だけの恋愛的な魅力の宣言。90字以内",
+"tenkan":"自己評価と相手からの評価のギャップに関する思考の転換。38字以内"}`,
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div>${j.layers.map((l,i)=>`<div class="layer"><div class="star"><span>第${["一","二","三"][i]}階層</span><b>${esc(l.star)}</b></div><div class="txt"><b>${esc(l.label)}</b>${esc(l.copy)}</div></div>`).join("")}<div class="action-line">${esc(j.total)}</div>${tenkan(j.tenkan)}`;});
+
+  /* ② 非言語的吸引力(恋愛版) */
+  add("非言語的吸引力 — なぜ好きな人はあなたに惹かれるのか",
+`非言語的吸引力(恋愛版)。JSON形式のみで出力:
+{"catch":"この人が放つ言語化できない色気・魅力を一言で。26字以内",
+"aura":"年柱YEAR_STAGEの象意を核に、その恋愛的な魅力の正体を例え話を交えて言語化。110字以内",
+"tokko":"相手が抱える寂しさ・満たされなさに対し、月柱(MONTH_TUHEN×MONTH_STAGE)のどの側面が心理的な特効薬として効くのかの言語化。110字以内",
+"tenkan":"「好きになる理由」に関する思考の転換。36字以内"}`,
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.aura)}</div><div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">特効薬</b><span>あなたの処方箋</span></div><div class="m-body">${esc(j.tokko)}</div></div></div>${tenkan(j.tenkan)}`;});
+
+  /* ④ NG恋愛行動とリカバリー(恋愛版) */
+  add("NG恋愛行動とリカバリー",
+`NG恋愛行動(恋愛版)。命式(特に年柱・月柱)起因の、恋愛でやらかしがちなNG傾向。JSON形式のみで出力:
+{"catch":"この人が恋愛で一番やってはいけないことを一言で。28字以内",
+"ng":[{"scene":"恋愛でやらかしがちな失敗例(具体的)。48字以内","why":"どの星のどんな作用がそれを引き起こすか。50字以内"},{"scene":"","why":""}],
+"recovery":"やらかした時の具体的リカバリー策(相手との関係修復)。80字以内",
+"story":"その失敗すら魅力に変わる流れの作り方(ストーリー構築)。75字以内"}`,
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="mech">${j.ng.map(n=>`<div class="mech-row"><div class="m-star"><b>NG</b><span>やらかし例</span></div><div class="m-body"><b>${esc(n.scene)}</b>${esc(n.why)}</div></div>`).join("")}<div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div><div class="action-line">失敗を魅力に: ${esc(j.story)}</div>`;});
+
+  /* ⑤ 悩み */
+  add("⑤ 悩みに対する命式的原因と解決策",
+`⑤悩みの命式的原因。陰転と陽転の両面+ロールモデル。JSON形式のみで出力:
+{"catch":"悩みへの答えを一撃で言うパンチライン。30字以内",
+"inten":"いま起きている陰転:どの星がどう暴走してこの悩みを生んでいるか。80字以内",
+"youten":"同じ星が陽転したとき何が起こるか。80字以内",
+"body":"陰転から陽転へ切り替えるスイッチの入れ方。生い立ちの一点を証拠として引用してよい。130字以内",
+"rolemodel":"似た困難を乗り越えた実在のロールモデルと乗り越え方。55字以内",
+"tenkan":"この悩みの読み替えパンチライン。40字以内"}`,
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="mech"><div class="mech-row"><div class="m-star"><b>陰転</b><span>いまの状態</span></div><div class="m-body">${esc(j.inten)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">陽転</b><span>本来の姿</span></div><div class="m-body">${esc(j.youten)}</div></div></div><div class="bodytext">${paras(j.body)}</div><div class="rolemodel">${esc(j.rolemodel)}</div>${tenkan(j.tenkan)}`;});
+
+  /* 相性(任意) */
+  if(PMS){
+    const pp=PMS.pillars;
+    const rel=gogyoRelation(MS.nikkan,PMS.nikkan);
+    add(`相性 — ${C.pName}さん(${C.relType})`,
+`相性診断(関係性:${C.relType})。五行関係と両者の十二運から因果で語る。関係性に合ったトーンで。JSON形式のみで出力:
+{"catch":"二人の関係を一言で定義するパンチライン。28字以内",
+"essence":"日干NIKKANとPARTNER_NIKKANの五行関係、日柱の十二運同士(DAY_STAGE×${pp.day.stage})の共鳴から見た本質的な関係性。120字以内",
+"good":["この組み合わせの強み2つ(星の根拠つき)。各48字以内",""],
+"conflict":{"scene":"ぶつかりやすい具体的な場面。50字以内","why":"どの星とどの星の作用が衝突するのか、占術的メカニズム。70字以内"},
+"recovery":"ぶつかったときのリカバリー法。相手の星の性質を使った具体的な対処。80字以内",
+"tenkan":"この関係の見方を変えるパンチライン。36字以内",
+"hint":"${C.relType}としてこの関係を最高に活かす一手。50字以内"}`,
+    (j,b)=>{b.innerHTML=`
+      <div class="meishiki" style="margin-bottom:14px;"><table>
+        <tr><th></th><th>${esc(C.name)}さん</th><th>${esc(C.pName)}さん</th></tr>
+        <tr><td class="lbl">日柱</td><td><b>${p.day.kanshi}</b>(${p.day.stage})</td><td><b>${pp.day.kanshi}</b>(${pp.day.stage})</td></tr>
+        <tr><td class="lbl">年柱十二運</td><td>${p.year.stage}</td><td>${pp.year.stage}</td></tr>
+        <tr><td class="lbl">天中殺</td><td colspan="3" style="font-size:12px;">${ms.tenchuDay} <span style="font-size:10px;color:var(--muted);">(日柱)</span> ・ ${ms.tenchuYear} <span style="font-size:10px;color:var(--muted);">(年柱)</span></td></tr>
+    <tr><td class="lbl">エネルギー</td><td>${MS.totalEnergy}</td><td>${PMS.totalEnergy}</td></tr>
+      </table></div>
+      <div class="bodytext" style="font-size:11.5px;color:#8a6f52;margin-bottom:10px;">◆ 五行関係: ${esc(rel)}</div>
+      <div class="catch">${esc(j.catch)}</div>
+      <div class="bodytext">${paras(j.essence)}</div>
+      ${zubo(j.good,"この二人の強み")}
+      <div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star"><b>衝突</b><span>ぶつかる場面</span></div><div class="m-body"><b>${esc(j.conflict.scene)}</b>${esc(j.conflict.why)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div>
+      ${tenkan(j.tenkan)}<div class="action-line">${esc(j.hint)}</div>`;},
+    {ctxExtra:`
+【お相手(${C.relType}):${C.pName}さん】生年月日:${C.pBday}
+日干:${PMS.nikkan}(${KANSHI_STORY[PMS.nikkan]}) 年柱:${pp.year.kanshi}(${pp.year.stage}/蔵干通変星${pp.year.zokanTuhen}) 月柱:${pp.month.kanshi}(${pp.month.stage}/通変星${pp.month.tuhen}) 日柱:${pp.day.kanshi}(${pp.day.stage}) 運勢エネルギー:${PMS.totalEnergy}
+【日干同士の五行関係(計算済みの事実)】${rel}
+${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`});
+  }
+
+  /* Erosパート(人格スイッチ) */
+  const EROS_VOICE=`【人格指定・厳守】ここからは語り手の人格を完全に切り替える。基本は"叱咤激励してくれるオネエ"。一人称「私」、文末「〜のよ」「〜だわ」「〜なさい」「〜じゃない?」。歯に衣着せず核心を突きながらも、最後はちゃんと励ます(甘やかすだけでも詰めるだけでもない)。
+
+【絶対原則(全フィールド共通)】
+1. 生々しい比喩の創造: 分析結果は必ず日常の、少しジャンキーなものに例える(例:「着火剤を撒いた後のBBQコンロ」レベルの生々しさ・深夜のコンビニ・券売機の前で悩むラーメン屋級)。
+2. 実体験風の物語: 命式の分析を、まるで自分の経験談かのように語る(「こういう星を持つ女がいてさ、」から始めて圧倒的なリアリティを出す)。
+3. 概念の再発明: 四柱推命の星・運気に、独自のニックネームや法則名を授けて本質を突く(本質を突いたユーモアで再定義する。安易な言葉遊びで終わらせず、その星の性質を的確に言い当てる名前にする)。
+4. 欲望の絶対肯定: どんな欲望も「それが人間よ」と笑い飛ばして肯定する。悩みは「伸びしろ」、コンプレックスは「最高の武器」という視点を貫く。
+5. 子宮の言語: 頭でっかちな解説で終わらせず、身体感覚・心理に寄り添った生々しく官能的な言葉づかいを使う。
+
+「あんた」呼びは禁止、名前の呼び捨てはOK。性行為そのものの解剖学的・露骨な描写(体位・性器の直接描写など)はしない——比喩とキャラクターの熱量で「際どく・面白く・核心を突く」を成立させる。全フィールドをこの口調で書くこと。`;
+  if(C.eros){
+    add("⑨ 第一の神殿 — 性愛の幸せを感じる状況・相手像",
+`${EROS_VOICE}
+⑨第一の神殿:日柱干支「DAY_KANSHI」の自然界の物語からエロスの基本設定を読み解く。JSON形式のみで出力:
+{"nickname":"日柱DAY_KANSHIへの、この鑑定だけのオリジナルなニックネーム(本質を突いたユーモア)。15字以内",
+"catch":"この人の官能の本質を突く一言(オネエ口調)。30字以内",
+"story":"日柱干支の自然の物語から、究極の快感トリガーと本質的に満たされる相手像を語る。生々しい比喩必須。180字以内",
+"zuboshi":["性愛面の図星2つ(オネエ口調、品位は保つ)。各45字以内",""]}`,
+    (j,b)=>{b.innerHTML=`<div class="persona-in">……さて。ここまでは、いわば『表』のあなたのお話。<br>ここから先は、魂の一番深いところ——本能(Eros)の領域にダイブしていくわよ。正直ここからは、いつもの私みたいに上品ぶって語れるようなもんじゃないの。だから、ちょっとだけ、変わるわよ。心の準備はいいかしら?</div><span class="nickname">あなたの日柱 DAY_KANSHI = ${esc(j.nickname)}</span><div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.story)}</div>${zubo(j.zuboshi,"心当たり、あるでしょう?")}`;},
+    {eros:true});
+
+    add("⑩ 第二の神殿 — 性欲の波と『内なる男と女』",
+`${EROS_VOICE}
+⑩第二の神殿:年柱の星(社会的鎧)と日柱の星(本質)を「内なる男」と「内なる女」として擬人化し、性欲の波を両者のバランスとして解説。JSON形式のみで出力:
+{"woman":{"star":"日柱・DAY_STAGE","persona":"内なる女(本質の欲望)の擬人化キャラ紹介。60字以内"},
+"man":{"star":"年柱・YEAR_STAGE","persona":"内なる男(社会的鎧・検閲官)の擬人化キャラ紹介。60字以内"},
+"down":"性欲が減退する時、内面で何が起きているか(擬人化ドラマとして)。80字以内",
+"up":"性欲が高まりすぎる時に起きていること。80字以内",
+"fix":"バランスを取り戻す対処法の一撃(オネエ口調)。60字以内"}`,
+    (j,b)=>{b.innerHTML=`<div class="mech"><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#eec3d6;">内なる女</b><span style="color:#b78aa3;">${esc(j.woman.star)}</span></div><div class="m-body">${esc(j.woman.persona)}</div></div><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#a7c0e3;">内なる男</b><span style="color:#b78aa3;">${esc(j.man.star)}</span></div><div class="m-body">${esc(j.man.persona)}</div></div></div><div class="zubo-title" style="margin-top:12px;">減退する夜</div><div class="bodytext">${paras(j.down)}</div><div class="zubo-title" style="margin-top:12px;">溢れる夜</div><div class="bodytext">${paras(j.up)}</div><div class="action-line">${esc(j.fix)}</div>`;},
+    {eros:true});
+
+    add("⑪⑫ 第三の神殿 — 悩みの解剖と、性を資産に変える",
+`${EROS_VOICE}
+⑪悩みの命式分析と⑫Eros×Rich収益化。JSON形式のみで出力:
+{"analysis":"性的・心理的な悩み(未記入なら悩み全般の官能面)が、日柱の物語と内なる男女の葛藤からどう生まれているかの解剖。120字以内",
+"rolemodel":"官能性をビジネスにした実在のロールモデル。35字以内",
+"biz":"この人の官能性を資産に変える具体的ビジネスモデル(価格帯や形式まで)。120字以内",
+"closing":"締め:『色々言ったけど、あなたの心と身体が一番大事。もし本気でしんどいとか、過去に深い傷があるなら、一人で抱えないで。信頼できるカウンセラーやお医者さんにちゃんと相談しなさい。それが自分を大切にするってこと』の趣旨をオネエ口調で。120字以内"}`,
+    (j,b)=>{b.innerHTML=`<div class="bodytext">${paras(j.analysis)}</div><div class="rolemodel" style="color:#c9a;">${esc(j.rolemodel)}</div><div class="zubo-title" style="margin-top:14px;">Eros × Rich — 性で収益化するなら</div><div class="bodytext">${paras(j.biz)}</div><div class="action-line">${esc(j.closing)}</div><div class="persona-out" style="margin-top:12px;">……ふう。喋りすぎたわね。でも、これがあなたの『核』にあるエネルギーなの。忘れないで。さて、またいつもの私に戻ります。</div>`;},
+    {eros:true});
+  }
+
+  /* ⑮ アクションプラン + メッセージ */
+  add("⑮ アクションプラン & あなたへのメッセージ",
+`⑮アクションプランと締めのメッセージ。JSON形式のみで出力:
+{"first":"まず今日できること。45字以内",
+"plan":{"short":"短期(今週〜1ヶ月)の具体アクション。45字以内","mid":"中期(3〜6ヶ月)。45字以内","long":"長期(1〜3年)、叶えたい生活から逆算。45字以内"},
+"message":"叶えたい生活が実現した朝の光景を1文で鮮やかに描写し、鑑定全体を総括する最強の思考の転換パンチラインで力強く背中を押す。120字以内"}`,
+  (j,b)=>{b.innerHTML=`<div class="action-line" style="margin-top:0;">まず今日: ${esc(j.first)}</div>
+    <div class="zubo-title" style="margin-top:14px;">アクションプラン</div>
+    <div class="timeline"><div class="tstep"><div class="when">短期</div><p>${esc(j.plan.short)}</p></div><div class="tstep"><div class="when">中期</div><p>${esc(j.plan.mid)}</p></div><div class="tstep"><div class="when">長期</div><p>${esc(j.plan.long)}</p></div></div>
+    <div class="tenkan" style="margin-top:16px;"><div class="t-label">${esc(C.name)}さんへ</div><div class="t-body" style="font-size:14px;">${esc(j.message)}</div></div>`;});
+
+  /* ===== プレースホルダ差し込み & 並列生成(3並列) ===== */
+  const fill=s=>s
+    .replaceAll("YEAR_STAGE",p.year.stage).replaceAll("YEAR_ZOKAN",p.year.zokanTuhen).replaceAll("YEAR_TUHEN",p.year.tuhen)
+    .replaceAll("MONTH_TUHEN",p.month.tuhen).replaceAll("MONTH_STAGE",p.month.stage)
+    .replaceAll("DAY_STAGE",p.day.stage).replaceAll("DAY_KANSHI",p.day.kanshi)
+    .replaceAll("NIKKAN_STORY",MS.nikkan+"("+KANSHI_STORY[MS.nikkan]+")")
+    .replaceAll("NIKKAN",MS.nikkan)
+    .replaceAll("PARTNER_NIKKAN",PMS?PMS.nikkan+"("+KANSHI_STORY[PMS.nikkan]+")":"");
+  const slots=SECS.map(s=>({s,body:cardShell(FB,s.title,s.eros)}));
+  let cursor=0;
+  async function worker(){
+    while(cursor<slots.length){
+      const i=cursor++;
+      const {s,body}=slots[i];
+      try{
+        const j=await askJSON(ctx+(s.ctxExtra||""),fill(s.prompt));
+        s.render(j,body);
+        try{DIGEST.push(s.title+" → "+(j.catch||j.total||j.declare||j.message||(j.plan?j.plan.long:"")||""));}catch(_){}
+        body.innerHTML=body.innerHTML.replaceAll("DAY_KANSHI",p.day.kanshi);
+      }catch(e){body.innerHTML=failMsg(e);}
+    }
+  }
+  await Promise.all([worker(),worker(),worker()]);
+  initChat(ctx);
+});
+
+/* ================= 恋愛相性(単体・全年齢) ================= */
+$("loveBtn").addEventListener("click",async()=>{
+  const err=$("loveErr");err.classList.remove("show");
+  const relType=$("loveRelType").value,pName=$("lovePName").value.trim(),pBday=$("lovePBday").value;
+  if(!relType||!pName||!pBday){err.textContent="お相手との関係・呼び名・生年月日は必須です。";err.classList.add("show");return;}
+  Object.assign(C,{relType,pName,pBday,relDetail:$("loveDetail").value.trim()});
+  const ptv=$("lovePTime").value;let ph,pmin;
+  if(ptv){const t=ptv.split(":");ph=+t[0];pmin=+t[1];}
+  const[py,pm,pd]=pBday.split("-").map(Number);
+  const PMS=calcMeishiki(py,pm,pd,ph,pmin);
+  CURRENT_TIER="love";C.code=C.codeLove||"";
+  $("loveName").textContent=C.name+" さん × "+pName+" さん";
+  const LB=$("loveBlocks");LB.innerHTML="";
+  show("viewLoveResult");
+  const ctx=ctxOf(C,MS),p=MS.pillars,pp=PMS.pillars;
+  const fill=s=>s
+    .replaceAll("YEAR_STAGE",p.year.stage).replaceAll("YEAR_ZOKAN",p.year.zokanTuhen).replaceAll("YEAR_TUHEN",p.year.tuhen)
+    .replaceAll("MONTH_TUHEN",p.month.tuhen).replaceAll("MONTH_STAGE",p.month.stage)
+    .replaceAll("DAY_STAGE",p.day.stage).replaceAll("DAY_KANSHI",p.day.kanshi)
+    .replaceAll("NIKKAN_STORY",MS.nikkan+"("+KANSHI_STORY[MS.nikkan]+")")
+    .replaceAll("NIKKAN",MS.nikkan)
+    .replaceAll("PARTNER_NIKKAN",PMS.nikkan+"("+KANSHI_STORY[PMS.nikkan]+")");
+  const rel=gogyoRelation(MS.nikkan,PMS.nikkan);
+  const prompt=`相性診断(関係性:${C.relType})。五行関係と両者の十二運から因果で語る。関係性に合ったトーンで。JSON形式のみで出力:
+{"catch":"二人の関係を一言で定義するパンチライン。28字以内",
+"essence":"日干NIKKANとPARTNER_NIKKANの五行関係、日柱の十二運同士(DAY_STAGE×${pp.day.stage})の共鳴から見た本質的な関係性。120字以内",
+"good":["この組み合わせの強み2つ(星の根拠つき)。各48字以内",""],
+"conflict":{"scene":"ぶつかりやすい具体的な場面。50字以内","why":"どの星とどの星の作用が衝突するのか、占術的メカニズム。70字以内"},
+"recovery":"ぶつかったときのリカバリー法。相手の星の性質を使った具体的な対処。80字以内",
+"tenkan":"この関係の見方を変えるパンチライン。36字以内",
+"hint":"${C.relType}としてこの関係を最高に活かす一手。50字以内"}`;
+  const ctxExtra=`
+【お相手(${C.relType}):${C.pName}さん】生年月日:${C.pBday}
+日干:${PMS.nikkan}(${KANSHI_STORY[PMS.nikkan]}) 年柱:${pp.year.kanshi}(${pp.year.stage}/蔵干通変星${pp.year.zokanTuhen}) 月柱:${pp.month.kanshi}(${pp.month.stage}/通変星${pp.month.tuhen}) 日柱:${pp.day.kanshi}(${pp.day.stage}) 運勢エネルギー:${PMS.totalEnergy}
+【日干同士の五行関係(計算済みの事実)】${rel}
+${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`;
+  const body=cardShell(LB,`相性 — ${C.pName}さん(${C.relType})`,false);
+  try{
+    const j=await askJSON(ctx+ctxExtra,fill(prompt));
+    body.innerHTML=`
+      <div class="meishiki" style="margin-bottom:14px;"><table>
+        <tr><th></th><th>${esc(C.name)}さん</th><th>${esc(C.pName)}さん</th></tr>
+        <tr><td class="lbl">日柱</td><td><b>${p.day.kanshi}</b>(${p.day.stage})</td><td><b>${pp.day.kanshi}</b>(${pp.day.stage})</td></tr>
+        <tr><td class="lbl">年柱十二運</td><td>${p.year.stage}</td><td>${pp.year.stage}</td></tr>
+        <tr><td class="lbl">天中殺</td><td colspan="3" style="font-size:12px;">${MS.tenchuDay} <span style="font-size:10px;color:var(--muted);">(日柱)</span> ・ ${MS.tenchuYear} <span style="font-size:10px;color:var(--muted);">(年柱)</span></td></tr>
+        <tr><td class="lbl">エネルギー</td><td>${MS.totalEnergy}</td><td>${PMS.totalEnergy}</td></tr>
+      </table></div>
+      <div class="bodytext" style="font-size:11.5px;color:#8a6f52;margin-bottom:10px;">◆ 五行関係: ${esc(rel)}</div>
+      <div class="catch">${esc(j.catch)}</div>
+      <div class="bodytext">${paras(j.essence)}</div>
+      ${zubo(j.good,"この二人の強み")}
+      <div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star"><b>衝突</b><span>ぶつかる場面</span></div><div class="m-body"><b>${esc(j.conflict.scene)}</b>${esc(j.conflict.why)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div>
+      ${tenkan(j.tenkan)}<div class="action-line">${esc(j.hint)}</div>`;
+  }catch(e){body.innerHTML=failMsg(e);}
+});
+
+/* ================= Erosパート(単体・18歳以上) ================= */
+$("erosBtn").addEventListener("click",async()=>{
+  const err=$("erosErr");err.classList.remove("show");
+  const dream=$("erosDream").value.trim(),worry=$("erosWorry").value.trim();
+  if(!dream||!worry){err.textContent="「叶えたい状態」と「いちばん深い悩み」は必須です。";err.classList.add("show");return;}
+  if(!$("erosAgeCheck").checked){err.textContent="18歳以上であることの確認にチェックしてください。";err.classList.add("show");return;}
+  Object.assign(C,{dream,worry,eros:true});
+  CURRENT_TIER="eros";C.code=C.codeEros||"";
+  $("erosName").textContent=C.name+" さん";
+  const EB=$("erosBlocks");EB.innerHTML="";
+  show("viewErosResult");
+  const ctx=ctxOf(C,MS),p=MS.pillars;
+  const fill=s=>s
+    .replaceAll("YEAR_STAGE",p.year.stage).replaceAll("YEAR_ZOKAN",p.year.zokanTuhen).replaceAll("YEAR_TUHEN",p.year.tuhen)
+    .replaceAll("MONTH_TUHEN",p.month.tuhen).replaceAll("MONTH_STAGE",p.month.stage)
+    .replaceAll("DAY_STAGE",p.day.stage).replaceAll("DAY_KANSHI",p.day.kanshi)
+    .replaceAll("NIKKAN_STORY",MS.nikkan+"("+KANSHI_STORY[MS.nikkan]+")")
+    .replaceAll("NIKKAN",MS.nikkan);
+  const EROS_VOICE=`【人格指定・厳守】ここからは語り手の人格を完全に切り替える。基本は"叱咤激励してくれるオネエ"。一人称「私」、文末「〜のよ」「〜だわ」「〜なさい」「〜じゃない?」。歯に衣着せず核心を突きながらも、最後はちゃんと励ます(甘やかすだけでも詰めるだけでもない)。
+
+【絶対原則(全フィールド共通)】
+1. 生々しい比喩の創造: 分析結果は必ず日常の、少しジャンキーなものに例える(例:「着火剤を撒いた後のBBQコンロ」レベルの生々しさ・深夜のコンビニ・券売機の前で悩むラーメン屋級)。
+2. 実体験風の物語: 命式の分析を、まるで自分の経験談かのように語る(「こういう星を持つ女がいてさ、」から始めて圧倒的なリアリティを出す)。
+3. 概念の再発明: 四柱推命の星・運気に、独自のニックネームや法則名を授けて本質を突く(本質を突いたユーモアで再定義する。安易な言葉遊びで終わらせず、その星の性質を的確に言い当てる名前にする)。
+4. 欲望の絶対肯定: どんな欲望も「それが人間よ」と笑い飛ばして肯定する。悩みは「伸びしろ」、コンプレックスは「最高の武器」という視点を貫く。
+5. 子宮の言語: 頭でっかちな解説で終わらせず、身体感覚・心理に寄り添った生々しく官能的な言葉づかいを使う。
+
+「あんた」呼びは禁止、名前の呼び捨てはOK。性行為そのものの解剖学的・露骨な描写(体位・性器の直接描写など)はしない——比喩とキャラクターの熱量で「際どく・面白く・核心を突く」を成立させる。全フィールドをこの口調で書くこと。`;
+  const SECS=[
+    {title:"⑨ 第一の神殿 — 性愛の幸せを感じる状況・相手像",
+     prompt:`${EROS_VOICE}
+⑨第一の神殿:日柱干支「DAY_KANSHI」の自然界の物語からエロスの基本設定を読み解く。JSON形式のみで出力:
+{"nickname":"日柱DAY_KANSHIへの、この鑑定だけのオリジナルなニックネーム(本質を突いたユーモア)。15字以内",
+"catch":"この人の官能の本質を突く一言(オネエ口調)。30字以内",
+"story":"日柱干支の自然の物語から、究極の快感トリガーと本質的に満たされる相手像を語る。生々しい比喩必須。180字以内",
+"zuboshi":["性愛面の図星2つ(オネエ口調、品位は保つ)。各45字以内",""]}`,
+     render:(j,b)=>{b.innerHTML=`<div class="persona-in">……さて。ここから、魂の一番深いところ——本能(Eros)の領域にダイブしていくわよ。心の準備はいいかしら?</div><span class="nickname">あなたの日柱 DAY_KANSHI = ${esc(j.nickname)}</span><div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.story)}</div>${zubo(j.zuboshi,"心当たり、あるでしょう?")}`;}},
+    {title:"⑩ 第二の神殿 — 性欲の波と『内なる男と女』",
+     prompt:`${EROS_VOICE}
+⑩第二の神殿:年柱の星(社会的鎧)と日柱の星(本質)を「内なる男」と「内なる女」として擬人化し、性欲の波を両者のバランスとして解説。JSON形式のみで出力:
+{"woman":{"star":"日柱・DAY_STAGE","persona":"内なる女(本質の欲望)の擬人化キャラ紹介。60字以内"},
+"man":{"star":"年柱・YEAR_STAGE","persona":"内なる男(社会的鎧・検閲官)の擬人化キャラ紹介。60字以内"},
+"down":"性欲が減退する時、内面で何が起きているか(擬人化ドラマとして)。80字以内",
+"up":"性欲が高まりすぎる時に起きていること。80字以内",
+"fix":"バランスを取り戻す対処法の一撃(オネエ口調)。60字以内"}`,
+     render:(j,b)=>{b.innerHTML=`<div class="mech"><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#eec3d6;">内なる女</b><span style="color:#b78aa3;">${esc(j.woman.star)}</span></div><div class="m-body">${esc(j.woman.persona)}</div></div><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#a7c0e3;">内なる男</b><span style="color:#b78aa3;">${esc(j.man.star)}</span></div><div class="m-body">${esc(j.man.persona)}</div></div></div><div class="zubo-title" style="margin-top:12px;">減退する夜</div><div class="bodytext">${paras(j.down)}</div><div class="zubo-title" style="margin-top:12px;">溢れる夜</div><div class="bodytext">${paras(j.up)}</div><div class="action-line">${esc(j.fix)}</div>`;}},
+    {title:"⑪⑫ 第三の神殿 — 悩みの解剖と、性を資産に変える",
+     prompt:`${EROS_VOICE}
+⑪悩みの命式分析と⑫Eros×Rich収益化。JSON形式のみで出力:
+{"analysis":"性的・心理的な悩みが、日柱の物語と内なる男女の葛藤からどう生まれているかの解剖。120字以内",
+"rolemodel":"官能性をビジネスにした実在のロールモデル。35字以内",
+"biz":"この人の官能性を資産に変える具体的ビジネスモデル(価格帯や形式まで)。120字以内",
+"closing":"締め:『色々言ったけど、あなたの心と身体が一番大事。もし本気でしんどいとか、過去に深い傷があるなら、一人で抱えないで。信頼できるカウンセラーやお医者さんにちゃんと相談しなさい。それが自分を大切にするってこと』の趣旨をオネエ口調で。120字以内"}`,
+     render:(j,b)=>{b.innerHTML=`<div class="bodytext">${paras(j.analysis)}</div><div class="rolemodel" style="color:#c9a;">${esc(j.rolemodel)}</div><div class="zubo-title" style="margin-top:14px;">Eros × Rich — 性で収益化するなら</div><div class="bodytext">${paras(j.biz)}</div><div class="action-line">${esc(j.closing)}</div><div class="persona-out" style="margin-top:12px;">……ふう。喋りすぎたわね。でも、これがあなたの『核』にあるエネルギーなの。忘れないで。さて、またいつもの私に戻ります。</div>`;}}
+  ];
+  const slots=SECS.map(s=>({s,body:cardShell(EB,s.title,true)}));
+  let cursor=0;
+  async function worker(){
+    while(cursor<slots.length){
+      const i=cursor++;const{s,body}=slots[i];
+      try{const j=await askJSON(ctx,fill(s.prompt));s.render(j,body);}
+      catch(e){body.innerHTML=failMsg(e);}
+    }
+  }
+  await Promise.all([worker(),worker(),worker()]);
+});
+
+
+/* ================= 対話モード(鑑定士と1時間) ================= */
+const DIGEST=[];
+let SESSION=null,CHAT_HIST=[],BASE_CTX="",CHAT_TIMER=null;
+
+function chatRules(){
+  return `
+
+【ここからは対話モード】あなたはこの鑑定書を書いた鑑定士本人として、クライアント(${C.name}さん)とチャットで会話する。
+- 上記の命式・クライアント情報・鑑定書の要点を踏まえて答える。回答は会話体、1回300字以内。マークダウン記号は使わない
+- 現象は必ず「どの星のどんな作用か」の因果で語り、最後に小さな思考の転換をひと匙添える
+- ユーザーのメッセージに【システム計算】として他者の命式が添付されている場合、それは正確な計算済みデータなので、それを使って相性・人物像・関わり方を読む。自分で命式を計算・推測してはいけない。生年月日らしき記述があるのに【システム計算】が無い場合は「生年月日を『1992年4月2日』の形で書いてね」と案内する
+- 医療・法律・投資の専門的助言や、未来の断定はしない。深刻な心身の不調の相談には、共感しつつ専門家への相談を必ず促す
+- 話題が性愛(Eros)の領域に及んだときだけ、Erosパートのオネエ口調に切り替えてよい。それ以外は高級感のあるいつもの口調
+【鑑定書の要点】
+${DIGEST.join("\n")}`;
+}
+
+function fmtRemain(ms){
+  const s=Math.max(0,Math.floor(ms/1000));
+  return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+}
+
+function addBubble(role,text){
+  const box=$("chatMsgs");
+  const d=document.createElement("div");
+  d.className="cb "+(role==="user"?"cb-u":"cb-a");
+  d.textContent=text;
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+  return d;
+}
+
+function detectDates(text){
+  const re=/((?:19|20)\d{2})\s*[年\/\-\.]\s*(\d{1,2})\s*[月\/\-\.]\s*(\d{1,2})\s*日?/g;
+  const out=[];let m;
+  while((m=re.exec(text))&&out.length<2){
+    const y=+m[1],mo=+m[2],d=+m[3];
+    if(mo>=1&&mo<=12&&d>=1&&d<=31){
+      try{
+        const ms2=calcMeishiki(y,mo,d);
+        const q=ms2.pillars;
+        out.push(`【システム計算: ${y}/${mo}/${d}生まれの命式(正確・計算済み)】日干:${ms2.nikkan}(${KANSHI_STORY[ms2.nikkan]}) / 年柱:${q.year.kanshi} 通変星${q.year.tuhen} 蔵干通変星${q.year.zokanTuhen} 十二運${q.year.stage} / 月柱:${q.month.kanshi} 通変星${q.month.tuhen} 十二運${q.month.stage} / 日柱:${q.day.kanshi} 十二運${q.day.stage} / 運勢エネルギー:${ms2.totalEnergy} / 本人(${C.name}さん・日干${MS.nikkan})との五行関係:${gogyoRelation(MS.nikkan,ms2.nikkan)}`);
+      }catch(e){}
+    }
+  }
+  return out;
+}
+
+async function chatCall(messages){
+  if(MODE==="production"){
+    const res=await fetch(WORKER_URL.replace(/\/$/,"")+"/chat",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({token:SESSION.token,ctx:BASE_CTX+chatRules(),messages})
+    });
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+    return String(data.text||"").trim();
+  }else{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:700,system:BASE_CTX+chatRules(),messages})
+    });
+    const data=await res.json();
+    if(data.error)throw new Error(data.error.message||"APIエラー");
+    return data.content.map(i=>i.text||"").join("").trim();
+  }
+}
+
+async function initChat(baseCtx){
+  // セッション開始(本番はサーバー発行の時限トークン)
+  try{
+    if(MODE==="production"){
+      const r=await fetch(WORKER_URL.replace(/\/$/,"")+"/session/start",{
+        method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({code:C.code||""})
+      });
+      const d=await r.json();
+      if(!d.token)throw new Error(d.error||"セッションを開始できませんでした");
+      SESSION={token:d.token,exp:d.exp};
+    }else{
+      SESSION={token:"local",exp:Date.now()+CHAT_MINUTES*60000};
+    }
+  }catch(e){
+    return; // チャット無しでも鑑定書は成立
+  }
+  BASE_CTX=baseCtx;
+  CHAT_HIST=[];
+  $("chatCard").classList.remove("hidden");
+  $("chatMsgs").innerHTML="";
+  $("chatInput").disabled=false;$("chatSend").disabled=false;
+  addBubble("assistant",`${C.name}さん、鑑定書はここまで。ここからの${Math.round((SESSION.exp-Date.now())/60000)}分間は、私に直接なんでも聞いてください。鑑定の深掘りでも、気になる人との相性でも(生年月日を「1992年4月2日」の形で書けば、その場で命式を出して読みます)。`);
+  CHAT_TIMER=setInterval(()=>{
+    const rem=SESSION.exp-Date.now();
+    $("chatTimer").textContent="残り "+fmtRemain(rem);
+    if(rem<=0){
+      clearInterval(CHAT_TIMER);
+      $("chatInput").disabled=true;$("chatSend").disabled=true;
+      $("chatTimer").textContent="終了";
+      addBubble("assistant","……お時間になりました。今日渡した言葉のうち、ひとつでいい、明日の朝いちばんに実行してみて。星は準備ができてる。あとはあなたの番よ。");
+    }
+  },1000);
+  if(!initChat._wired){
+    $("chatSend").addEventListener("click",sendChat);
+    $("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.isComposing){e.preventDefault();sendChat();}});
+    initChat._wired=true;
+  }
+}
+
+let CHAT_BUSY=false;
+async function sendChat(){
+  if(CHAT_BUSY)return;
+  const inp=$("chatInput");
+  const text=inp.value.trim();
+  if(!text)return;
+  if(SESSION.exp-Date.now()<=0)return;
+  inp.value="";
+  addBubble("user",text);
+  const extra=detectDates(text);
+  const content=extra.length?text+"\n\n"+extra.join("\n"):text;
+  CHAT_HIST.push({role:"user",content});
+  const wait=addBubble("assistant","…");
+  wait.classList.add("cb-wait");
+  CHAT_BUSY=true;$("chatSend").disabled=true;
+  try{
+    const reply=await chatCall(CHAT_HIST.slice(-14));
+    CHAT_HIST.push({role:"assistant",content:reply});
+    wait.classList.remove("cb-wait");
+    wait.textContent=reply;
+  }catch(e){
+    wait.classList.remove("cb-wait");
+    wait.textContent="(通信に失敗しました: "+(e.message||e)+" — もう一度送ってみてください)";
+    CHAT_HIST.pop();
+  }
+  CHAT_BUSY=false;$("chatSend").disabled=false;
+  $("chatMsgs").scrollTop=$("chatMsgs").scrollHeight;
+}
+
+</script>
+</body>
+</html>
