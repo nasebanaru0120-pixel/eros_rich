@@ -187,7 +187,7 @@
     <div id="freeBlocks"></div>
     <div class="paywall" id="paywall">
       <div class="pw-title">完全版 鑑定書</div>
-      <div class="price">¥3,500<small> (税込)</small></div>
+      <div class="price">¥8,000<small> (税込)</small></div>
       <ul>
         <li>恋愛・性の傾向を、現在地の解剖からじっくり診断</li>
         <li>恋愛的な魅力の三層構造 / 非言語的な吸引力</li>
@@ -834,7 +834,12 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`});
     }
   }
   await Promise.all([worker(),worker(),worker()]);
-  initChat(ctx);
+  const partnerCtx=PMS?`
+【お相手(${C.relType}):${C.pName}さん】生年月日:${C.pBday}
+日干:${PMS.nikkan}(${KANSHI_STORY[PMS.nikkan]}) 年柱:${PMS.pillars.year.kanshi}(${PMS.pillars.year.stage}/蔵干通変星${PMS.pillars.year.zokanTuhen}) 月柱:${PMS.pillars.month.kanshi}(${PMS.pillars.month.stage}/通変星${PMS.pillars.month.tuhen}) 日柱:${PMS.pillars.day.kanshi}(${PMS.pillars.day.stage}) 運勢エネルギー:${PMS.totalEnergy}
+【日干同士の五行関係(計算済みの事実)】${gogyoRelation(MS.nikkan,PMS.nikkan)}
+${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`:"";
+  initChat(ctx+partnerCtx);
 });
 
 /* ================= 恋愛相性(単体・全年齢) ================= */
@@ -971,7 +976,7 @@ function chatRules(){
 【ここからは対話モード】あなたはこの鑑定書を書いた鑑定士本人として、クライアント(${C.name}さん)とチャットで会話する。
 - 上記の命式・クライアント情報・鑑定書の要点を踏まえて答える。回答は会話体、1回300字以内。マークダウン記号は使わない
 - 現象は必ず「どの星のどんな作用か」の因果で語り、最後に小さな思考の転換をひと匙添える
-- ユーザーのメッセージに【システム計算】として他者の命式が添付されている場合、それは正確な計算済みデータなので、それを使って相性・人物像・関わり方を読む。自分で命式を計算・推測してはいけない。生年月日らしき記述があるのに【システム計算】が無い場合は「生年月日を『1992年4月2日』の形で書いてね」と案内する
+- 本文中に【お相手】として命式がすでに記載されている人物については、その情報を最優先で使い、生年月日の再入力は求めない。ユーザーのメッセージに【システム計算】として別の他者の命式が添付されている場合も、それは正確な計算済みデータなので、それを使って相性・人物像・関わり方を読む。自分で命式を計算・推測してはいけない。【お相手】にも【システム計算】にも該当しない新しい人物について生年月日らしき記述があるのに計算データが無い場合のみ、「生年月日を『1992年4月2日』の形で書いてね」と案内する
 - 医療・法律・投資の専門的助言や、未来の断定はしない。深刻な心身の不調の相談には、共感しつつ専門家への相談を必ず促す
 - 話題が性愛(Eros)の領域に及んだときだけ、Erosパートのオネエ口調に切り替えてよい。それ以外は高級感のあるいつもの口調
 【鑑定書の要点】
@@ -993,16 +998,30 @@ function addBubble(role,text){
   return d;
 }
 
+let CHAT_NEW_PEOPLE=new Set();
+const MAX_NEW_PEOPLE_IN_CHAT=2;
+function birthdateKey(dateStr){
+  const mm=String(dateStr||"").match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  return mm?`${+mm[1]}-${+mm[2]}-${+mm[3]}`:null;
+}
 function detectDates(text){
   const re=/((?:19|20)\d{2})\s*[年\/\-\.]\s*(\d{1,2})\s*[月\/\-\.]\s*(\d{1,2})\s*日?/g;
   const out=[];let m;
+  const selfKey=birthdateKey(C.bday),partnerKey=birthdateKey(C.pBday);
   while((m=re.exec(text))&&out.length<2){
     const y=+m[1],mo=+m[2],d=+m[3];
     if(mo>=1&&mo<=12&&d>=1&&d<=31){
+      const key=`${y}-${mo}-${d}`;
+      const known=key===selfKey||key===partnerKey||CHAT_NEW_PEOPLE.has(key);
+      if(!known&&CHAT_NEW_PEOPLE.size>=MAX_NEW_PEOPLE_IN_CHAT){
+        out.push(`【${y}/${mo}/${d}生まれの方について】このチャットで無料計算できる新しい人物の枠(${MAX_NEW_PEOPLE_IN_CHAT}名)はすでに使い切っています。この方の命式は計算せず、恋愛相性診断(¥500)または完全版鑑定書の購入を丁寧に案内してください。`);
+        continue;
+      }
       try{
         const ms2=calcMeishiki(y,mo,d);
         const q=ms2.pillars;
         out.push(`【システム計算: ${y}/${mo}/${d}生まれの命式(正確・計算済み)】日干:${ms2.nikkan}(${KANSHI_STORY[ms2.nikkan]}) / 年柱:${q.year.kanshi} 通変星${q.year.tuhen} 蔵干通変星${q.year.zokanTuhen} 十二運${q.year.stage} / 月柱:${q.month.kanshi} 通変星${q.month.tuhen} 十二運${q.month.stage} / 日柱:${q.day.kanshi} 十二運${q.day.stage} / 運勢エネルギー:${ms2.totalEnergy} / 本人(${C.name}さん・日干${MS.nikkan})との五行関係:${gogyoRelation(MS.nikkan,ms2.nikkan)}`);
+        if(!known)CHAT_NEW_PEOPLE.add(key);
       }catch(e){}
     }
   }
