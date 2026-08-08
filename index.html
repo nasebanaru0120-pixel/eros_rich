@@ -723,7 +723,7 @@ $("fullBtn").addEventListener("click",async()=>{
         <tr><th></th><th>${esc(C.name)}さん</th><th>${esc(C.pName)}さん</th></tr>
         <tr><td class="lbl">日柱</td><td><b>${p.day.kanshi}</b>(${p.day.stage})</td><td><b>${pp.day.kanshi}</b>(${pp.day.stage})</td></tr>
         <tr><td class="lbl">年柱十二運</td><td>${p.year.stage}</td><td>${pp.year.stage}</td></tr>
-        <tr><td class="lbl">天中殺</td><td colspan="3" style="font-size:12px;">${ms.tenchuDay} <span style="font-size:10px;color:var(--muted);">(日柱)</span> ・ ${ms.tenchuYear} <span style="font-size:10px;color:var(--muted);">(年柱)</span></td></tr>
+        <tr><td class="lbl">天中殺</td><td colspan="3" style="font-size:12px;">${MS.tenchuDay} <span style="font-size:10px;color:var(--muted);">(日柱)</span> ・ ${MS.tenchuYear} <span style="font-size:10px;color:var(--muted);">(年柱)</span></td></tr>
     <tr><td class="lbl">エネルギー</td><td>${MS.totalEnergy}</td><td>${PMS.totalEnergy}</td></tr>
       </table></div>
       <div class="bodytext" style="font-size:11.5px;color:#8a6f52;margin-bottom:10px;">◆ 五行関係: ${esc(rel)}</div>
@@ -1084,4 +1084,3 @@ async function sendChat(){
 </script>
 </body>
 </html>
-
