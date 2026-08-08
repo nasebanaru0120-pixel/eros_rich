@@ -7,7 +7,7 @@
 <style>
   :root{
     --bg:#fbf7f2; --ink:#43293b; --rose:#d4547a; --rose-deep:#b53a63; --rose-soft:#f3d9e2;
-    --gold:#c2a15c; --gold-soft:#e9dcc2; --muted:#9a8494; --night:#2b1e2e;
+    --gold:#c2a15c; --gold-deep:#8a6a2e; --gold-soft:#e9dcc2; --muted:#9a8494; --night:#2b1e2e;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.85;}
@@ -66,7 +66,7 @@
   .zubo li{list-style:none;position:relative;padding:9px 10px 9px 34px;font-size:13.5px;color:#4c3345;border-bottom:1px dashed #f0e0e6;}
   .zubo li:last-child{border-bottom:none;}
   .zubo li::before{content:"✓";position:absolute;left:8px;top:8px;color:var(--rose);font-weight:700;}
-  .zubo-title{font-size:11.5px;letter-spacing:.15em;color:var(--gold);margin-bottom:4px;font-weight:600;}
+  .zubo-title{font-size:11.5px;letter-spacing:.15em;color:var(--gold-deep);margin-bottom:4px;font-weight:600;}
   .action-line{margin-top:12px;padding:11px 14px;background:#fdf8ec;border-left:3px solid var(--gold);font-size:13px;color:#6d5836;border-radius:0 6px 6px 0;}
   .mech{margin:12px 0 4px;}
   .mech-row{display:flex;align-items:stretch;margin-bottom:9px;border:1px solid #f0e0e6;border-radius:9px;overflow:hidden;}
@@ -74,7 +74,7 @@
   .mech-row .m-star b{font-size:14px;color:var(--rose-deep);}
   .mech-row .m-star span{font-size:9px;color:var(--muted);letter-spacing:.05em;}
   .mech-row .m-body{padding:9px 12px;font-size:12.5px;color:#4c3345;flex:1;}
-  .mech-row .m-body b{color:var(--gold);font-size:11px;letter-spacing:.1em;display:block;}
+  .mech-row .m-body b{color:var(--gold-deep);font-size:11px;letter-spacing:.1em;display:block;}
   .tenkan{margin-top:14px;padding:16px;border-radius:10px;background:linear-gradient(135deg,#43293b,#5a3049);color:#f6e8ee;text-align:center;}
   .tenkan .t-label{font-size:10px;letter-spacing:.35em;color:#d9a8bc;margin-bottom:6px;}
   .tenkan .t-body{font-size:15.5px;font-weight:700;line-height:1.7;}
@@ -99,7 +99,7 @@
   .ab .plan b{display:block;font-size:14.5px;margin-bottom:4px;}
   .ab .plan p{font-size:12.5px;color:#5c4453;}
   .rolemodel{margin-top:10px;font-size:12px;color:#8a6f52;}
-  .rolemodel::before{content:"◆ ロールモデル: ";color:var(--gold);}
+  .rolemodel::before{content:"◆ ロールモデル: ";color:var(--gold-deep);}
   .timeline{margin-top:6px;}
   .tstep{display:flex;gap:12px;padding:10px 0;}
   .tstep .when{flex-shrink:0;width:52px;text-align:center;font-size:10.5px;letter-spacing:.1em;color:#fff;background:var(--rose);border-radius:6px;padding:6px 0;height:fit-content;}
@@ -464,6 +464,12 @@ ${KNOWLEDGE}
 ${STYLE}`;
 }
 
+function hasEmptyLeaf(o){
+  if(typeof o==="string")return o.trim()==="";
+  if(Array.isArray(o))return o.some(hasEmptyLeaf);
+  if(o&&typeof o==="object")return Object.values(o).some(hasEmptyLeaf);
+  return false;
+}
 async function askJSON(ctx,prompt,retry){
   let res,data;
   try{
@@ -478,9 +484,20 @@ async function askJSON(ctx,prompt,retry){
   if(data.error){throw new Error(data.error);}
   const raw=String(data.text||"").trim();
   let t=raw.replace(/```json|```/g,"").trim();
-  try{return JSON.parse(t);}catch(e){}
+  const retryNote="\n\n※前回の出力に空欄の項目がありました。すべての項目に実際の内容を必ず記入してください。";
+  try{
+    const parsed=JSON.parse(t);
+    if(hasEmptyLeaf(parsed)&&!retry){return askJSON(ctx,prompt+retryNote,true);}
+    return parsed;
+  }catch(e){}
   const m=t.match(/\{[\s\S]*\}/);
-  if(m){try{return JSON.parse(m[0]);}catch(e){}}
+  if(m){
+    try{
+      const parsed=JSON.parse(m[0]);
+      if(hasEmptyLeaf(parsed)&&!retry){return askJSON(ctx,prompt+retryNote,true);}
+      return parsed;
+    }catch(e){}
+  }
   if(!retry){return askJSON(ctx,prompt+"\n\n※前回の出力はJSONとして不正でした。必ず有効なJSONオブジェクトのみを出力してください。",true);}
   throw new Error("AIの応答を解析できませんでした。もう一度お試しください。");
 }
@@ -683,7 +700,7 @@ $("fullBtn").addEventListener("click",async()=>{
 "aura":"年柱YEAR_STAGEの象意を核に、その恋愛的な魅力の正体を例え話を交えて言語化。110字以内",
 "tokko":"相手が抱える寂しさ・満たされなさに対し、月柱(MONTH_TUHEN×MONTH_STAGE)のどの側面が心理的な特効薬として効くのかの言語化。110字以内",
 "tenkan":"「好きになる理由」に関する思考の転換。36字以内"}`,
-  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.aura)}</div><div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">特効薬</b><span>あなたの処方箋</span></div><div class="m-body">${esc(j.tokko)}</div></div></div>${tenkan(j.tenkan)}`;});
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.aura)}</div><div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">特効薬</b><span>あなたの処方箋</span></div><div class="m-body">${esc(j.tokko)}</div></div></div>${tenkan(j.tenkan)}`;});
 
   /* ④ NG恋愛行動とリカバリー(恋愛版) */
   add("NG恋愛行動とリカバリー",
@@ -692,7 +709,7 @@ $("fullBtn").addEventListener("click",async()=>{
 "ng":[{"scene":"恋愛でやらかしがちな失敗例(具体的)。48字以内","why":"どの星のどんな作用がそれを引き起こすか。50字以内"},{"scene":"","why":""}],
 "recovery":"やらかした時の具体的リカバリー策(相手との関係修復)。80字以内",
 "story":"その失敗すら魅力に変わる流れの作り方(ストーリー構築)。75字以内"}`,
-  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="mech">${j.ng.map(n=>`<div class="mech-row"><div class="m-star"><b>NG</b><span>やらかし例</span></div><div class="m-body"><b>${esc(n.scene)}</b>${esc(n.why)}</div></div>`).join("")}<div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div><div class="action-line">失敗を魅力に: ${esc(j.story)}</div>`;});
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="mech">${j.ng.map(n=>`<div class="mech-row"><div class="m-star"><b>NG</b><span>やらかし例</span></div><div class="m-body"><b>${esc(n.scene)}</b>${esc(n.why)}</div></div>`).join("")}<div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div><div class="action-line">失敗を魅力に: ${esc(j.story)}</div>`;});
 
   /* ⑤ 悩み */
   add("⑤ 悩みに対する命式的原因と解決策",
@@ -703,7 +720,7 @@ $("fullBtn").addEventListener("click",async()=>{
 "body":"陰転から陽転へ切り替えるスイッチの入れ方。生い立ちの一点を証拠として引用してよい。130字以内",
 "rolemodel":"似た困難を乗り越えた実在のロールモデルと乗り越え方。55字以内",
 "tenkan":"この悩みの読み替えパンチライン。40字以内"}`,
-  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="mech"><div class="mech-row"><div class="m-star"><b>陰転</b><span>いまの状態</span></div><div class="m-body">${esc(j.inten)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">陽転</b><span>本来の姿</span></div><div class="m-body">${esc(j.youten)}</div></div></div><div class="bodytext">${paras(j.body)}</div><div class="rolemodel">${esc(j.rolemodel)}</div>${tenkan(j.tenkan)}`;});
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="mech"><div class="mech-row"><div class="m-star"><b>陰転</b><span>いまの状態</span></div><div class="m-body">${esc(j.inten)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">陽転</b><span>本来の姿</span></div><div class="m-body">${esc(j.youten)}</div></div></div><div class="bodytext">${paras(j.body)}</div><div class="rolemodel">${esc(j.rolemodel)}</div>${tenkan(j.tenkan)}`;});
 
   /* 相性(任意) */
   if(PMS){
@@ -730,7 +747,7 @@ $("fullBtn").addEventListener("click",async()=>{
       <div class="catch">${esc(j.catch)}</div>
       <div class="bodytext">${paras(j.essence)}</div>
       ${zubo(j.good,"この二人の強み")}
-      <div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star"><b>衝突</b><span>ぶつかる場面</span></div><div class="m-body"><b>${esc(j.conflict.scene)}</b>${esc(j.conflict.why)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div>
+      <div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star"><b>衝突</b><span>ぶつかる場面</span></div><div class="m-body"><b>${esc(j.conflict.scene)}</b>${esc(j.conflict.why)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div>
       ${tenkan(j.tenkan)}<div class="action-line">${esc(j.hint)}</div>`;},
     {ctxExtra:`
 【お相手(${C.relType}):${C.pName}さん】生年月日:${C.pBday}
@@ -871,7 +888,7 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`;
       <div class="catch">${esc(j.catch)}</div>
       <div class="bodytext">${paras(j.essence)}</div>
       ${zubo(j.good,"この二人の強み")}
-      <div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star"><b>衝突</b><span>ぶつかる場面</span></div><div class="m-body"><b>${esc(j.conflict.scene)}</b>${esc(j.conflict.why)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div>
+      <div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star"><b>衝突</b><span>ぶつかる場面</span></div><div class="m-body"><b>${esc(j.conflict.scene)}</b>${esc(j.conflict.why)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div>
       ${tenkan(j.tenkan)}<div class="action-line">${esc(j.hint)}</div>`;
   }catch(e){body.innerHTML=failMsg(e);}
 });
@@ -1018,7 +1035,7 @@ async function initChat(baseCtx){
     if(MODE==="production"){
       const r=await fetch(WORKER_URL.replace(/\/$/,"")+"/session/start",{
         method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({code:C.code||""})
+        body:JSON.stringify({code:C.code||"",tier:CURRENT_TIER})
       });
       const d=await r.json();
       if(!d.token)throw new Error(d.error||"セッションを開始できませんでした");
