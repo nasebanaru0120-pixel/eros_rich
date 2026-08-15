@@ -175,7 +175,7 @@
     <div class="sec-label">無料かんたん診断</div>
     <div class="row2">
       <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:あい"></div>
-      <div class="field"><label for="honorific">呼び方</label><select id="honorific"><option value="さん" selected>さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option><option value="">呼び捨て</option></select></div>
+      <div class="field"><label for="honorific">呼び方</label><select id="honorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
     </div>
     <div class="row2">
       <div class="field"><label for="gender">性別</label><select id="gender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
@@ -558,7 +558,7 @@ $("freeBtn").addEventListener("click",async()=>{
   let hh,mi;const tv=$("btime").value;
   if(tv){const t=tv.split(":");hh=+t[0];mi=+t[1];}
   MS=calcMeishiki(y,m,d,hh,mi);
-  $("fName").textContent=C.name+" "+C.honorific;
+  $("fName").textContent=C.name+(C.honorific?" "+C.honorific:"");
   $("fBirth").textContent=C.bday+" 生";
   $("fChart").innerHTML=chartHTML(MS);
   if(C.dream||C.quickWorry){
@@ -672,7 +672,7 @@ $("fullBtn").addEventListener("click",async()=>{
     if(ptv){const t=ptv.split(":");ph=+t[0];pmin=+t[1];}
     PMS=calcMeishiki(py,pm,pd,ph,pmin);
   }
-  $("rName").textContent=C.name+" "+C.honorific;
+  $("rName").textContent=C.name+(C.honorific?" "+C.honorific:"");
   if(C.dream||C.worry){
     $("rInputcard").innerHTML=`${C.dream?`<b>叶えたい未来</b> ${esc(C.dream)}<br>`:""}${C.worry?`<b>いちばん深い悩み</b> ${esc(C.worry)}`:""}`;
     $("rInputcard").classList.remove("hidden");
@@ -873,7 +873,7 @@ $("loveBtn").addEventListener("click",async()=>{
   const[py,pm,pd]=pBday.split("-").map(Number);
   const PMS=calcMeishiki(py,pm,pd,ph,pmin);
   CURRENT_TIER="love";C.code=C.codeLove||"";
-  $("loveName").textContent=C.name+" "+C.honorific+" × "+pName+" さん";
+  $("loveName").textContent=C.name+(C.honorific?" "+C.honorific:"")+" × "+pName+" さん";
   const LB=$("loveBlocks");LB.innerHTML="";
   show("viewLoveResult");
   const ctx=ctxOf(C,MS),p=MS.pillars,pp=PMS.pillars;
@@ -926,7 +926,7 @@ $("erosBtn").addEventListener("click",async()=>{
   if(!$("erosAgeCheck").checked){err.textContent="18歳以上であることの確認にチェックしてください。";err.classList.add("show");return;}
   Object.assign(C,{dream,worry,eros:true});
   CURRENT_TIER="eros";C.code=C.codeEros||"";
-  $("erosName").textContent=C.name+" "+C.honorific;
+  $("erosName").textContent=C.name+(C.honorific?" "+C.honorific:"");
   const EB=$("erosBlocks");EB.innerHTML="";
   show("viewErosResult");
   const ctx=ctxOf(C,MS),p=MS.pillars;
