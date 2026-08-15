@@ -136,6 +136,8 @@
   .paywall .pw-title{font-size:16px;font-weight:700;letter-spacing:.08em;}
   .paywall .price{font-size:30px;color:var(--rose-deep);font-weight:700;margin:8px 0 2px;}
   .paywall .pw-hook{font-size:12.5px;color:#8a6f52;margin:6px 0 4px;line-height:1.75;}
+  .inputcard{background:var(--rose-soft);border-radius:12px;padding:14px 16px;margin-bottom:18px;font-size:12.5px;line-height:2;}
+  .inputcard b{color:var(--rose-deep);}
   .paywall .price small{font-size:12px;color:var(--muted);font-weight:400;}
   .paywall ul{margin:14px 0;text-align:left;}
   .paywall li{list-style:none;font-size:13px;padding:7px 0 7px 26px;position:relative;color:#4c3345;border-bottom:1px dashed #eddfd2;}
@@ -171,7 +173,10 @@
       生年月日から命式を自動算出し、あなたの<b style="color:var(--rose);">恋愛の傾向・性の傾向</b>を無料で診断します。まずは30秒。
     </div></div>
     <div class="sec-label">無料かんたん診断</div>
-    <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:きわ"></div>
+    <div class="row2">
+      <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:あい"></div>
+      <div class="field"><label for="honorific">呼び方</label><select id="honorific"><option value="さん" selected>さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option><option value="">呼び捨て</option></select></div>
+    </div>
     <div class="row2">
       <div class="field"><label for="gender">性別</label><select id="gender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
       <div class="field"><label for="bday">生年月日<span class="req">必須</span></label><input type="date" id="bday"></div>
@@ -186,6 +191,7 @@
   <!-- STEP2: 無料結果 -->
   <div id="viewFreeResult" class="hidden">
     <div class="client-head"><div class="nm" id="fName"></div><div class="sub" id="fBirth"></div></div>
+    <div class="inputcard hidden" id="fInputcard"></div>
     <div class="meishiki" id="fChart"></div>
     <div class="caution hidden" id="fNote"></div>
     <div id="freeBlocks"></div>
@@ -283,6 +289,7 @@
   <!-- STEP4: 完全版結果 -->
   <div id="viewFullResult" class="hidden">
     <div class="client-head"><div class="nm" id="rName"></div><div class="sub">Eros Rich Method™ 完全版鑑定書</div></div>
+    <div class="inputcard hidden" id="rInputcard"></div>
     <div id="fullBlocks"></div>
     <div class="card hidden" id="chatCard">
       <div class="card-h" style="display:flex;justify-content:space-between;align-items:center;"><span>鑑定士と対話 — なんでも聞いてください</span><span id="chatTimer">--:--</span></div>
@@ -544,16 +551,20 @@ const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult"
 $("freeBtn").addEventListener("click",async()=>{
   CURRENT_TIER="free";
   const err=$("freeErr");err.classList.remove("show");
-  C={name:$("callname").value.trim(),gender:$("gender").value,bday:$("bday").value,dream:$("quickDream").value.trim(),quickWorry:$("quickWorry").value.trim()};
+  C={name:$("callname").value.trim(),honorific:$("honorific").value,gender:$("gender").value,bday:$("bday").value,dream:$("quickDream").value.trim(),quickWorry:$("quickWorry").value.trim()};
   if(!C.name||!C.bday){err.textContent="呼び名と生年月日を入力してください。";err.classList.add("show");return;}
   if(!C.dream){err.textContent="叶えたい未来を入力してください。";err.classList.add("show");return;}
   const[y,m,d]=C.bday.split("-").map(Number);
   let hh,mi;const tv=$("btime").value;
   if(tv){const t=tv.split(":");hh=+t[0];mi=+t[1];}
   MS=calcMeishiki(y,m,d,hh,mi);
-  $("fName").textContent=C.name+" さん";
+  $("fName").textContent=C.name+" "+C.honorific;
   $("fBirth").textContent=C.bday+" 生";
   $("fChart").innerHTML=chartHTML(MS);
+  if(C.dream||C.quickWorry){
+    $("fInputcard").innerHTML=`${C.dream?`<b>叶えたい未来</b> ${esc(C.dream)}<br>`:""}${C.quickWorry?`<b>モヤモヤ</b> ${esc(C.quickWorry)}`:""}`;
+    $("fInputcard").classList.remove("hidden");
+  }
   const notes=[];
   if(MS.note23)notes.push("23時台生まれのため翌日として計算しています。");
   if(MS.boundary)notes.push("節入り日生まれのため、出生時間により命式が変わる場合があります。");
@@ -561,7 +572,7 @@ $("freeBtn").addEventListener("click",async()=>{
   $("fNote").textContent=notes.join(" ");
   $("freeBlocks").innerHTML="";
   show("viewFreeResult");
-  const body=cardShell($("freeBlocks"),`${C.name}さんの恋愛・性の傾向`);
+  const body=cardShell($("freeBlocks"),`${C.name}${C.honorific}の恋愛・性の傾向`);
   try{
     const j=await askJSON(ctxOf(C,MS),
 `無料の簡易診断。恋愛の傾向と性の傾向を中心に読み解く。「${C.dream}」という叶えたい未来に対して、
@@ -661,7 +672,11 @@ $("fullBtn").addEventListener("click",async()=>{
     if(ptv){const t=ptv.split(":");ph=+t[0];pmin=+t[1];}
     PMS=calcMeishiki(py,pm,pd,ph,pmin);
   }
-  $("rName").textContent=C.name+" さん";
+  $("rName").textContent=C.name+" "+C.honorific;
+  if(C.dream||C.worry){
+    $("rInputcard").innerHTML=`${C.dream?`<b>叶えたい未来</b> ${esc(C.dream)}<br>`:""}${C.worry?`<b>いちばん深い悩み</b> ${esc(C.worry)}`:""}`;
+    $("rInputcard").classList.remove("hidden");
+  }
   $("fullBlocks").innerHTML="";
   show("viewFullResult");
   const FB=$("fullBlocks"),ctx=ctxOf(C,MS),p=MS.pillars;
@@ -742,7 +757,7 @@ $("fullBtn").addEventListener("click",async()=>{
 "hint":"${C.relType}としてこの関係を最高に活かす一手。50字以内"}`,
     (j,b)=>{b.innerHTML=`
       <div class="meishiki" style="margin-bottom:14px;"><table>
-        <tr><th></th><th>${esc(C.name)}さん</th><th>${esc(C.pName)}さん</th></tr>
+        <tr><th></th><th>${esc(C.name)}${C.honorific}</th><th>${esc(C.pName)}さん</th></tr>
         <tr><td class="lbl">日柱</td><td><b>${p.day.kanshi}</b>(${p.day.stage})</td><td><b>${pp.day.kanshi}</b>(${pp.day.stage})</td></tr>
         <tr><td class="lbl">年柱十二運</td><td>${p.year.stage}</td><td>${pp.year.stage}</td></tr>
         <tr><td class="lbl">天中殺</td><td colspan="3" style="font-size:12px;">${MS.tenchuDay} <span style="font-size:10px;color:var(--muted);">(日柱)</span> ・ ${MS.tenchuYear} <span style="font-size:10px;color:var(--muted);">(年柱)</span></td></tr>
@@ -814,7 +829,7 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`});
   (j,b)=>{b.innerHTML=`<div class="action-line" style="margin-top:0;">まず今日: ${esc(j.first)}</div>
     <div class="zubo-title" style="margin-top:14px;">アクションプラン</div>
     <div class="timeline"><div class="tstep"><div class="when">短期</div><p>${esc(j.plan.short)}</p></div><div class="tstep"><div class="when">中期</div><p>${esc(j.plan.mid)}</p></div><div class="tstep"><div class="when">長期</div><p>${esc(j.plan.long)}</p></div></div>
-    <div class="tenkan" style="margin-top:16px;"><div class="t-label">${esc(C.name)}さんへ</div><div class="t-body" style="font-size:14px;">${esc(j.message)}</div></div>`;});
+    <div class="tenkan" style="margin-top:16px;"><div class="t-label">${esc(C.name)}${C.honorific}へ</div><div class="t-body" style="font-size:14px;">${esc(j.message)}</div></div>`;});
 
   /* ===== プレースホルダ差し込み & 並列生成(3並列) ===== */
   const fill=s=>s
@@ -858,7 +873,7 @@ $("loveBtn").addEventListener("click",async()=>{
   const[py,pm,pd]=pBday.split("-").map(Number);
   const PMS=calcMeishiki(py,pm,pd,ph,pmin);
   CURRENT_TIER="love";C.code=C.codeLove||"";
-  $("loveName").textContent=C.name+" さん × "+pName+" さん";
+  $("loveName").textContent=C.name+" "+C.honorific+" × "+pName+" さん";
   const LB=$("loveBlocks");LB.innerHTML="";
   show("viewLoveResult");
   const ctx=ctxOf(C,MS),p=MS.pillars,pp=PMS.pillars;
@@ -888,7 +903,7 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`;
     const j=await askJSON(ctx+ctxExtra,fill(prompt));
     body.innerHTML=`
       <div class="meishiki" style="margin-bottom:14px;"><table>
-        <tr><th></th><th>${esc(C.name)}さん</th><th>${esc(C.pName)}さん</th></tr>
+        <tr><th></th><th>${esc(C.name)}${C.honorific}</th><th>${esc(C.pName)}さん</th></tr>
         <tr><td class="lbl">日柱</td><td><b>${p.day.kanshi}</b>(${p.day.stage})</td><td><b>${pp.day.kanshi}</b>(${pp.day.stage})</td></tr>
         <tr><td class="lbl">年柱十二運</td><td>${p.year.stage}</td><td>${pp.year.stage}</td></tr>
         <tr><td class="lbl">天中殺</td><td colspan="3" style="font-size:12px;">${MS.tenchuDay} <span style="font-size:10px;color:var(--muted);">(日柱)</span> ・ ${MS.tenchuYear} <span style="font-size:10px;color:var(--muted);">(年柱)</span></td></tr>
@@ -911,7 +926,7 @@ $("erosBtn").addEventListener("click",async()=>{
   if(!$("erosAgeCheck").checked){err.textContent="18歳以上であることの確認にチェックしてください。";err.classList.add("show");return;}
   Object.assign(C,{dream,worry,eros:true});
   CURRENT_TIER="eros";C.code=C.codeEros||"";
-  $("erosName").textContent=C.name+" さん";
+  $("erosName").textContent=C.name+" "+C.honorific;
   const EB=$("erosBlocks");EB.innerHTML="";
   show("viewErosResult");
   const ctx=ctxOf(C,MS),p=MS.pillars;
@@ -978,10 +993,10 @@ let SESSION=null,CHAT_HIST=[],BASE_CTX="",CHAT_TIMER=null;
 function chatRules(){
   return `
 
-【ここからは対話モード】あなたはこの鑑定書を書いた鑑定士本人として、クライアント(${C.name}さん)とチャットで会話する。
+【ここからは対話モード】あなたはこの鑑定書を書いた鑑定士本人として、クライアント(${C.name}${C.honorific})とチャットで会話する。
 - 上記の命式・クライアント情報・鑑定書の要点を踏まえて答える。回答は会話体、1回300字以内。マークダウン記号は使わない
 - 現象は必ず「どの星のどんな作用か」の因果で語り、最後に小さな思考の転換をひと匙添える
-- クライアント本人(${C.name}さん)と、本文中に【お相手】として記載されている${C.pName?C.pName+"さん":"人物"}は別人。ユーザーが「${C.pName||"(お相手)"}との相性は?」のように呼び名だけで尋ねた場合も、生年月日の再記載を待たず【お相手】ブロックのデータをそのまま使って答える。本人の命式で代用してはいけない。ユーザーのメッセージに【システム計算】として別の他者の命式が添付されている場合も、それは正確な計算済みデータなので、それを使って相性・人物像・関わり方を読む。自分で命式を計算・推測してはいけない。【お相手】にも【システム計算】にも該当しない新しい人物について生年月日らしき記述があるのに計算データが無い場合のみ、「生年月日を『1992年4月2日』の形で書いてね」と案内する
+- クライアント本人(${C.name}${C.honorific})と、本文中に【お相手】として記載されている${C.pName?C.pName+"さん":"人物"}は別人。ユーザーが「${C.pName||"(お相手)"}との相性は?」のように呼び名だけで尋ねた場合も、生年月日の再記載を待たず【お相手】ブロックのデータをそのまま使って答える。本人の命式で代用してはいけない。ユーザーのメッセージに【システム計算】として別の他者の命式が添付されている場合も、それは正確な計算済みデータなので、それを使って相性・人物像・関わり方を読む。自分で命式を計算・推測してはいけない。【お相手】にも【システム計算】にも該当しない新しい人物について生年月日らしき記述があるのに計算データが無い場合のみ、「生年月日を『1992年4月2日』の形で書いてね」と案内する
 - 【お相手との現状】に書かれた悩み・関係性のタイプ(交際中/夫婦/片想いなど)は、鑑定時にすでに記入済みの情報。「どんな関係ですか」「何に悩んでいますか」のように聞き返さず、把握済みの前提として自然に会話に踏まえる
 - 医療・法律・投資の専門的助言や、未来の断定はしない。深刻な心身の不調の相談には、共感しつつ専門家への相談を必ず促す
 - 話題が性愛(Eros)の領域に及んだときだけ、Erosパートのオネエ口調に切り替えてよい。それ以外は高級感のあるいつもの口調
@@ -1026,7 +1041,7 @@ function detectDates(text){
       try{
         const ms2=calcMeishiki(y,mo,d);
         const q=ms2.pillars;
-        out.push(`【システム計算: ${y}/${mo}/${d}生まれの命式(正確・計算済み)】日干:${ms2.nikkan}(${KANSHI_STORY[ms2.nikkan]}) / 年柱:${q.year.kanshi} 通変星${q.year.tuhen} 蔵干通変星${q.year.zokanTuhen} 十二運${q.year.stage} / 月柱:${q.month.kanshi} 通変星${q.month.tuhen} 十二運${q.month.stage} / 日柱:${q.day.kanshi} 十二運${q.day.stage} / 運勢エネルギー:${ms2.totalEnergy} / 本人(${C.name}さん・日干${MS.nikkan})との五行関係:${gogyoRelation(MS.nikkan,ms2.nikkan)}`);
+        out.push(`【システム計算: ${y}/${mo}/${d}生まれの命式(正確・計算済み)】日干:${ms2.nikkan}(${KANSHI_STORY[ms2.nikkan]}) / 年柱:${q.year.kanshi} 通変星${q.year.tuhen} 蔵干通変星${q.year.zokanTuhen} 十二運${q.year.stage} / 月柱:${q.month.kanshi} 通変星${q.month.tuhen} 十二運${q.month.stage} / 日柱:${q.day.kanshi} 十二運${q.day.stage} / 運勢エネルギー:${ms2.totalEnergy} / 本人(${C.name}${C.honorific}・日干${MS.nikkan})との五行関係:${gogyoRelation(MS.nikkan,ms2.nikkan)}`);
         if(!known)CHAT_NEW_PEOPLE.add(key);
       }catch(e){}
     }
@@ -1076,7 +1091,7 @@ async function initChat(baseCtx){
   $("chatCard").classList.remove("hidden");
   $("chatMsgs").innerHTML="";
   $("chatInput").disabled=false;$("chatSend").disabled=false;
-  addBubble("assistant",`${C.name}さん、鑑定書はここまで。ここからの${Math.round((SESSION.exp-Date.now())/60000)}分間は、私に直接なんでも聞いてください。鑑定の深掘りでも、気になる人との相性でも(生年月日を「1992年4月2日」の形で書けば、その場で命式を出して読みます)。`);
+  addBubble("assistant",`${C.name}${C.honorific}、鑑定書はここまで。ここからの${Math.round((SESSION.exp-Date.now())/60000)}分間は、私に直接なんでも聞いてください。鑑定の深掘りでも、気になる人との相性でも(生年月日を「1992年4月2日」の形で書けば、その場で命式を出して読みます)。`);
   CHAT_TIMER=setInterval(()=>{
     const rem=SESSION.exp-Date.now();
     $("chatTimer").textContent="残り "+fmtRemain(rem);
