@@ -164,13 +164,13 @@
   <div class="brand">
     <div class="rule"></div>
     <h1>Eros Rich Method<span class="tm">™</span></h1>
-    <p>四柱推命 × 恋愛と性の傾向診断</p>
+    <p>四柱推命 × あなたの組み合わせを読み解き、人生を豊かにする診断</p>
   </div>
 
   <!-- STEP1: 無料入力 -->
   <div id="viewFreeForm">
     <div class="card"><div class="card-b" style="font-size:13px;color:#5c4453;">
-      生年月日から命式を自動算出し、あなたの<b style="color:var(--rose);">恋愛の傾向・性の傾向</b>を無料で診断します。まずは30秒。
+      生年月日から命式を自動算出し、<b style="color:var(--rose);">恋愛・仕事・人間関係</b>まで、あなたの傾向を無料で診断します。ご希望の方には、Erosパート(性愛の傾向・18歳以上)も。まずは30秒。
     </div></div>
     <div class="sec-label">無料かんたん診断</div>
     <div class="row2">
@@ -370,6 +370,14 @@
 /* ================= 設定 ================= */
 const MODE = "production"; // "claude"=Claude内テスト用 / "production"=本番(Worker経由)
 const WORKER_URL = "https://uranai.nasebanaru0120.workers.dev"; // 本番URL設定済み(2026-08-06)
+function logWorry(){
+  try{
+    fetch(WORKER_URL.replace(/\/$/,"")+"/log",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({name:C.name||"",bday:C.bday||"",dream:C.dream||"",worry:C.worry||C.quickWorry||""})
+    }).catch(()=>{});
+  }catch(e){}
+}
 const CHAT_MINUTES = 60; // 対話モードの持ち時間(分)
 let CURRENT_TIER = "free";
 
@@ -554,6 +562,7 @@ $("freeBtn").addEventListener("click",async()=>{
   C={name:$("callname").value.trim(),honorific:$("honorific").value,gender:$("gender").value,bday:$("bday").value,dream:$("quickDream").value.trim(),quickWorry:$("quickWorry").value.trim()};
   if(!C.name||!C.bday){err.textContent="呼び名と生年月日を入力してください。";err.classList.add("show");return;}
   if(!C.dream){err.textContent="叶えたい未来を入力してください。";err.classList.add("show");return;}
+  logWorry();
   const[y,m,d]=C.bday.split("-").map(Number);
   let hh,mi;const tv=$("btime").value;
   if(tv){const t=tv.split(":");hh=+t[0];mi=+t[1];}
@@ -664,6 +673,7 @@ $("fullBtn").addEventListener("click",async()=>{
   });
   if(!C.dream||!C.worry){err.textContent="「叶えたい生活」と「いちばん深い悩み」は必須です。";err.classList.add("show");return;}
   if(C.relType&&(!C.pName||!C.pBday)){err.textContent="相性占いにはお相手の呼び名と生年月日が必要です。不要な場合は「相性占いはしない」を選んでください。";err.classList.add("show");return;}
+  logWorry();
 
   let PMS=null;
   if(C.relType){
