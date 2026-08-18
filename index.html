@@ -6,8 +6,8 @@
 <title>Eros Rich Method™ 診断</title>
 <style>
   :root{
-    --bg:#fbf7f2; --ink:#43293b; --rose:#d4547a; --rose-deep:#b53a63; --rose-soft:#f3d9e2;
-    --gold:#c2a15c; --gold-deep:#8a6a2e; --gold-soft:#e9dcc2; --muted:#9a8494; --night:#2b1e2e;
+    --bg:#f7f3ef; --ink:#2e2438; --rose:#7d4fa3; --rose-deep:#5a3480; --rose-soft:#e8dcf2;
+    --gold:#c2a15c; --gold-deep:#8a6a2e; --gold-soft:#e9dcc2; --muted:#8f7d9c; --night:#1c1428;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.85;}
@@ -21,10 +21,10 @@
   .sec-label{font-size:12px;letter-spacing:.3em;color:var(--rose);margin:26px 0 12px;display:flex;align-items:center;gap:12px;font-weight:600;}
   .sec-label::after{content:"";flex:1;height:1px;background:var(--rose-soft);}
   .field{margin-bottom:16px;}
-  label{display:block;font-size:12.5px;color:#6b5262;margin-bottom:6px;letter-spacing:.06em;}
+  label{display:block;font-size:12.5px;color:#4c3a58;margin-bottom:6px;letter-spacing:.06em;}
   label .req{color:var(--rose);font-size:11px;margin-left:4px;}
   input[type=text],input[type=date],input[type=time],textarea,select{
-    width:100%;background:#fff;border:1px solid #e4d5cf;border-radius:6px;padding:12px 13px;
+    width:100%;background:#fff;border:1px solid #ded3e3;border-radius:6px;padding:12px 13px;
     font-family:inherit;font-size:16px;color:var(--ink);outline:none;-webkit-appearance:none;appearance:none;
   }
   input:focus,textarea:focus,select:focus{border-color:var(--rose);}
@@ -46,72 +46,72 @@
   .client-head .sub{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.1em;}
   .meishiki{background:#fff;border:1px solid var(--gold-soft);border-radius:10px;overflow:hidden;margin-bottom:12px;}
   .meishiki table{width:100%;border-collapse:collapse;font-size:12.5px;}
-  .meishiki th,.meishiki td{border:1px solid #f0e4dc;padding:8px 3px;text-align:center;}
-  .meishiki th{background:#fdf1f5;color:var(--rose);font-weight:600;font-size:11.5px;}
-  .meishiki td.lbl{background:#fbf5f0;color:#8a6f52;font-size:10.5px;}
+  .meishiki th,.meishiki td{border:1px solid #e9e0ec;padding:8px 3px;text-align:center;}
+  .meishiki th{background:#f3ecf8;color:var(--rose);font-weight:600;font-size:11.5px;}
+  .meishiki td.lbl{background:#f4eef7;color:#8a6f52;font-size:10.5px;}
   .meishiki .kanshi{font-size:16px;font-weight:600;letter-spacing:.08em;}
   .caution{font-size:11.5px;color:#a4854a;background:#fdf8ec;border:1px solid #ecdfc0;border-radius:6px;padding:10px 12px;margin-bottom:14px;line-height:1.7;}
-  .card{background:#fff;border:1px solid #eee1da;border-radius:12px;margin-bottom:20px;overflow:hidden;}
-  .card-h{padding:12px 18px;background:linear-gradient(135deg,#fdf1f5,#fbf7f2);border-bottom:1px solid var(--rose-soft);font-size:12px;letter-spacing:.22em;color:var(--rose);font-weight:600;}
+  .card{background:#fff;border:1px solid #e8e0ec;border-radius:12px;margin-bottom:20px;overflow:hidden;}
+  .card-h{padding:12px 18px;background:linear-gradient(135deg,#f3ecf8,#f7f3ef);border-bottom:1px solid var(--rose-soft);font-size:12px;letter-spacing:.22em;color:var(--rose);font-weight:600;}
   .card-b{padding:18px;}
   .catch{font-size:18px;font-weight:700;line-height:1.6;margin-bottom:12px;}
   .catch::before{content:"“";color:var(--gold);margin-right:2px;}
   .catch::after{content:"”";color:var(--gold);margin-left:2px;}
-  .bodytext{font-size:13.5px;color:#3d2938;font-weight:500;}
+  .bodytext{font-size:13.5px;color:#2c2238;font-weight:500;}
   .bodytext p{margin-bottom:.9em;}
   .bodytext p:last-child{margin-bottom:0;}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 2px;}
-  .chip{font-size:11.5px;padding:5px 12px;border-radius:999px;background:#fdf1f5;color:var(--rose-deep);border:1px solid var(--rose-soft);letter-spacing:.05em;}
+  .chip{font-size:11.5px;padding:5px 12px;border-radius:999px;background:#f3ecf8;color:var(--rose-deep);border:1px solid var(--rose-soft);letter-spacing:.05em;}
   .zubo{margin:10px 0 4px;}
-  .zubo li{list-style:none;position:relative;padding:9px 10px 9px 34px;font-size:13.5px;color:#4c3345;border-bottom:1px dashed #f0e0e6;}
+  .zubo li{list-style:none;position:relative;padding:9px 10px 9px 34px;font-size:13.5px;color:#362a42;border-bottom:1px dashed #e6dcee;}
   .zubo li:last-child{border-bottom:none;}
   .zubo li::before{content:"✓";position:absolute;left:8px;top:8px;color:var(--rose);font-weight:700;}
   .zubo-title{font-size:11.5px;letter-spacing:.15em;color:var(--gold-deep);margin-bottom:4px;font-weight:600;}
   .action-line{margin-top:12px;padding:11px 14px;background:#fdf8ec;border-left:3px solid var(--gold);font-size:13px;color:#6d5836;border-radius:0 6px 6px 0;}
   .mech{margin:12px 0 4px;}
-  .mech-row{display:flex;align-items:stretch;margin-bottom:9px;border:1px solid #f0e0e6;border-radius:9px;overflow:hidden;}
-  .mech-row .m-star{flex-shrink:0;width:86px;background:#fdf1f5;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8px 4px;border-right:1px solid #f0e0e6;text-align:center;}
+  .mech-row{display:flex;align-items:stretch;margin-bottom:9px;border:1px solid #e6dcee;border-radius:9px;overflow:hidden;}
+  .mech-row .m-star{flex-shrink:0;width:86px;background:#f3ecf8;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:8px 4px;border-right:1px solid #e6dcee;text-align:center;}
   .mech-row .m-star b{font-size:14px;color:var(--rose-deep);}
   .mech-row .m-star span{font-size:9px;color:var(--muted);letter-spacing:.05em;}
-  .mech-row .m-body{padding:9px 12px;font-size:12.5px;color:#4c3345;flex:1;}
+  .mech-row .m-body{padding:9px 12px;font-size:12.5px;color:#362a42;flex:1;}
   .mech-row .m-body b{color:var(--gold-deep);font-size:11px;letter-spacing:.1em;display:block;}
-  .tenkan{margin-top:14px;padding:16px;border-radius:10px;background:linear-gradient(135deg,#43293b,#5a3049);color:#f6e8ee;text-align:center;}
-  .tenkan .t-label{font-size:10px;letter-spacing:.35em;color:#d9a8bc;margin-bottom:6px;}
+  .tenkan{margin-top:14px;padding:16px;border-radius:10px;background:linear-gradient(135deg,#2e2438,#4a2f5c);color:#f2e6f5;text-align:center;}
+  .tenkan .t-label{font-size:10px;letter-spacing:.35em;color:#c9a8d9;margin-bottom:6px;}
   .tenkan .t-body{font-size:15.5px;font-weight:700;line-height:1.7;}
-  .layer{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed #f0e0e6;}
+  .layer{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed #e6dcee;}
   .layer:last-of-type{border-bottom:none;}
   .layer .star{flex-shrink:0;width:64px;height:64px;border-radius:50%;border:1.5px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle,#fdf6ec,transparent);}
   .layer .star b{font-size:17px;}
   .layer .star span{font-size:9px;color:var(--muted);}
-  .layer .txt{font-size:13px;color:#4c3345;}
+  .layer .txt{font-size:13px;color:#362a42;}
   .layer .txt b{display:block;font-size:13.5px;color:var(--rose-deep);margin-bottom:2px;}
   .swatches{display:flex;gap:10px;margin:12px 0;}
   .sw{flex:1;text-align:center;}
   .sw i{display:block;height:44px;border-radius:8px;border:1px solid rgba(0,0,0,.06);}
   .sw span{font-size:10.5px;color:var(--muted);display:block;margin-top:5px;line-height:1.4;}
   .sns{margin-top:10px;}
-  .sns li{list-style:none;font-size:13px;background:#faf5f7;border:1px solid #f3e4ea;border-radius:8px;padding:10px 13px;margin-bottom:8px;color:#4c3345;}
+  .sns li{list-style:none;font-size:13px;background:#f4eef7;border:1px solid #e9def0;border-radius:8px;padding:10px 13px;margin-bottom:8px;color:#362a42;}
   .sns li::before{content:"POST ";font-size:9px;letter-spacing:.15em;color:var(--rose);font-weight:700;}
   .ab{display:flex;flex-direction:column;gap:12px;}
   .ab .plan{border:1px solid var(--rose-soft);border-radius:10px;padding:14px;}
   .ab .plan .tag{display:inline-block;font-size:10px;letter-spacing:.2em;background:var(--rose);color:#fff;border-radius:4px;padding:2px 8px;margin-bottom:6px;}
   .ab .plan.b .tag{background:var(--gold);}
   .ab .plan b{display:block;font-size:14.5px;margin-bottom:4px;}
-  .ab .plan p{font-size:12.5px;color:#5c4453;}
+  .ab .plan p{font-size:12.5px;color:#402f4d;}
   .rolemodel{margin-top:10px;font-size:12px;color:#8a6f52;}
   .rolemodel::before{content:"◆ ロールモデル: ";color:var(--gold-deep);}
   .timeline{margin-top:6px;}
   .tstep{display:flex;gap:12px;padding:10px 0;}
   .tstep .when{flex-shrink:0;width:52px;text-align:center;font-size:10.5px;letter-spacing:.1em;color:#fff;background:var(--rose);border-radius:6px;padding:6px 0;height:fit-content;}
-  .tstep:nth-child(2) .when{background:#c9788f;}
+  .tstep:nth-child(2) .when{background:#8a5da3;}
   .tstep:nth-child(3) .when{background:var(--gold);}
-  .tstep p{font-size:13px;color:#4c3345;}
+  .tstep p{font-size:13px;color:#362a42;}
   .brandgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:6px;}
   .bname{border:1px solid var(--gold-soft);border-radius:9px;padding:11px 12px;background:#fffdf9;}
   .bname b{display:block;font-size:14px;margin-bottom:2px;}
   .bname span{font-size:10.5px;color:var(--muted);line-height:1.5;display:block;}
   .card.eros{background:var(--night);border-color:#4a3350;}
-  .card.eros .card-h{background:linear-gradient(135deg,#3a2740,#2b1e2e);border-bottom-color:#553a5c;color:#e3a7c0;}
+  .card.eros .card-h{background:linear-gradient(135deg,#3a2740,#1c1428);border-bottom-color:#553a5c;color:#e3a7c0;}
   .card.eros .card-b{color:#e9d9e2;}
   .card.eros .catch{color:#f4dce8;}
   .card.eros .bodytext{color:#dcc6d4;}
@@ -132,7 +132,7 @@
   .dotpulse i:nth-child(3){animation-delay:.4s}
   @keyframes dp{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
   @media (prefers-reduced-motion:reduce){.dotpulse i{animation:none;opacity:.6}}
-  .paywall{border:1.5px solid var(--gold);border-radius:14px;background:linear-gradient(160deg,#fffdf8,#fdf3f0);padding:24px 20px;text-align:center;margin:26px 0;}
+  .paywall{border:1.5px solid var(--gold);border-radius:14px;background:linear-gradient(160deg,#fffdf8,#f8f2fa);padding:24px 20px;text-align:center;margin:26px 0;}
   .paywall .pw-title{font-size:16px;font-weight:700;letter-spacing:.08em;}
   .paywall .price{font-size:30px;color:var(--rose-deep);font-weight:700;margin:8px 0 2px;}
   .paywall .pw-hook{font-size:12.5px;color:#8a6f52;margin:6px 0 4px;line-height:1.75;}
@@ -140,17 +140,17 @@
   .inputcard b{color:var(--rose-deep);}
   .paywall .price small{font-size:12px;color:var(--muted);font-weight:400;}
   .paywall ul{margin:14px 0;text-align:left;}
-  .paywall li{list-style:none;font-size:13px;padding:7px 0 7px 26px;position:relative;color:#4c3345;border-bottom:1px dashed #eddfd2;}
+  .paywall li{list-style:none;font-size:13px;padding:7px 0 7px 26px;position:relative;color:#362a42;border-bottom:1px dashed #e7dfea;}
   .paywall li:last-child{border-bottom:none;}
   .paywall li::before{content:"♦";position:absolute;left:6px;color:var(--gold);}
   .codebox{margin-top:14px;}
   .codebox input{text-align:center;letter-spacing:.2em;}
-  .legal{font-size:10.5px;color:var(--muted);line-height:1.9;margin-top:30px;padding-top:16px;border-top:1px solid #eadfd8;}
+  .legal{font-size:10.5px;color:var(--muted);line-height:1.9;margin-top:30px;padding-top:16px;border-top:1px solid #e4dfea;}
   .hidden{display:none;}
   /* チャット */
   .cb{max-width:85%;padding:11px 14px;border-radius:14px;font-size:13.5px;line-height:1.8;white-space:pre-wrap;word-break:break-word;}
   .cb-u{align-self:flex-end;background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;border-bottom-right-radius:4px;}
-  .cb-a{align-self:flex-start;background:#faf5f7;border:1px solid #f0e0e6;color:#4c3345;border-bottom-left-radius:4px;}
+  .cb-a{align-self:flex-start;background:#f4eef7;border:1px solid #e6dcee;color:#362a42;border-bottom-left-radius:4px;}
   .cb-wait{color:var(--muted);letter-spacing:.3em;animation:dp 1.2s infinite ease-in-out;}
   #chatInput{flex:1;}
   #chatSend{flex-shrink:0;width:74px;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--rose),var(--rose-deep));}
@@ -171,7 +171,7 @@
 
   <!-- STEP1: 無料入力 -->
   <div id="viewFreeForm">
-    <div class="card"><div class="card-b" style="font-size:13px;color:#5c4453;">
+    <div class="card"><div class="card-b" style="font-size:13px;color:#402f4d;">
       生年月日から命式を自動算出し、<b style="color:var(--rose);">恋愛・仕事・人間関係</b>まで、あなたの傾向を無料で診断します。ご希望の方には、Erosパート(性愛の傾向・18歳以上)も。まずは30秒。
     </div></div>
     <div class="sec-label">無料かんたん診断</div>
@@ -220,7 +220,7 @@
 
     <!-- 恋愛相性だけ(全年齢) -->
     <div class="paywall" id="paywallLove">
-      <div class="pw-title">恋愛の相性だけ診断</div>
+      <div class="pw-title">悩んでいる相手との相性診断</div>
       <div class="price">¥500<small> (税込・年齢制限なし)</small></div>
       <ul>
         <li>お相手との相性 — 本質的な関係性・強み</li>
@@ -229,12 +229,12 @@
       </ul>
       <div style="font-size:11.5px;color:var(--muted);">お支払い後にお渡しする「解禁コード」を入力してください。</div>
       <div class="codebox"><input type="text" id="unlockCodeLove" placeholder="解禁コード"></div>
-      <button class="btn" id="unlockBtnLove" style="margin-top:12px;">恋愛相性をひらく</button>
+      <button class="btn" id="unlockBtnLove" style="margin-top:12px;">相性診断をひらく</button>
       <div class="err" id="unlockErrLove"></div>
     </div>
 
     <!-- Erosパートだけ(18歳以上限定) -->
-    <div class="paywall" id="paywallEros" style="border-color:#6b4a72;background:linear-gradient(160deg,#2b1e2e,#231824);">
+    <div class="paywall" id="paywallEros" style="border-color:#6b4a72;background:linear-gradient(160deg,#1c1428,#231824);">
       <div class="pw-title" style="color:#eec3d6;">Eros Rich™ — Erosパート単体</div>
       <div class="price" style="color:#e3a7c0;">¥3,000<small style="color:#b78aa3;"> (税込・18歳以上限定)</small></div>
       <ul style="color:#dcc6d4;">
@@ -253,7 +253,7 @@
   <!-- STEP3: 完全版入力 -->
   <div id="viewFullForm" class="hidden">
     <div class="sec-label">完全版 — あなたのこと</div>
-    <div class="card"><div class="card-b" style="font-size:12.5px;color:#5c4453;">
+    <div class="card"><div class="card-b" style="font-size:12.5px;color:#402f4d;">
       詳しく書くほど、鑑定書は「あなただけの一冊」になります。書ける範囲でかまいません。
     </div></div>
     <div class="field"><label for="upbringing">生い立ち(育った環境・家族・人生の大きな出来事など)</label><textarea id="upbringing" placeholder="例:厳しい家庭で育ち、ずっと良い子を演じてきた。20代で上京して…"></textarea></div>
@@ -282,7 +282,7 @@
     <div class="field" style="margin-top:18px;">
       <label style="display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid var(--rose-soft);border-radius:6px;padding:13px;">
         <input type="checkbox" id="erosOn" style="width:18px;height:18px;margin-top:3px;accent-color:var(--rose);">
-        <span style="font-size:12.5px;color:#6b5262;"><b style="color:var(--rose);">Erosパートを含める</b>(18歳以上向け)<br>語り手の人格が切り替わり、本能・官能の領域まで踏み込みます。</span>
+        <span style="font-size:12.5px;color:#4c3a58;"><b style="color:var(--rose);">Erosパートを含める</b>(18歳以上向け)<br>語り手の人格が切り替わり、本能・官能の領域まで踏み込みます。</span>
       </label>
     </div>
     <button class="btn" id="fullBtn">完全版鑑定書をつくる</button>
@@ -313,7 +313,7 @@
 
   <!-- 恋愛相性(単体・全年齢): 入力 -->
   <div id="viewLoveForm" class="hidden">
-    <div class="sec-label">恋愛の相性 — お二人のこと</div>
+    <div class="sec-label">悩んでいる相手との相性 — お二人のこと</div>
     <div class="field"><label for="loveRelType">お相手との関係<span class="req">必須</span></label>
       <select id="loveRelType">
         <option value="">選んでください</option>
@@ -328,13 +328,13 @@
     </div>
     <div class="field"><label for="lovePTime">お相手の出生時間(任意)</label><input type="time" id="lovePTime"></div>
     <div class="field"><label for="loveDetail">今、気になっていること(任意)</label><textarea id="loveDetail" placeholder="例:最近すれ違いが多い / 結婚の話が進まない"></textarea></div>
-    <button class="btn" id="loveBtn">恋愛相性を診断する</button>
+    <button class="btn" id="loveBtn">相性を診断する</button>
     <div class="err" id="loveErr"></div>
   </div>
 
   <!-- 恋愛相性(単体): 結果 -->
   <div id="viewLoveResult" class="hidden">
-    <div class="client-head"><div class="nm" id="loveName"></div><div class="sub">恋愛相性診断</div></div>
+    <div class="client-head"><div class="nm" id="loveName"></div><div class="sub">相性診断</div></div>
     <div id="loveBlocks"></div>
     <div class="legal">
       【注意】本診断は自己理解・関係理解を深めるための分析結果です。関係性の断定や保証を行うものではありません。深刻なお悩みは専門家にご相談ください。
@@ -348,7 +348,7 @@
     <div class="field"><label for="erosDream">叶えたい状態・理想<span class="req">必須</span></label><textarea id="erosDream" placeholder="例:自分の欲望にもっと素直に、満たされた関係を築きたい"></textarea></div>
     <div class="field"><label for="erosWorry">いちばん深い悩み<span class="req">必須</span></label><textarea id="erosWorry" placeholder="例:性欲の波が激しくて、自分でもよく分からない"></textarea></div>
     <div class="field" style="margin-top:8px;">
-      <label style="display:flex;gap:10px;align-items:flex-start;background:#2b1e2e;border:1px solid #553a5c;border-radius:6px;padding:13px;">
+      <label style="display:flex;gap:10px;align-items:flex-start;background:#1c1428;border:1px solid #553a5c;border-radius:6px;padding:13px;">
         <input type="checkbox" id="erosAgeCheck" style="width:18px;height:18px;margin-top:3px;">
         <span style="font-size:12.5px;color:#dcc6d4;">私は<b style="color:#e3a7c0;">18歳以上</b>であることを確認しました。</span>
       </label>
@@ -1069,7 +1069,7 @@ function detectDates(text){
       const key=`${y}-${mo}-${d}`;
       const known=key===selfKey||key===partnerKey||CHAT_NEW_PEOPLE.has(key);
       if(!known&&CHAT_NEW_PEOPLE.size>=MAX_NEW_PEOPLE_IN_CHAT){
-        out.push(`【${y}/${mo}/${d}生まれの方について】このチャットで無料計算できる新しい人物の枠(${MAX_NEW_PEOPLE_IN_CHAT}名)はすでに使い切っています。この方の命式は計算せず、恋愛相性診断(¥500)または完全版鑑定書の購入を丁寧に案内してください。`);
+        out.push(`【${y}/${mo}/${d}生まれの方について】このチャットで無料計算できる新しい人物の枠(${MAX_NEW_PEOPLE_IN_CHAT}名)はすでに使い切っています。この方の命式は計算せず、相性診断(¥500)または完全版鑑定書の購入を丁寧に案内してください。`);
         continue;
       }
       try{
