@@ -57,7 +57,7 @@
   .catch{font-size:18px;font-weight:700;line-height:1.6;margin-bottom:12px;}
   .catch::before{content:"“";color:var(--gold);margin-right:2px;}
   .catch::after{content:"”";color:var(--gold);margin-left:2px;}
-  .bodytext{font-size:13.5px;color:#4c3345;}
+  .bodytext{font-size:13.5px;color:#3d2938;font-weight:500;}
   .bodytext p{margin-bottom:.9em;}
   .bodytext p:last-child{margin-bottom:0;}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 2px;}
@@ -156,9 +156,11 @@
   #chatSend{flex-shrink:0;width:74px;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--rose),var(--rose-deep));}
   #chatSend:disabled{opacity:.5;}
   #chatTimer{font-size:11px;color:var(--rose-deep);}
+  #chatFloat{position:fixed;top:14px;right:14px;z-index:999;background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;font-size:12px;font-weight:700;letter-spacing:.03em;padding:8px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.18);cursor:pointer;}
 </style>
 </head>
 <body>
+<div id="chatFloat" class="hidden">💬 --:--</div>
 <div class="wrap">
 
   <div class="brand">
@@ -182,8 +184,8 @@
       <div class="field"><label for="bday">生年月日<span class="req">必須</span></label><input type="date" id="bday"></div>
     </div>
     <div class="field"><label for="btime">出生時間(任意・不明なら空欄)</label><input type="time" id="btime"></div>
-    <div class="field"><label for="quickDream">叶えたい未来(恋愛・性について・ひとことでOK)<span class="req">必須</span></label><input type="text" id="quickDream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい"></div>
-    <div class="field"><label for="quickWorry">いま一番モヤモヤしていること(ひとことでOK・任意)</label><input type="text" id="quickWorry" placeholder="例:好きになる人がいつも同じタイプで疲れる / 本当の気持ちが分からなくなる"></div>
+    <div class="field"><label for="quickDream">叶えたい未来(恋愛・性についてでもOK)<span class="req">必須</span></label><input type="text" id="quickDream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい"></div>
+    <div class="field"><label for="quickWorry">いま一番モヤモヤしていること(ひとことでOK・任意)</label><input type="text" id="quickWorry" placeholder="例:職場の人間関係に疲れる / 好きになる人がいつも同じタイプで悩む / このままでいいのか不安"></div>
     <button class="btn" id="freeBtn">無料で占う</button>
     <div class="err" id="freeErr"></div>
   </div>
@@ -199,10 +201,11 @@
       <div class="pw-title">完全版 鑑定書</div>
       <div class="pw-hook">無料診断で見えたのは、ほんの入り口。あなたの魅力・NG行動・相性・Erosまで、命式のすべてをここで解き明かします</div>
       <ul>
-        <li>恋愛・性の傾向を、現在地の解剖からじっくり診断</li>
-        <li>恋愛的な魅力の三層構造 / 非言語的な吸引力</li>
-        <li>NG恋愛行動とリカバリー法</li>
+        <li>恋愛・仕事・人間関係、あなたが一番悩んでいる場面を軸に、現在地の解剖からじっくり診断</li>
+        <li>あなたの魅力の三層構造 / 非言語的な魅力・信頼</li>
+        <li>NG行動とリカバリー法</li>
         <li>悩みの命式的原因と解決策</li>
+        <li>今後伸ばすといい方向性</li>
         <li>相性占い — ぶつかるポイントとリカバリー法まで</li>
         <li>Erosパート(18歳以上・任意)</li>
         <li>短期・中期・長期アクションプラン</li>
@@ -254,9 +257,9 @@
       詳しく書くほど、鑑定書は「あなただけの一冊」になります。書ける範囲でかまいません。
     </div></div>
     <div class="field"><label for="upbringing">生い立ち(育った環境・家族・人生の大きな出来事など)</label><textarea id="upbringing" placeholder="例:厳しい家庭で育ち、ずっと良い子を演じてきた。20代で上京して…"></textarea></div>
-    <div class="field"><label for="current">現状くわしく(恋愛・人間関係・性のことなど、いまの状況)</label><textarea id="current" placeholder="例:付き合っても長続きしない。本音を出すのが怖くて、いつも一歩引いてしまう…"></textarea></div>
-    <div class="field"><label for="dream">将来的に叶えたい関係・生活(最初の入力を反映済み。詳しく書き足せます)</label><textarea id="dream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい"></textarea></div>
-    <div class="field"><label for="worry">いちばん深い悩み<span class="req">必須</span></label><textarea id="worry" placeholder="例:好きになるほど不安になって、うまくいかなくなる"></textarea></div>
+    <div class="field"><label for="current">現状くわしく(恋愛・仕事・人間関係・性のことなど、いまの状況)</label><textarea id="current" placeholder="例:付き合っても長続きしない / 職場で本音を出すのが怖くて、いつも一歩引いてしまう…"></textarea></div>
+    <div class="field"><label for="dream">将来的に叶えたい関係・生き方(最初の入力を反映済み。詳しく書き足せます)</label><textarea id="dream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい / 無理せず自分らしく働きたい"></textarea></div>
+    <div class="field"><label for="worry">いちばん深い悩み<span class="req">必須</span></label><textarea id="worry" placeholder="例:好きになるほど不安になって、うまくいかなくなる / 職場での評価がずっと気になる"></textarea></div>
 
     <div class="sec-label">相性占い(任意)</div>
     <div class="field"><label for="relType">占いたい相手との関係</label>
@@ -581,20 +584,20 @@ $("freeBtn").addEventListener("click",async()=>{
   $("fNote").textContent=notes.join(" ");
   $("freeBlocks").innerHTML="";
   show("viewFreeResult");
-  const body=cardShell($("freeBlocks"),`${C.name}${C.honorific}の恋愛・性の傾向`);
+  const body=cardShell($("freeBlocks"),`${C.name}${C.honorific}の傾向`);
   try{
     const j=await askJSON(ctxOf(C,MS),
-`無料の簡易診断。恋愛の傾向と性の傾向を中心に読み解く。「${C.dream}」という叶えたい未来に対して、
+`無料の簡易診断。まず「${C.dream}」という叶えたい未来${C.quickWorry?`と「${C.quickWorry}」というモヤモヤ`:""}から、この人が恋愛・仕事・人間関係のどの場面を最も気にしているかを読み取り、その場面を軸に据える(性的な傾向に限らない)。
 年柱・月柱・日柱それぞれの性質がどう絡み合って作用しているかを解き明かし、単独の星の説明で終わらせず、
 3つの組み合わせとして統合的に語ること。JSON形式のみで出力:
-{"catch":"この人の恋愛・性の本質を一撃で言い当てる25字以内のキャッチコピー(星の作用に基づく)",
+{"catch":"この人の本質を一撃で言い当てる25字以内のキャッチコピー(星の作用に基づく)",
 "mech":[{"star":"${MS.pillars.year.stage}","pos":"年柱・十二運","effect":"この星の作用名(12字以内)","result":"「${C.dream}」に向けて、この星がどう作用しているか。45字以内"},
         {"star":"${MS.pillars.month.stage}","pos":"月柱・十二運","effect":"作用名(12字以内)","result":"「${C.dream}」に向けて、この星がどう作用しているか。45字以内"},
         {"star":"${MS.pillars.day.stage}","pos":"日柱・十二運","effect":"作用名(12字以内)","result":"「${C.dream}」に向けて、この星がどう作用しているか。45字以内"}],
 "synthesis":"3つの星の組み合わせが、叶えたい未来への道筋としてどう絡み合っているかの統合的な解説。単なる列挙ではなく、因果の連鎖として語る。130字以内",
-"zuboshi":["3つの星の陰転を素材に、恋愛面で思わず『私のことだ』と声が出る図星を2つ。各42字以内",""],
-"tenkan":"その弱さこそが恋愛の魅力である、という思考の転換のパンチライン。38字以内",
-"hint":"恋愛・性の傾向をもっと深く知る方向性のヒント(完全版への興味が残る程度に)。65字以内",
+"zuboshi":["3つの星の陰転を素材に、思わず『私のことだ』と声が出る図星を2つ。各42字以内",""],
+"tenkan":"その弱さこそが魅力である、という思考の転換のパンチライン。38字以内",
+"hint":"もっと深く知る方向性のヒント(完全版への興味が残る程度に)。65字以内",
 "tags":["キーワード3つ(各6字以内)","",""]}`);
     body.innerHTML=`
       <div class="catch">${esc(j.catch)}</div>
@@ -689,7 +692,7 @@ $("fullBtn").addEventListener("click",async()=>{
   }
   $("fullBlocks").innerHTML="";
   show("viewFullResult");
-  const FB=$("fullBlocks"),ctx=ctxOf(C,MS),p=MS.pillars;
+  const FB=$("fullBlocks"),p=MS.pillars;let ctx=ctxOf(C,MS);
   $("chatCard").classList.remove("hidden");
   $("chatMsgs").innerHTML='<div class="cb cb-a">鑑定書がすべて出そろうと、ここから対話がはじまります。上のカードを読みながら少々お待ちを…</div>';
   $("chatInput").disabled=true;$("chatSend").disabled=true;$("chatTimer").textContent="準備中";
@@ -697,6 +700,17 @@ $("fullBtn").addEventListener("click",async()=>{
   const chartCard=document.createElement("div");
   chartCard.className="meishiki";chartCard.innerHTML=chartHTML(MS);
   FB.appendChild(chartCard);
+
+  /* ===== 悩みの場面を自動判定し、以降の全項目に焦点として渡す ===== */
+  try{
+    const dj=await askJSON(ctx,`この人の「いちばん深い悩み」と「叶えたい未来」を読み、いま最も困っている場面を判定してください。JSON形式のみで出力:
+{"domain":"恋愛" または "仕事" または "人間関係" または "人生全般" のいずれか1つだけを選んで記入,
+"summary":"どの場面で何に悩んでいるかの要約。この後の鑑定文の土台にする。70字以内"}`);
+    if(dj&&dj.domain){
+      ctx+=`
+【最重要・以降の全項目に共通】この人の悩みは主に「${dj.domain}」の場面で起きている(${dj.summary||""})。以降のすべての項目は、この場面を軸に深掘りして書くこと。恋愛・仕事・家族など複数の場面にまたがる悩みの場合は、場面ごとに浅く並べるのではなく、根っこにある共通パターンとして1本にまとめて書くこと。`;
+    }
+  }catch(e){}
 
   /* ================= セクション定義(⓪〜⑮ 完全版) ================= */
   const SECS=[];
@@ -711,32 +725,32 @@ $("fullBtn").addEventListener("click",async()=>{
 "tenkan":"現在地の読み替えパンチライン。38字以内"}`,
   (j,b)=>{b.innerHTML=`<div class="bodytext" style="font-size:14px;font-weight:600;margin-bottom:12px;">${paras(j.declare)}</div>${mech(j.mech)}<div class="bodytext" style="margin-top:12px;">${paras(j.body)}</div>${tenkan(j.tenkan)}`;});
 
-  /* あなたの魅力の三層構造(恋愛版) */
-  add("あなたの恋愛的な魅力の三層構造",
-`年柱の三層構造を、恋愛面での魅力として読み解く宣言。JSON形式のみで出力:
-{"catch":"恋愛面での魅力の核を突く25字以内のキャッチコピー",
+  /* あなたの魅力の三層構造 */
+  add("あなたの魅力の三層構造",
+`年柱の三層構造を、この人の魅力・強みとして読み解く宣言(【最重要】で示された場面に応じて、恋愛的な魅力・仕事での評価・人としての魅力のいずれかに焦点を当てて書く)。JSON形式のみで出力:
+{"catch":"魅力の核を突く25字以内のキャッチコピー",
 "layers":[
  {"star":"YEAR_STAGE","label":"第一印象の輝き","copy":"第一階層:出会った瞬間、相手が惹きつけられる輝きの正体と作用。60字以内"},
- {"star":"YEAR_ZOKAN","label":"惹かれるポイント","copy":"第二階層:相手が具体的に『いいな』と感じる魅力ポイント。60字以内"},
- {"star":"YEAR_TUHEN","label":"深まるほど分かる魅力","copy":"第三階層:付き合いが深まるほど相手が惚れ直す本質的な魅力。60字以内"}],
-"total":"三層を統合した、この人だけの恋愛的な魅力の宣言。90字以内",
-"tenkan":"自己評価と相手からの評価のギャップに関する思考の転換。38字以内"}`,
+ {"star":"YEAR_ZOKAN","label":"求められるポイント","copy":"第二階層:相手が具体的に『いいな』『頼りたい』と感じる魅力ポイント。60字以内"},
+ {"star":"YEAR_TUHEN","label":"深まるほど分かる魅力","copy":"第三階層:関わりが深まるほど相手が信頼し直す本質的な魅力。60字以内"}],
+"total":"三層を統合した、この人だけの魅力の宣言。90字以内",
+"tenkan":"自己評価と周囲からの評価のギャップに関する思考の転換。38字以内"}`,
   (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div>${j.layers.map((l,i)=>`<div class="layer"><div class="star"><span>第${["一","二","三"][i]}階層</span><b>${esc(l.star)}</b></div><div class="txt"><b>${esc(l.label)}</b>${esc(l.copy)}</div></div>`).join("")}<div class="action-line">${esc(j.total)}</div>${tenkan(j.tenkan)}`;});
 
-  /* ② 非言語的吸引力(恋愛版) */
-  add("非言語的吸引力 — なぜ好きな人はあなたに惹かれるのか",
-`非言語的吸引力(恋愛版)。JSON形式のみで出力:
-{"catch":"この人が放つ言語化できない色気・魅力を一言で。26字以内",
-"aura":"年柱YEAR_STAGEの象意を核に、その恋愛的な魅力の正体を例え話を交えて言語化。110字以内",
-"tokko":"相手が抱える寂しさ・満たされなさに対し、月柱(MONTH_TUHEN×MONTH_STAGE)のどの側面が心理的な特効薬として効くのかの言語化。110字以内",
-"tenkan":"「好きになる理由」に関する思考の転換。36字以内"}`,
-  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.aura)}</div><div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">特効薬</b><span>あなたの処方箋</span></div><div class="m-body">${esc(j.tokko)}</div></div></div>${tenkan(j.tenkan)}`;});
+  /* ② 非言語的な魅力・信頼 */
+  add("非言語的な魅力・信頼 — なぜ周りの人はあなたに惹かれるのか",
+`非言語的な魅力・信頼(【最重要】で示された場面に応じて、恋愛的な色気・仕事での信頼感・人としての魅力のいずれかで書く)。JSON形式のみで出力:
+{"catch":"この人が放つ言語化できない魅力を一言で。26字以内",
+"aura":"年柱YEAR_STAGEの象意を核に、その魅力の正体を例え話を交えて言語化。110字以内",
+"tokko":"相手が抱える寂しさ・不安に対し、月柱(MONTH_TUHEN×MONTH_STAGE)のどの側面が心理的な特効薬として効くのかの言語化。110字以内",
+"tenkan":"「惹かれる理由」に関する思考の転換。36字以内"}`,
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.aura)}</div>${j.tokko&&j.tokko.trim()?`<div class="mech" style="margin-top:12px;"><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">特効薬</b><span>あなたの処方箋</span></div><div class="m-body">${esc(j.tokko)}</div></div></div>`:""}${tenkan(j.tenkan)}`;});
 
-  /* ④ NG恋愛行動とリカバリー(恋愛版) */
-  add("NG恋愛行動とリカバリー",
-`NG恋愛行動(恋愛版)。命式(特に年柱・月柱)起因の、恋愛でやらかしがちなNG傾向。JSON形式のみで出力:
-{"catch":"この人が恋愛で一番やってはいけないことを一言で。28字以内",
-"ng":[{"scene":"恋愛でやらかしがちな失敗例(具体的)。48字以内","why":"どの星のどんな作用がそれを引き起こすか。50字以内"},{"scene":"","why":""}],
+  /* ④ NG行動とリカバリー */
+  add("NG行動とリカバリー",
+`NG行動。命式(特に年柱・月柱)起因の、【最重要】で示された場面(恋愛/仕事/人間関係)でやらかしがちなNG傾向。JSON形式のみで出力:
+{"catch":"この人が一番やってはいけないことを一言で。28字以内",
+"ng":[{"scene":"やらかしがちな失敗例(具体的)。48字以内","why":"どの星のどんな作用がそれを引き起こすか。50字以内"},{"scene":"","why":""}],
 "recovery":"やらかした時の具体的リカバリー策(相手との関係修復)。80字以内",
 "story":"その失敗すら魅力に変わる流れの作り方(ストーリー構築)。75字以内"}`,
   (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="mech">${j.ng.map(n=>`<div class="mech-row"><div class="m-star"><b>NG</b><span>やらかし例</span></div><div class="m-body"><b>${esc(n.scene)}</b>${esc(n.why)}</div></div>`).join("")}<div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">回復</b><span>リカバリー</span></div><div class="m-body">${esc(j.recovery)}</div></div></div><div class="action-line">失敗を魅力に: ${esc(j.story)}</div>`;});
@@ -751,6 +765,16 @@ $("fullBtn").addEventListener("click",async()=>{
 "rolemodel":"似た困難を乗り越えた実在のロールモデルと乗り越え方。55字以内",
 "tenkan":"この悩みの読み替えパンチライン。40字以内"}`,
   (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="mech"><div class="mech-row"><div class="m-star"><b>陰転</b><span>いまの状態</span></div><div class="m-body">${esc(j.inten)}</div></div><div class="mech-row"><div class="m-star" style="background:#fdf8ec;"><b style="color:var(--gold-deep);">陽転</b><span>本来の姿</span></div><div class="m-body">${esc(j.youten)}</div></div></div><div class="bodytext">${paras(j.body)}</div><div class="rolemodel">${esc(j.rolemodel)}</div>${tenkan(j.tenkan)}`;});
+
+  /* 今後伸ばすといい方向性 */
+  add("今後伸ばすといい方向性",
+`命式全体(特に月柱・日柱)から見て、これから伸ばしていくと良い方向性。【最重要】で示された場面に即して書く。JSON形式のみで出力:
+{"catch":"伸びしろを一言で。28字以内",
+"direction":"今後伸ばすと良い、具体的な方向性の解説(悩みの場面に即して)。100字以内",
+"relHint":"場面が恋愛・人間関係に関係する場合のみ、今後の関わり方で意識するとよい『受け取り方』『立ち回り方』を1つ具体的に。関係が薄い場合は空文字でよい。60字以内",
+"hint":"場面が仕事・独立に関係する場合のみ、この星の並びに合いそうな方向性を1つだけ軽く提案(深いブランディング設計はしない)。関係が薄い場合は空文字でよい。60字以内",
+"tenkan":"伸びしろに関する思考の転換。36字以内"}`,
+  (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.direction)}</div>${j.relHint&&j.relHint.trim()?`<div class="action-line">${esc(j.relHint)}</div>`:""}${j.hint&&j.hint.trim()?`<div class="action-line">${esc(j.hint)}</div>`:""}${tenkan(j.tenkan)}`;});
 
   /* 相性(任意) */
   if(PMS){
@@ -1102,13 +1126,18 @@ async function initChat(baseCtx){
   $("chatMsgs").innerHTML="";
   $("chatInput").disabled=false;$("chatSend").disabled=false;
   addBubble("assistant",`${C.name}${C.honorific}、鑑定書はここまで。ここからの${Math.round((SESSION.exp-Date.now())/60000)}分間は、私に直接なんでも聞いてください。鑑定の深掘りでも、気になる人との相性でも(生年月日を「1992年4月2日」の形で書けば、その場で命式を出して読みます)。`);
+  const chatFloat=$("chatFloat");
+  chatFloat.classList.remove("hidden");
+  if(!chatFloat._wired){chatFloat.addEventListener("click",()=>{$("chatCard").scrollIntoView({behavior:"smooth",block:"start"});});chatFloat._wired=true;}
   CHAT_TIMER=setInterval(()=>{
     const rem=SESSION.exp-Date.now();
     $("chatTimer").textContent="残り "+fmtRemain(rem);
+    chatFloat.textContent="💬 チャット残り "+fmtRemain(rem);
     if(rem<=0){
       clearInterval(CHAT_TIMER);
       $("chatInput").disabled=true;$("chatSend").disabled=true;
       $("chatTimer").textContent="終了";
+      chatFloat.classList.add("hidden");
       addBubble("assistant","……お時間になりました。今日渡した言葉のうち、ひとつでいい、明日の朝いちばんに実行してみて。星は準備ができてる。あとはあなたの番よ。");
     }
   },1000);
