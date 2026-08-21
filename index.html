@@ -186,6 +186,12 @@
     animation:introReveal 5.6s cubic-bezier(.3,.6,.25,1) forwards;
   }
   @keyframes introReveal{0%{--reveal:0%;}100%{--reveal:145%;}}
+  .print-btn{display:block;width:100%;margin-bottom:16px;padding:11px;border-radius:6px;background:transparent;color:var(--rose-deep);border:1px solid var(--rose);font-family:inherit;font-size:12.5px;letter-spacing:.15em;font-weight:600;cursor:pointer;}
+  @media print{
+    #introPhoto,#chatFloat,#chatCard,.print-btn,.btn,.paywall,.compare,.plans,.chatpreview,#viewFreeForm,.err,.codebox,input,select,textarea,button{display:none!important;}
+    body{background:#fff;}
+    .card,.meishiki,.mech-row,.tenkan,.client-head{box-shadow:none!important;}
+  }
 </style>
 </head>
 <body>
@@ -236,6 +242,7 @@
   <!-- STEP2: 無料結果 -->
   <div id="viewFreeResult" class="hidden">
     <div class="client-head"><div class="nm" id="fName"></div><div class="sub" id="fBirth"></div></div>
+    <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div class="inputcard hidden" id="fInputcard"></div>
     <div class="meishiki" id="fChart"></div>
     <div class="caution hidden" id="fNote"></div>
@@ -387,6 +394,7 @@
   <!-- STEP4: 完全版結果 -->
   <div id="viewFullResult" class="hidden">
     <div class="client-head"><div class="nm" id="rName"></div><div class="sub">Eros Rich Method™ 完全版鑑定書</div></div>
+    <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div class="inputcard hidden" id="rInputcard"></div>
     <div id="fullBlocks"></div>
     <div class="legal">
@@ -433,6 +441,7 @@
   <!-- 恋愛相性(単体): 結果 -->
   <div id="viewLoveResult" class="hidden">
     <div class="client-head"><div class="nm" id="loveName"></div><div class="sub">相性診断</div></div>
+    <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div id="loveBlocks"></div>
     <div class="legal">
       【注意】本診断は自己理解・関係理解を深めるための分析結果です。関係性の断定や保証を行うものではありません。深刻なお悩みは専門家にご相談ください。
@@ -458,6 +467,7 @@
   <!-- Erosパート(単体): 結果 -->
   <div id="viewErosResult" class="hidden">
     <div class="client-head"><div class="nm" id="erosName"></div><div class="sub">Eros Rich Method™ — Erosパート</div></div>
+    <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div id="erosBlocks"></div>
     <div class="legal">
       【法的・倫理的注意喚起】本診断は自己理解を深めるための分析結果であり、効果や成果を保証するものではありません。心身の不調や深い悩みは、必ず専門の医療機関やカウンセラーにご相談ください。
