@@ -188,9 +188,10 @@
   @keyframes introReveal{0%{--reveal:0%;}100%{--reveal:145%;}}
   .print-btn{display:block;width:100%;margin-bottom:16px;padding:11px;border-radius:6px;background:transparent;color:var(--rose-deep);border:1px solid var(--rose);font-family:inherit;font-size:12.5px;letter-spacing:.15em;font-weight:600;cursor:pointer;}
   @media print{
-    #introPhoto,#chatFloat,#chatCard,.print-btn,.btn,.paywall,.compare,.plans,.chatpreview,#viewFreeForm,.err,.codebox,input,select,textarea,button{display:none!important;}
+    #introPhoto,#chatFloat,.print-btn,.btn,.paywall,.compare,.plans,.chatpreview,#viewFreeForm,.err,.codebox,input,select,textarea,button,#chatTimer,.hint{display:none!important;}
     body{background:#fff;}
     .card,.meishiki,.mech-row,.tenkan,.client-head{box-shadow:none!important;}
+    #chatMsgs{max-height:none!important;overflow:visible!important;}
   }
 </style>
 </head>
@@ -243,6 +244,7 @@
   <div id="viewFreeResult" class="hidden">
     <div class="client-head"><div class="nm" id="fName"></div><div class="sub" id="fBirth"></div></div>
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
+    <div class="caution">診断がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が途切れると、最初からやり直しが必要になります。</div>
     <div class="inputcard hidden" id="fInputcard"></div>
     <div class="meishiki" id="fChart"></div>
     <div class="caution hidden" id="fNote"></div>
@@ -398,6 +400,7 @@
   <div id="viewFullResult" class="hidden">
     <div class="client-head"><div class="nm" id="rName"></div><div class="sub">Eros Rich Method™ 完全版鑑定書</div></div>
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
+    <div class="caution">鑑定がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が切れると、コードを1回消費したまま鑑定が完了しない場合があります。</div>
     <div class="inputcard hidden" id="rInputcard"></div>
     <div id="fullBlocks"></div>
     <div class="legal">
@@ -445,6 +448,7 @@
   <div id="viewLoveResult" class="hidden">
     <div class="client-head"><div class="nm" id="loveName"></div><div class="sub">相性診断</div></div>
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
+    <div class="caution">鑑定がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が切れると、コードを1回消費したまま鑑定が完了しない場合があります。</div>
     <div id="loveBlocks"></div>
     <div class="legal">
       【注意】本診断は自己理解・関係理解を深めるための分析結果です。関係性の断定や保証を行うものではありません。深刻なお悩みは専門家にご相談ください。
@@ -471,11 +475,28 @@
   <div id="viewErosResult" class="hidden">
     <div class="client-head"><div class="nm" id="erosName"></div><div class="sub">Eros Rich Method™ — Erosパート</div></div>
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
+    <div class="caution">鑑定がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が切れると、コードを1回消費したまま鑑定が完了しない場合があります。</div>
     <div id="erosBlocks"></div>
     <div class="legal">
       【法的・倫理的注意喚起】本診断は自己理解を深めるための分析結果であり、効果や成果を保証するものではありません。心身の不調や深い悩みは、必ず専門の医療機関やカウンセラーにご相談ください。
     </div>
     <button class="btn ghost" id="backBtnEros">最初に戻る</button>
+  </div>
+
+  <!-- Stripe決済後: コード発行画面 -->
+  <div id="viewClaim" class="hidden">
+    <div class="client-head"><div class="nm">ご購入ありがとうございます</div><div class="sub">解禁コードを確認しています</div></div>
+    <div class="chatpreview" id="claimBox">
+      <div class="cp-title" id="claimTitle">コードを確認しています…</div>
+      <div class="cp-sub" id="claimSub">少しお待ちください</div>
+      <div class="codebox hidden" id="claimCodeBox" style="text-align:center;margin:16px 0;">
+        <div style="font-size:30px;font-weight:700;letter-spacing:.18em;color:var(--rose-deep);" id="claimCodeText"></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;">このコードは念のため控えておいてください</div>
+      </div>
+      <button class="btn hidden" id="claimUseBtn" style="margin-top:12px;">このコードで診断をひらく</button>
+      <div class="err" id="claimErr"></div>
+    </div>
+    <button class="btn ghost" id="claimBackBtn" style="margin-top:16px;">最初に戻る</button>
   </div>
 
 </div>
@@ -707,7 +728,7 @@ function chartHTML(ms){
 
 /* ================= 状態 ================= */
 let C={};let MS=null;
-const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult"].forEach(v=>$(v).classList.toggle("hidden",v!==id));window.scrollTo({top:0,behavior:"smooth"});};
+const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult","viewLoveForm","viewLoveResult","viewErosForm","viewErosResult","viewClaim"].forEach(v=>$(v).classList.toggle("hidden",v!==id));window.scrollTo({top:0,behavior:"smooth"});};
 
 /* ================= 無料診断 ================= */
 $("freeBtn").addEventListener("click",async()=>{
@@ -786,6 +807,7 @@ $("unlockBtn").addEventListener("click",async()=>{
   try{
     const d=await verifyCode("full",code);
     if(d.ok){C.code=code;CURRENT_TIER="full";$("dream").value=C.dream||"";show("viewFullForm");}
+    else if(d.reason==="used"){err.textContent="このコードは利用回数の上限に達しています。お手数ですが、購入時の画面(またはお問い合わせ)からご連絡ください。";err.classList.add("show");}
     else{err.textContent="コードが正しくありません。お支払い後にお渡ししたコードをご確認ください。";err.classList.add("show");}
   }catch(e){err.textContent="通信エラー: サーバーに接続できません。";err.classList.add("show");}
   $("unlockBtn").disabled=false;
@@ -803,6 +825,7 @@ $("unlockBtnLove").addEventListener("click",async()=>{
   try{
     const d=await verifyCode("love",code);
     if(d.ok){C.codeLove=code;show("viewLoveForm");}
+    else if(d.reason==="used"){err.textContent="このコードは利用回数の上限に達しています。お手数ですが、購入時の画面(またはお問い合わせ)からご連絡ください。";err.classList.add("show");}
     else{err.textContent="コードが正しくありません。お支払い後にお渡ししたコードをご確認ください。";err.classList.add("show");}
   }catch(e){err.textContent="通信エラー: サーバーに接続できません。";err.classList.add("show");}
   $("unlockBtnLove").disabled=false;
@@ -817,6 +840,7 @@ $("unlockBtnEros").addEventListener("click",async()=>{
   try{
     const d=await verifyCode("eros",code);
     if(d.ok){C.codeEros=code;show("viewErosForm");}
+    else if(d.reason==="used"){err.textContent="このコードは利用回数の上限に達しています。お手数ですが、購入時の画面(またはお問い合わせ)からご連絡ください。";err.classList.add("show");}
     else{err.textContent="コードが正しくありません。お支払い後にお渡ししたコードをご確認ください。";err.classList.add("show");}
   }catch(e){err.textContent="通信エラー: サーバーに接続できません。";err.classList.add("show");}
   $("unlockBtnEros").disabled=false;
@@ -850,6 +874,58 @@ $("useSavedBtn").addEventListener("click",()=>{
   $("savedProfileBox").classList.add("hidden");
 });
 loadSavedProfileBanner();
+
+/* --- Stripe決済後のコード発行画面 --- */
+async function initClaimFlow(){
+  const params=new URLSearchParams(location.search);
+  const claimTier=params.get("claim");
+  const sessionId=params.get("session_id");
+  if(!["full","love","eros"].includes(claimTier)||!sessionId)return;
+  show("viewClaim");
+  try{
+    const r=await fetch(WORKER_URL.replace(/\/$/,"")+"/claim-code",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({tier:claimTier,session_id:sessionId})
+    });
+    const d=await r.json();
+    if(!r.ok||d.error){
+      $("claimTitle").textContent="コードを発行できませんでした";
+      $("claimSub").textContent=d.error||"少し時間をおいてページを再読み込みしてください。決済が完了していない可能性があります。";
+      return;
+    }
+    $("claimTitle").textContent="解禁コードが発行されました";
+    $("claimSub").textContent="このコードで、下のボタンからそのまま診断に進めます。";
+    $("claimCodeText").textContent=d.code;
+    $("claimCodeBox").classList.remove("hidden");
+    $("claimUseBtn").classList.remove("hidden");
+    $("claimUseBtn").addEventListener("click",async()=>{
+      const err=$("claimErr");err.classList.remove("show");
+      $("claimUseBtn").disabled=true;$("claimUseBtn").textContent="確認中…";
+      try{
+        const dv=await verifyCode(claimTier,d.code);
+        if(dv.ok){
+          history.replaceState({},"",location.pathname);
+          if(claimTier==="full"){C.code=d.code;CURRENT_TIER="full";$("dream").value=C.dream||"";show("viewFullForm");}
+          else if(claimTier==="love"){C.codeLove=d.code;show("viewLoveForm");}
+          else if(claimTier==="eros"){C.codeEros=d.code;show("viewErosForm");}
+        }else{
+          err.textContent="コードの確認に失敗しました。ページを再読み込みしてもう一度お試しください。";
+          err.classList.add("show");
+          $("claimUseBtn").disabled=false;$("claimUseBtn").textContent="このコードで診断をひらく";
+        }
+      }catch(e){
+        err.textContent="通信エラーが発生しました。時間をおいて再度お試しください。";
+        err.classList.add("show");
+        $("claimUseBtn").disabled=false;$("claimUseBtn").textContent="このコードで診断をひらく";
+      }
+    },{once:true});
+  }catch(e){
+    $("claimTitle").textContent="通信エラー";
+    $("claimSub").textContent="ページを再読み込みしてください。";
+  }
+}
+$("claimBackBtn").addEventListener("click",()=>{history.replaceState({},"",location.pathname);show("viewFreeForm");});
+initClaimFlow();
 
 /* ================= 完全版 ================= */
 $("fullBtn").addEventListener("click",async()=>{
