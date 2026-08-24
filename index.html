@@ -1097,20 +1097,30 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`});
 ⑨第一の神殿:日柱干支「DAY_KANSHI」の自然界の物語からエロスの基本設定を読み解く。JSON形式のみで出力:
 {"nickname":"日柱DAY_KANSHIへの、この鑑定だけのオリジナルなニックネーム(本質を突いたユーモア)。15字以内",
 "catch":"この人の官能の本質を突く一言(オネエ口調)。30字以内",
-"story":"日柱干支の自然の物語から、究極の快感トリガーと本質的に満たされる相手像を語る。生々しい比喩必須。180字以内",
-"zuboshi":["性愛面の図星2つ(オネエ口調、品位は保つ)。各45字以内",""]}`,
+"story":"日柱干支の自然の物語から、究極の快感トリガーと本質的に満たされる相手像を語る。生々しい比喩必須。230字以内",
+"zuboshi":["性愛面の図星2つ(オネエ口調、品位は保つ)。各50字以内",""]}`,
     (j,b)=>{b.innerHTML=`<div class="persona-in">……さて。ここまでは、いわば『表』のあなたのお話。<br>ここから先は、魂の一番深いところ——本能(Eros)の領域にダイブしていくわよ。正直ここからは、いつもの私みたいに上品ぶって語れるようなもんじゃないの。だから、ちょっとだけ、変わるわよ。心の準備はいいかしら?</div><span class="nickname">あなたの日柱 DAY_KANSHI = ${esc(j.nickname)}</span><div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.story)}</div>${zubo(j.zuboshi,"心当たり、あるでしょう?")}`;},
     {eros:true});
 
     add("⑩ 第二の神殿 — 性欲の波と『内なる男と女』",
 `${EROS_VOICE}
 ⑩第二の神殿:年柱の星(社会的鎧)と日柱の星(本質)を「内なる男」と「内なる女」として擬人化し、性欲の波を両者のバランスとして解説。JSON形式のみで出力:
-{"woman":{"star":"日柱・DAY_STAGE","persona":"内なる女(本質の欲望)の擬人化キャラ紹介。60字以内"},
-"man":{"star":"年柱・YEAR_STAGE","persona":"内なる男(社会的鎧・検閲官)の擬人化キャラ紹介。60字以内"},
-"down":"性欲が減退する時、内面で何が起きているか(擬人化ドラマとして)。80字以内",
-"up":"性欲が高まりすぎる時に起きていること。80字以内",
-"fix":"バランスを取り戻す対処法の一撃(オネエ口調)。60字以内"}`,
+{"woman":{"star":"日柱・DAY_STAGE","persona":"内なる女(本質の欲望)の擬人化キャラ紹介。70字以内"},
+"man":{"star":"年柱・YEAR_STAGE","persona":"内なる男(社会的鎧・検閲官)の擬人化キャラ紹介。70字以内"},
+"down":"性欲が減退する時、内面で何が起きているか(擬人化ドラマとして)。110字以内",
+"up":"性欲が高まりすぎる時に起きていること。110字以内",
+"fix":"バランスを取り戻す対処法の一撃(オネエ口調)。70字以内"}`,
     (j,b)=>{b.innerHTML=`<div class="mech"><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#eec3d6;">内なる女</b><span style="color:#b78aa3;">${esc(j.woman.star)}</span></div><div class="m-body">${esc(j.woman.persona)}</div></div><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#a7c0e3;">内なる男</b><span style="color:#b78aa3;">${esc(j.man.star)}</span></div><div class="m-body">${esc(j.man.persona)}</div></div></div><div class="zubo-title" style="margin-top:12px;">減退する夜</div><div class="bodytext">${paras(j.down)}</div><div class="zubo-title" style="margin-top:12px;">溢れる夜</div><div class="bodytext">${paras(j.up)}</div><div class="action-line">${esc(j.fix)}</div>`;},
+    {eros:true});
+
+    add("◆ 燃え上がるシチュエーション — 妄想を刺激するシーン",
+`${EROS_VOICE}
+日柱干支「DAY_KANSHI」の自然界の物語から、この人が本能的にドキッとする具体的なシチュエーション・スイッチの入り方・相性のいい遊び方のヒントを描く。生々しい比喩必須。体位や性器の直接描写はしないこと。JSON形式のみで出力:
+{"catch":"この人の『火のつき方』を一言で突くキャッチ(オネエ口調)。28字以内",
+"scene":"妄想が膨らむ具体的なシチュエーション(場所・時間帯・空気感まで描写)。150字以内",
+"trigger":"この人のスイッチになりやすい一言・仕草・状況のパターン。100字以内",
+"playstyle":"この人と相性がいい遊び方・関わり方のヒント(具体的だが下品にならない範囲で)。100字以内"}`,
+    (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="zubo-title">妄想シチュエーション</div><div class="bodytext">${paras(j.scene)}</div><div class="zubo-title" style="margin-top:12px;">火がつくスイッチ</div><div class="bodytext">${paras(j.trigger)}</div><div class="action-line">${esc(j.playstyle)}</div>`;},
     {eros:true});
 
     if(PMS&&["恋人","夫婦・パートナー","片想いの相手"].includes(C.relType)){
@@ -1130,11 +1140,29 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`});
     add("⑫⑬ 第四の神殿 — 悩みの解剖と、性を資産に変える",
 `${EROS_VOICE}
 ⑫悩みの命式分析と⑬Eros×Rich収益化。JSON形式のみで出力:
-{"analysis":"性的・心理的な悩み(未記入なら悩み全般の官能面)が、日柱の物語と内なる男女の葛藤からどう生まれているかの解剖。120字以内",
+{"analysis":"性的・心理的な悩み(未記入なら悩み全般の官能面)が、日柱の物語と内なる男女の葛藤からどう生まれているかの解剖。150字以内",
 "rolemodel":"官能性をビジネスにした実在のロールモデル。35字以内",
-"biz":"この人の官能性を資産に変える具体的ビジネスモデル(価格帯や形式まで)。120字以内",
+"biz":"この人の官能性を資産に変える具体的ビジネスモデル(価格帯や形式まで)。140字以内",
 "closing":"締め:『色々言ったけど、あなたの心と身体が一番大事。もし本気でしんどいとか、過去に深い傷があるなら、一人で抱えないで。信頼できるカウンセラーやお医者さんにちゃんと相談しなさい。それが自分を大切にするってこと』の趣旨をオネエ口調で。120字以内"}`,
-    (j,b)=>{b.innerHTML=`<div class="bodytext">${paras(j.analysis)}</div><div class="rolemodel" style="color:#c9a;">${esc(j.rolemodel)}</div><div class="zubo-title" style="margin-top:14px;">Eros × Rich — 性で収益化するなら</div><div class="bodytext">${paras(j.biz)}</div><div class="action-line">${esc(j.closing)}</div><div class="persona-out" style="margin-top:12px;">……ふう。喋りすぎたわね。でも、これがあなたの『核』にあるエネルギーなの。忘れないで。さて、またいつもの私に戻ります。</div>`;},
+    (j,b)=>{b.innerHTML=`<div class="bodytext">${paras(j.analysis)}</div><div class="rolemodel" style="color:#c9a;">${esc(j.rolemodel)}</div><div class="zubo-title" style="margin-top:14px;">Eros × Rich — 性で収益化するなら</div><div class="bodytext">${paras(j.biz)}</div><div class="action-line">${esc(j.closing)}</div>`;},
+    {eros:true});
+
+    add("◆ コラム — 性に壁を感じるあなたへ",
+`${EROS_VOICE}(このフィールドだけは、責め立てるトーンを抑え、寄り添う優しさを混ぜてよい)
+日柱干支「DAY_KANSHI」の性質から、性に対して苦手意識やブロックを感じやすい人に向けて、なぜそう感じやすくなるのか(星の作用)と、そのままでもいいという肯定、それでも勇気を出したい人への小さな一歩を語る。JSON形式のみで出力:
+{"catch":"優しく背中を押す一言(オネエ口調だが少し柔らかく)。28字以内",
+"why":"性に苦手意識・壁を感じやすいとしたら、それがどの星のどんな作用から来ていそうかの解説。110字以内",
+"permission":"苦手なままでもいい、というスタンスの肯定メッセージ。70字以内",
+"onestep":"それでも勇気を出したい人への、今日からできるごく小さな一歩。90字以内"}`,
+    (j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="zubo-title">なぜ壁を感じやすいのか</div><div class="bodytext">${paras(j.why)}</div><div class="mech" style="margin-top:10px;"><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#eec3d6;">まず</b><span style="color:#b78aa3;">これでいい</span></div><div class="m-body">${esc(j.permission)}</div></div></div><div class="action-line">${esc(j.onestep)}</div>`;},
+    {eros:true});
+
+    add("◆ コラム — 性が世界を変えた話",
+`${EROS_VOICE}
+実際にあった史実・研究・文化的エピソードなど、事実に基づいた「性」にまつわる豆知識を1つだけ紹介する(創作は禁止。広く知られている実在の事実のみを扱う)。そのうえで、この人自身の星の性質と軽く結びつけて締めくくる。JSON形式のみで出力:
+{"fact":"性にまつわる、実在する史実・研究・文化的エピソードを1つ。130字以内",
+"tieback":"その話とこの人自身の星の性質を軽く結びつける一言(オネエ口調)。90字以内"}`,
+    (j,b)=>{b.innerHTML=`<div class="zubo-title">知っておくと世界が広がる話</div><div class="bodytext">${paras(j.fact)}</div><div class="action-line">${esc(j.tieback)}</div><div class="persona-out" style="margin-top:12px;">……ふう。喋りすぎたわね。でも、これがあなたの『核』にあるエネルギーなの。忘れないで。さて、またいつもの私に戻ります。</div>`;},
     {eros:true});
   }
 
@@ -1285,26 +1313,48 @@ $("erosBtn").addEventListener("click",async()=>{
 ⑨第一の神殿:日柱干支「DAY_KANSHI」の自然界の物語からエロスの基本設定を読み解く。JSON形式のみで出力:
 {"nickname":"日柱DAY_KANSHIへの、この鑑定だけのオリジナルなニックネーム(本質を突いたユーモア)。15字以内",
 "catch":"この人の官能の本質を突く一言(オネエ口調)。30字以内",
-"story":"日柱干支の自然の物語から、究極の快感トリガーと本質的に満たされる相手像を語る。生々しい比喩必須。180字以内",
-"zuboshi":["性愛面の図星2つ(オネエ口調、品位は保つ)。各45字以内",""]}`,
+"story":"日柱干支の自然の物語から、究極の快感トリガーと本質的に満たされる相手像を語る。生々しい比喩必須。230字以内",
+"zuboshi":["性愛面の図星2つ(オネエ口調、品位は保つ)。各50字以内",""]}`,
      render:(j,b)=>{b.innerHTML=`<div class="persona-in">……さて。ここから、魂の一番深いところ——本能(Eros)の領域にダイブしていくわよ。心の準備はいいかしら?</div><span class="nickname">あなたの日柱 DAY_KANSHI = ${esc(j.nickname)}</span><div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.story)}</div>${zubo(j.zuboshi,"心当たり、あるでしょう?")}`;}},
     {title:"⑩ 第二の神殿 — 性欲の波と『内なる男と女』",
      prompt:`${EROS_VOICE}
 ⑩第二の神殿:年柱の星(社会的鎧)と日柱の星(本質)を「内なる男」と「内なる女」として擬人化し、性欲の波を両者のバランスとして解説。JSON形式のみで出力:
-{"woman":{"star":"日柱・DAY_STAGE","persona":"内なる女(本質の欲望)の擬人化キャラ紹介。60字以内"},
-"man":{"star":"年柱・YEAR_STAGE","persona":"内なる男(社会的鎧・検閲官)の擬人化キャラ紹介。60字以内"},
-"down":"性欲が減退する時、内面で何が起きているか(擬人化ドラマとして)。80字以内",
-"up":"性欲が高まりすぎる時に起きていること。80字以内",
-"fix":"バランスを取り戻す対処法の一撃(オネエ口調)。60字以内"}`,
+{"woman":{"star":"日柱・DAY_STAGE","persona":"内なる女(本質の欲望)の擬人化キャラ紹介。70字以内"},
+"man":{"star":"年柱・YEAR_STAGE","persona":"内なる男(社会的鎧・検閲官)の擬人化キャラ紹介。70字以内"},
+"down":"性欲が減退する時、内面で何が起きているか(擬人化ドラマとして)。110字以内",
+"up":"性欲が高まりすぎる時に起きていること。110字以内",
+"fix":"バランスを取り戻す対処法の一撃(オネエ口調)。70字以内"}`,
      render:(j,b)=>{b.innerHTML=`<div class="mech"><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#eec3d6;">内なる女</b><span style="color:#b78aa3;">${esc(j.woman.star)}</span></div><div class="m-body">${esc(j.woman.persona)}</div></div><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#a7c0e3;">内なる男</b><span style="color:#b78aa3;">${esc(j.man.star)}</span></div><div class="m-body">${esc(j.man.persona)}</div></div></div><div class="zubo-title" style="margin-top:12px;">減退する夜</div><div class="bodytext">${paras(j.down)}</div><div class="zubo-title" style="margin-top:12px;">溢れる夜</div><div class="bodytext">${paras(j.up)}</div><div class="action-line">${esc(j.fix)}</div>`;}},
+    {title:"◆ 燃え上がるシチュエーション — 妄想を刺激するシーン",
+     prompt:`${EROS_VOICE}
+日柱干支「DAY_KANSHI」の自然界の物語から、この人が本能的にドキッとする具体的なシチュエーション・スイッチの入り方・相性のいい遊び方のヒントを描く。生々しい比喩必須。体位や性器の直接描写はしないこと。JSON形式のみで出力:
+{"catch":"この人の『火のつき方』を一言で突くキャッチ(オネエ口調)。28字以内",
+"scene":"妄想が膨らむ具体的なシチュエーション(場所・時間帯・空気感まで描写)。150字以内",
+"trigger":"この人のスイッチになりやすい一言・仕草・状況のパターン。100字以内",
+"playstyle":"この人と相性がいい遊び方・関わり方のヒント(具体的だが下品にならない範囲で)。100字以内"}`,
+     render:(j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="zubo-title">妄想シチュエーション</div><div class="bodytext">${paras(j.scene)}</div><div class="zubo-title" style="margin-top:12px;">火がつくスイッチ</div><div class="bodytext">${paras(j.trigger)}</div><div class="action-line">${esc(j.playstyle)}</div>`;}},
     {title:"⑪⑫ 第三の神殿 — 悩みの解剖と、性を資産に変える",
      prompt:`${EROS_VOICE}
 ⑪悩みの命式分析と⑫Eros×Rich収益化。JSON形式のみで出力:
-{"analysis":"性的・心理的な悩みが、日柱の物語と内なる男女の葛藤からどう生まれているかの解剖。120字以内",
+{"analysis":"性的・心理的な悩みが、日柱の物語と内なる男女の葛藤からどう生まれているかの解剖。150字以内",
 "rolemodel":"官能性をビジネスにした実在のロールモデル。35字以内",
-"biz":"この人の官能性を資産に変える具体的ビジネスモデル(価格帯や形式まで)。120字以内",
+"biz":"この人の官能性を資産に変える具体的ビジネスモデル(価格帯や形式まで)。140字以内",
 "closing":"締め:『色々言ったけど、あなたの心と身体が一番大事。もし本気でしんどいとか、過去に深い傷があるなら、一人で抱えないで。信頼できるカウンセラーやお医者さんにちゃんと相談しなさい。それが自分を大切にするってこと』の趣旨をオネエ口調で。120字以内"}`,
-     render:(j,b)=>{b.innerHTML=`<div class="bodytext">${paras(j.analysis)}</div><div class="rolemodel" style="color:#c9a;">${esc(j.rolemodel)}</div><div class="zubo-title" style="margin-top:14px;">Eros × Rich — 性で収益化するなら</div><div class="bodytext">${paras(j.biz)}</div><div class="action-line">${esc(j.closing)}</div><div class="persona-out" style="margin-top:12px;">……ふう。喋りすぎたわね。でも、これがあなたの『核』にあるエネルギーなの。忘れないで。さて、またいつもの私に戻ります。</div>`;}}
+     render:(j,b)=>{b.innerHTML=`<div class="bodytext">${paras(j.analysis)}</div><div class="rolemodel" style="color:#c9a;">${esc(j.rolemodel)}</div><div class="zubo-title" style="margin-top:14px;">Eros × Rich — 性で収益化するなら</div><div class="bodytext">${paras(j.biz)}</div><div class="action-line">${esc(j.closing)}</div>`;}},
+    {title:"◆ コラム — 性に壁を感じるあなたへ",
+     prompt:`${EROS_VOICE}(このフィールドだけは、責め立てるトーンを抑え、寄り添う優しさを混ぜてよい)
+日柱干支「DAY_KANSHI」の性質から、性に対して苦手意識やブロックを感じやすい人に向けて、なぜそう感じやすくなるのか(星の作用)と、そのままでもいいという肯定、それでも勇気を出したい人への小さな一歩を語る。JSON形式のみで出力:
+{"catch":"優しく背中を押す一言(オネエ口調だが少し柔らかく)。28字以内",
+"why":"性に苦手意識・壁を感じやすいとしたら、それがどの星のどんな作用から来ていそうかの解説。110字以内",
+"permission":"苦手なままでもいい、というスタンスの肯定メッセージ。70字以内",
+"onestep":"それでも勇気を出したい人への、今日からできるごく小さな一歩。90字以内"}`,
+     render:(j,b)=>{b.innerHTML=`<div class="catch">${esc(j.catch)}</div><div class="zubo-title">なぜ壁を感じやすいのか</div><div class="bodytext">${paras(j.why)}</div><div class="mech" style="margin-top:10px;"><div class="mech-row"><div class="m-star" style="background:#3a2740;border-right-color:#553a5c;"><b style="color:#eec3d6;">まず</b><span style="color:#b78aa3;">これでいい</span></div><div class="m-body">${esc(j.permission)}</div></div></div><div class="action-line">${esc(j.onestep)}</div>`;}},
+    {title:"◆ コラム — 性が世界を変えた話",
+     prompt:`${EROS_VOICE}
+実際にあった史実・研究・文化的エピソードなど、事実に基づいた「性」にまつわる豆知識を1つだけ紹介する(創作は禁止。広く知られている実在の事実のみを扱う)。そのうえで、この人自身の星の性質と軽く結びつけて締めくくる。JSON形式のみで出力:
+{"fact":"性にまつわる、実在する史実・研究・文化的エピソードを1つ。130字以内",
+"tieback":"その話とこの人自身の星の性質を軽く結びつける一言(オネエ口調)。90字以内"}`,
+     render:(j,b)=>{b.innerHTML=`<div class="zubo-title">知っておくと世界が広がる話</div><div class="bodytext">${paras(j.fact)}</div><div class="action-line">${esc(j.tieback)}</div><div class="persona-out" style="margin-top:12px;">……ふう。喋りすぎたわね。でも、これがあなたの『核』にあるエネルギーなの。忘れないで。さて、またいつもの私に戻ります。</div>`;}}
   ];
   const slots=SECS.map(s=>({s,body:cardShell(EB,s.title,true)}));
   let cursor=0;
