@@ -71,6 +71,11 @@
   .chatpreview .cp-title{font-size:14.5px;font-weight:700;color:var(--rose-deep);margin-bottom:2px;}
   .chatpreview .cp-sub{font-size:13px;color:var(--muted);margin-bottom:12px;}
   .caution{font-size:11.5px;color:#a4854a;background:#fdf8ec;border:1px solid #ecdfc0;border-radius:6px;padding:10px 12px;margin-bottom:14px;line-height:1.7;}
+  .inapp-warn{background:#fff4e6;border:1.5px solid #e0a94a;border-radius:10px;padding:14px 16px;margin-bottom:20px;}
+  .inapp-warn-t{font-size:13.5px;font-weight:700;color:#8a5a1e;margin-bottom:6px;}
+  .inapp-warn-b{font-size:12.5px;color:#6d5836;line-height:1.7;}
+  .inapp-warn-url{font-size:11px;color:#8a6f52;background:#fff;border:1px solid #ecdfc0;border-radius:6px;padding:8px 10px;margin-top:10px;word-break:break-all;user-select:all;}
+  .inapp-warn-btn{display:block;width:100%;margin-top:10px;padding:10px;border-radius:6px;background:#e0a94a;color:#fff;border:none;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;}
   .card{background:#fff;border:1px solid #dee6d4;border-radius:12px;margin-bottom:20px;overflow:hidden;}
   .card-h{padding:12px 18px;background:linear-gradient(135deg,#ecefe0,#f7f3ef);border-bottom:1px solid var(--rose-soft);font-size:13.5px;letter-spacing:.18em;color:var(--rose);font-weight:600;}
   .card-b{padding:18px;}
@@ -188,7 +193,7 @@
   @keyframes introReveal{0%{--reveal:0%;}100%{--reveal:145%;}}
   .print-btn{display:block;width:100%;margin-bottom:16px;padding:11px;border-radius:6px;background:transparent;color:var(--rose-deep);border:1px solid var(--rose);font-family:inherit;font-size:12.5px;letter-spacing:.15em;font-weight:600;cursor:pointer;}
   @media print{
-    #introPhoto,#chatFloat,.print-btn,.btn,.paywall,.compare,.plans,.chatpreview,#viewFreeForm,.err,.codebox,input,select,textarea,button,#chatTimer,.hint{display:none!important;}
+    #introPhoto,#chatFloat,.print-btn,.btn,.paywall,.compare,.plans,.chatpreview,#viewFreeForm,.err,.codebox,input,select,textarea,button,#chatTimer,.hint,.inapp-warn{display:none!important;}
     body{background:#fff;}
     .card,.meishiki,.mech-row,.tenkan,.client-head{box-shadow:none!important;}
     #chatMsgs{max-height:none!important;overflow:visible!important;}
@@ -199,6 +204,13 @@
 <div id="introPhoto"></div>
 <div id="chatFloat" class="hidden">💬 --:--</div>
 <div class="wrap">
+
+  <div class="inapp-warn hidden" id="inappWarn">
+    <div class="inapp-warn-t">⚠️ アプリ内ブラウザで開かれています</div>
+    <div class="inapp-warn-b">LINEなどのアプリ内で開いたままだと、診断結果が消えてしまうことがあります。右上の「…」などのメニューから「ブラウザで開く」を選んでください。</div>
+    <div class="inapp-warn-url" id="inappWarnUrl"></div>
+    <button class="inapp-warn-btn" id="inappWarnCopy">URLをコピーする</button>
+  </div>
 
   <div class="brand">
     <div class="tagline">あなたの今が反映される、リアルな取扱説明書です</div>
@@ -874,6 +886,27 @@ $("useSavedBtn").addEventListener("click",()=>{
   $("savedProfileBox").classList.add("hidden");
 });
 loadSavedProfileBanner();
+
+/* --- アプリ内ブラウザ(LINE等)検知 --- */
+(function checkInAppBrowser(){
+  const ua=navigator.userAgent||"";
+  const isInApp=/Line\/|FBAN|FBAV|Instagram|Twitter|MicroMessenger/i.test(ua);
+  if(!isInApp)return;
+  $("inappWarn").classList.remove("hidden");
+  $("inappWarnUrl").textContent=location.href;
+  $("inappWarnCopy").addEventListener("click",()=>{
+    const done=()=>{$("inappWarnCopy").textContent="コピーしました";setTimeout(()=>{$("inappWarnCopy").textContent="URLをコピーする";},2000);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(location.href).then(done).catch(()=>{
+        const ta=document.createElement("textarea");ta.value=location.href;document.body.appendChild(ta);
+        ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();
+      });
+    }else{
+      const ta=document.createElement("textarea");ta.value=location.href;document.body.appendChild(ta);
+      ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();
+    }
+  });
+})();
 
 /* --- Stripe決済後のコード発行画面 --- */
 async function initClaimFlow(){
