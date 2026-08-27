@@ -193,7 +193,7 @@
   @keyframes introReveal{0%{--reveal:0%;}100%{--reveal:145%;}}
   .print-btn{display:block;width:100%;margin-bottom:16px;padding:11px;border-radius:6px;background:transparent;color:var(--rose-deep);border:1px solid var(--rose);font-family:inherit;font-size:12.5px;letter-spacing:.15em;font-weight:600;cursor:pointer;}
   @media print{
-    #introPhoto,#chatFloat,.print-btn,.btn,.paywall,.compare,.plans,.chatpreview,#viewFreeForm,.err,.codebox,input,select,textarea,button,#chatTimer,.hint,.inapp-warn{display:none!important;}
+    #introPhoto,#chatFloat,.print-btn,.btn,.paywall,.compare,.plans,.chatpreview,#viewFreeForm,.err,.codebox,input,select,textarea,button,#chatTimer,.hint,.inapp-warn,#backToReportBtn{display:none!important;}
     body{background:#fff;}
     .card,.meishiki,.mech-row,.tenkan,.client-head{box-shadow:none!important;}
     #chatMsgs{max-height:none!important;overflow:visible!important;}
@@ -423,7 +423,7 @@
 
   <!-- 鑑定士とのチャット(フル鑑定書・お試し共通。どの結果画面でも表示されうる) -->
   <div class="card hidden" id="chatCard">
-    <div class="card-h" style="display:flex;justify-content:space-between;align-items:center;"><span>鑑定士と対話 — なんでも聞いてください</span><span id="chatTimer">--:--</span></div>
+    <div class="card-h" style="display:flex;justify-content:space-between;align-items:center;"><span>鑑定士と対話 — なんでも聞いてください</span><span style="display:flex;align-items:center;gap:10px;"><a href="#" id="backToReportBtn" style="font-size:11px;color:inherit;text-decoration:underline;">鑑定書に戻る</a><span id="chatTimer">--:--</span></span></div>
     <div class="card-b">
       <div id="chatMsgs" style="display:flex;flex-direction:column;gap:10px;max-height:440px;overflow-y:auto;padding-bottom:4px;"></div>
       <button class="btn hidden" id="chatStartBtn" style="width:100%;margin-top:10px;">チャットを始める(ここから60分カウント開始)</button>
@@ -740,7 +740,8 @@ function chartHTML(ms){
 
 /* ================= 状態 ================= */
 let C={};let MS=null;
-const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult","viewLoveForm","viewLoveResult","viewErosForm","viewErosResult","viewClaim"].forEach(v=>$(v).classList.toggle("hidden",v!==id));window.scrollTo({top:0,behavior:"smooth"});};
+let LAST_RESULT_VIEW="viewFreeResult";
+const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult","viewLoveForm","viewLoveResult","viewErosForm","viewErosResult","viewClaim"].forEach(v=>$(v).classList.toggle("hidden",v!==id));if(id.endsWith("Result"))LAST_RESULT_VIEW=id;window.scrollTo({top:0,behavior:"smooth"});};
 
 /* ================= 無料診断 ================= */
 $("freeBtn").addEventListener("click",async()=>{
@@ -886,6 +887,8 @@ $("useSavedBtn").addEventListener("click",()=>{
   $("savedProfileBox").classList.add("hidden");
 });
 loadSavedProfileBanner();
+
+$("backToReportBtn").addEventListener("click",e=>{e.preventDefault();show(LAST_RESULT_VIEW);});
 
 /* --- アプリ内ブラウザ(LINE等)検知 --- */
 (function checkInAppBrowser(){
