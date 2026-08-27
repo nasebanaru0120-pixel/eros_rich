@@ -418,12 +418,12 @@
     <div class="legal">
       【法的・倫理的注意喚起】本診断は、あなたの可能性を多角的に探求し、自己理解を深めるための「分析結果」を提供するものです。ビジネスの成功、特定の成果、心身の健康を保証するものではありません。心身の不調や深い精神的苦痛、トラウマに関するお悩みは、必ず専門の医療機関やカウンセラー、その他の資格を持つ専門家にご相談ください。最終的な判断と行動は、ご自身の責任において行われることをお願いいたします。
     </div>
-    <button class="btn ghost" id="backBtn2">最初に戻る</button>
   </div>
 
   <!-- 鑑定士とのチャット(フル鑑定書・お試し共通。どの結果画面でも表示されうる) -->
   <div class="card hidden" id="chatCard">
-    <div class="card-h" style="display:flex;justify-content:space-between;align-items:center;"><span>鑑定士と対話 — なんでも聞いてください</span><span style="display:flex;align-items:center;gap:10px;"><a href="#" id="backToReportBtn" style="font-size:11px;color:inherit;text-decoration:underline;">鑑定書に戻る</a><span id="chatTimer">--:--</span></span></div>
+    <button class="btn ghost" id="backToReportBtn" style="margin:0;border-radius:0;">鑑定書に戻る</button>
+    <div class="card-h" style="display:flex;justify-content:space-between;align-items:center;"><span>鑑定士と対話 — なんでも聞いてください</span><span id="chatTimer">--:--</span></div>
     <div class="card-b">
       <div id="chatMsgs" style="display:flex;flex-direction:column;gap:10px;max-height:440px;overflow-y:auto;padding-bottom:4px;"></div>
       <button class="btn hidden" id="chatStartBtn" style="width:100%;margin-top:10px;">チャットを始める(ここから60分カウント開始)</button>
@@ -827,7 +827,6 @@ $("unlockBtn").addEventListener("click",async()=>{
 });
 $("relType").addEventListener("change",()=>{$("partnerFields").classList.toggle("hidden",!$("relType").value);});
 $("backBtn1").addEventListener("click",()=>show("viewFreeForm"));
-$("backBtn2").addEventListener("click",()=>show("viewFreeForm"));
 
 /* --- 恋愛相性(単体・全年齢)のペイウォール --- */
 $("unlockBtnLove").addEventListener("click",async()=>{
@@ -888,7 +887,7 @@ $("useSavedBtn").addEventListener("click",()=>{
 });
 loadSavedProfileBanner();
 
-$("backToReportBtn").addEventListener("click",e=>{e.preventDefault();show(LAST_RESULT_VIEW);});
+$("backToReportBtn").addEventListener("click",()=>show(LAST_RESULT_VIEW));
 
 /* --- アプリ内ブラウザ(LINE等)検知 --- */
 (function checkInAppBrowser(){
