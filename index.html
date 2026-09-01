@@ -336,6 +336,16 @@
 
   <!-- STEP3: 完全版入力 -->
   <div id="viewFullForm" class="hidden">
+    <div class="sec-label">ご自身について</div>
+    <div class="field"><label for="fullSelfName">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="fullSelfName" placeholder="例:あい"></div>
+    <div class="row2">
+      <div class="field"><label for="fullSelfHonorific">呼び方</label><select id="fullSelfHonorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
+      <div class="field"><label for="fullSelfGender">性別</label><select id="fullSelfGender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="fullSelfBday">生年月日<span class="req">必須</span></label><input type="date" id="fullSelfBday"></div>
+      <div class="field"><label for="fullSelfBtime">出生時間(任意)</label><input type="time" id="fullSelfBtime"></div>
+    </div>
     <div class="sec-label">完全版 — あなたのこと</div>
     <div class="card"><div class="card-b" style="font-size:12.5px;color:#26331e;">
       詳しく書くほど、鑑定書は「あなただけの一冊」になります。書ける範囲でかまいません。
@@ -731,11 +741,18 @@ function chartHTML(ms){
 let C={};let MS=null;
 let LAST_RESULT_VIEW="viewFreeResult";
 function prefillSelf(prefix){
-  if(!C.name)return;
-  $(prefix+"Name").value=C.name||"";
-  $(prefix+"Honorific").value=C.honorific||"";
-  if(C.gender)$(prefix+"Gender").value=C.gender;
-  $(prefix+"Bday").value=C.bday||"";
+  let src=C;
+  if(!src.name){
+    try{
+      const raw=localStorage.getItem("erosProfile");
+      if(raw)src=JSON.parse(raw);
+    }catch(e){}
+  }
+  if(!src||!src.name)return;
+  $(prefix+"Name").value=src.name||"";
+  $(prefix+"Honorific").value=src.honorific||"";
+  if(src.gender)$(prefix+"Gender").value=src.gender;
+  $(prefix+"Bday").value=src.bday||"";
 }
 const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult","viewLoveForm","viewLoveResult","viewErosForm","viewErosResult","viewClaim"].forEach(v=>$(v).classList.toggle("hidden",v!==id));if(id.endsWith("Result"))LAST_RESULT_VIEW=id;window.scrollTo({top:0,behavior:"smooth"});};
 
@@ -815,7 +832,7 @@ $("unlockBtn").addEventListener("click",async()=>{
   $("unlockBtn").disabled=true;
   try{
     const d=await verifyCode("full",code);
-    if(d.ok){C.code=code;CURRENT_TIER="full";$("dream").value=C.dream||"";show("viewFullForm");}
+    if(d.ok){C.code=code;CURRENT_TIER="full";prefillSelf("fullSelf");$("dream").value=C.dream||"";show("viewFullForm");}
     else if(d.reason==="used"){err.textContent="このコードは利用回数の上限に達しています。お手数ですが、購入時の画面(またはお問い合わせ)からご連絡ください。";err.classList.add("show");}
     else{err.textContent="コードが正しくありません。お支払い後にお渡ししたコードをご確認ください。";err.classList.add("show");}
   }catch(e){err.textContent="通信エラー: サーバーに接続できません。";err.classList.add("show");}
@@ -936,7 +953,7 @@ async function initClaimFlow(){
         const dv=await verifyCode(claimTier,d.code);
         if(dv.ok){
           history.replaceState({},"",location.pathname);
-          if(claimTier==="full"){C.code=d.code;CURRENT_TIER="full";$("dream").value=C.dream||"";show("viewFullForm");}
+          if(claimTier==="full"){C.code=d.code;CURRENT_TIER="full";prefillSelf("fullSelf");$("dream").value=C.dream||"";show("viewFullForm");}
           else if(claimTier==="love"){C.codeLove=d.code;prefillSelf("loveSelf");show("viewLoveForm");}
           else if(claimTier==="eros"){C.codeEros=d.code;prefillSelf("erosSelf");show("viewErosForm");}
         }else{
@@ -961,6 +978,13 @@ initClaimFlow();
 /* ================= 完全版 ================= */
 $("fullBtn").addEventListener("click",async()=>{
   const err=$("fullErr");err.classList.remove("show");
+  const selfName=$("fullSelfName").value.trim(),selfBday=$("fullSelfBday").value;
+  if(!selfName||!selfBday){err.textContent="ご自身の呼び名と生年月日は必須です。";err.classList.add("show");return;}
+  C.name=selfName;C.honorific=$("fullSelfHonorific").value;C.gender=$("fullSelfGender").value;C.bday=selfBday;
+  const[sy,sm,sd]=selfBday.split("-").map(Number);
+  const stv=$("fullSelfBtime").value;let shh,smi;
+  if(stv){const t=stv.split(":");shh=+t[0];smi=+t[1];}
+  MS=calcMeishiki(sy,sm,sd,shh,smi);
   Object.assign(C,{
     upbringing:$("upbringing").value.trim(),current:$("current").value.trim(),
     dream:$("dream").value.trim()||C.dream,worry:$("worry").value.trim(),
