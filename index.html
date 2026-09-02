@@ -13,6 +13,7 @@
     --gold:#b5924f; --gold-deep:#8a6a2e; --gold-soft:#e9dcc2; --muted:#7a8072; --night:#10190f;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;line-height:1.85;}
   .wrap{max-width:520px;margin:0 auto;padding:36px 20px 80px;}
   .brand{text-align:center;margin-bottom:30px;}
@@ -219,23 +220,11 @@
     <p>生年月日から命式を自動算出し<br>現状の悩みと向き合い<br>あなたの傾向を無料で診断します。</p>
   </div>
 
-  <div style="text-align:center;margin-bottom:20px;">
-    <a href="#" id="quickBuyToggle" style="font-size:12px;color:var(--muted);text-decoration:underline;">すでに購入を決めている方はこちら</a>
-  </div>
-  <div class="chatpreview hidden" id="quickBuyBox">
-    <div class="cp-title">今すぐ購入する</div>
-    <div class="cp-sub">無料診断をスキップして、直接お進みいただけます。</div>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
-      <a class="btn ghost" href="https://buy.stripe.com/test_dRm8wO6jP7w98iOeRc0Ba00" style="display:flex;justify-content:space-between;align-items:center;text-decoration:none;margin:0;">
-        <span>フル鑑定書</span><span>¥8,000</span>
-      </a>
-      <a class="btn ghost" href="https://buy.stripe.com/test_9B67sKcId3fTeHc5gC0Ba01" style="display:flex;justify-content:space-between;align-items:center;text-decoration:none;margin:0;">
-        <span>相性診断</span><span>¥500</span>
-      </a>
-      <a class="btn ghost" href="https://buy.stripe.com/test_fZu28q9w14jX56C10m0Ba02" style="display:flex;justify-content:space-between;align-items:center;text-decoration:none;margin:0;border-color:#8a5a94;color:#8a5a94;">
-        <span>Erosパート(18歳以上)</span><span>¥3,000</span>
-      </a>
-    </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;">
+    <a href="#freeFormFields" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:var(--rose-soft);color:var(--rose-deep);font-size:12.5px;font-weight:700;text-decoration:none;">無料</a>
+    <a href="#paywall" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:var(--gold-soft);color:var(--gold-deep);font-size:12.5px;font-weight:700;text-decoration:none;">フル鑑定書</a>
+    <a href="#paywallLove" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:#ecefe0;color:var(--rose-deep);font-size:12.5px;font-weight:700;text-decoration:none;">相性診断</a>
+    <a href="#paywallEros" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:#231824;color:#e3a7c0;font-size:12.5px;font-weight:700;text-decoration:none;">Eros</a>
   </div>
 
   <!-- STEP1: 無料入力 -->
@@ -245,7 +234,6 @@
         四柱推命の理論と資料をもとに、細部まで設計を重ねています。実際の診断は、その仕組みの上でAIが一人ひとりに合わせてお答えします。ご希望の方には、Erosパート(性愛の傾向・18歳以上)も選べます。まずは30秒。
       </div>
       <div class="specs" style="border-top:1px dashed #dee6d4;padding-top:10px;">
-        <div class="spec"><span class="ic yes">✓</span>鑑定士とのチャット機能付き</div>
         <div class="spec"><span class="ic yes">✓</span>相性診断あり</div>
         <div class="spec"><span class="ic yes">✓</span>性に特化した診断も選択可能<span class="note">(18歳以上)</span></div>
       </div>
@@ -262,12 +250,23 @@
       </div>
     </div>
 
+    <div class="chatpreview">
+      <div class="cp-title">こんな相談ができます(チャットのプレビュー)</div>
+      <div class="cp-sub">同じ人がずっと相談を続けているイメージです。話の流れを覚えていて、深掘りしてくれます。</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="cb cb-u">彼とよく喧嘩しちゃうんです。私が尽くしすぎちゃうのが原因な気がして</div>
+        <div class="cb cb-a">日柱に「頑張らないと愛されない」って無理をしてしまう作用が出てるの。日柱は本質的な愛し方そのものを表す星。帝旺は、自分から愛情を注いで場を作る星だから、受け取るより与える方が得意で、気づくと一人で頑張りすぎちゃう。それが積もると、支えてもらえてない気がして、彼が「冷たい」ように見えてくるの。さっき「彼が少し冷たく感じる」って言ってたのも、根っこは同じよ</div>
+        <div class="cb cb-u">それって親から来てるものなんですか?それとも私自身の星なんでしょうか</div>
+        <div class="cb cb-a">いい質問ね。命式そのものはあなた自身の星よ。帝旺は、頂点に立って国を治める王様みたいな星。本来の持ち味は「自国民である彼を信頼して、時々褒美をあげるくらいの余裕」なの。それが尽くしすぎに変わるのは、自分の価値を疑って「働かないと愛されない」にすり替わってるだけ。今日からできるのは、彼が何かしてくれたら「助かった」で終わらせず、次はこっちからお願いする側に回ってみること。王様は全部自分でやる人じゃなく、信頼して任せられる人よ</div>
+      </div>
+    </div>
+
     <div class="chatpreview hidden" id="savedProfileBox">
       <div class="cp-title">前回の入力を見つけました</div>
       <div class="cp-sub" id="savedProfileText"></div>
       <button class="btn" id="useSavedBtn" style="width:100%;">これを使う</button>
     </div>
-    <div class="sec-label">無料かんたん診断</div>
+    <div class="sec-label" id="freeFormFields">無料かんたん診断</div>
     <div class="row2">
       <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:あい"></div>
       <div class="field"><label for="honorific">呼び方</label><select id="honorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
@@ -308,61 +307,63 @@
       </div>
     </div>
 
-    <div class="paywall" id="paywall">
-      <div class="pw-title">完全版 鑑定書</div>
-      <div class="pw-hook">無料診断で見えたのは、ほんの入り口。あなたの魅力・NG行動・相性・Erosまで、命式のすべてをここで解き明かします</div>
-      <ul>
-        <li>恋愛・仕事・人間関係、あなたが一番悩んでいる場面を軸に、現在地の解剖からじっくり診断</li>
-        <li>あなたの魅力の三層構造 / 非言語的な魅力・信頼</li>
-        <li>NG行動とリカバリー法</li>
-        <li>悩みの命式的原因と解決策</li>
-        <li>今後伸ばすといい方向性</li>
-        <li>相性占い — ぶつかるポイントとリカバリー法まで</li>
-        <li>Erosパート(18歳以上・任意)</li>
-        <li>短期・中期・長期アクションプラン</li>
-        <li><b>鑑定士とチャットで60分・相談し放題</b>(気になる人との相性の追加質問もOK)</li>
-      </ul>
-      <div class="pw-hook" style="margin:14px 0 0;">相性診断(¥500)もErosパート(¥3,000)も、実はぜんぶ含まれています。バラバラに買うより、まとめてこの一冊のほうが断然お得です。</div>
-      <div class="price">¥8,000<small> (税込)</small></div>
-      <a class="btn ghost" href="https://buy.stripe.com/test_dRm8wO6jP7w98iOeRc0Ba00" style="display:block;text-align:center;text-decoration:none;margin-top:12px;">購入手続きへ進む</a>
-      <div style="font-size:11.5px;color:var(--muted);margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。そのまま下に入力して進めます。</div>
-      <div class="codebox"><input type="text" id="unlockCode" placeholder="解禁コード"></div>
-      <button class="btn" id="unlockBtn" style="margin-top:12px;">完全版をひらく</button>
-      <div class="err" id="unlockErr"></div>
-    </div>
-
-    <!-- 恋愛相性だけ(全年齢) -->
-    <div class="paywall" id="paywallLove">
-      <div class="pw-title">悩んでいる相手との相性診断</div>
-      <div class="price">¥500<small> (税込・年齢制限なし)</small></div>
-      <ul>
-        <li>お相手との相性 — 本質的な関係性・強み</li>
-        <li>ぶつかる場面とその占術的メカニズム</li>
-        <li>リカバリー法 / この関係を活かす一手</li>
-      </ul>
-      <a class="btn ghost" href="https://buy.stripe.com/test_9B67sKcId3fTeHc5gC0Ba01" style="display:block;text-align:center;text-decoration:none;margin-top:12px;">購入手続きへ進む</a>
-      <div style="font-size:11.5px;color:var(--muted);margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。そのまま下に入力して進めます。</div>
-      <div class="codebox"><input type="text" id="unlockCodeLove" placeholder="解禁コード"></div>
-      <button class="btn" id="unlockBtnLove" style="margin-top:12px;">相性診断をひらく</button>
-      <div class="err" id="unlockErrLove"></div>
-    </div>
-
-    <!-- Erosパートだけ(18歳以上限定) -->
-    <div class="paywall" id="paywallEros" style="border-color:#6b4a72;background:linear-gradient(160deg,#1c1428,#231824);">
-      <div class="pw-title" style="color:#eec3d6;">Eros Rich™ — Erosパート単体</div>
-      <div class="price" style="color:#e3a7c0;">¥3,000<small style="color:#b78aa3;"> (税込・18歳以上限定)</small></div>
-      <ul style="color:#dcc6d4;">
-        <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第一の神殿 — 性愛の幸せを感じる状況・相手像</li>
-        <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第二の神殿 — 性欲の波と『内なる男と女』</li>
-        <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第三の神殿 — 悩みの解剖と、性を資産に変える</li>
-      </ul>
-      <a class="btn ghost" href="https://buy.stripe.com/test_fZu28q9w14jX56C10m0Ba02" style="display:block;text-align:center;text-decoration:none;margin-top:12px;border-color:#8a5a94;color:#e3a7c0;">購入手続きへ進む</a>
-      <div style="font-size:11.5px;color:#b78aa3;margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。18歳以上の方のみご利用いただけます。</div>
-      <div class="codebox"><input type="text" id="unlockCodeEros" placeholder="解禁コード"></div>
-      <button class="btn" id="unlockBtnEros" style="margin-top:12px;">Erosパートをひらく</button>
-      <div class="err" id="unlockErrEros"></div>
-    </div>
     <button class="btn ghost" id="backBtn1">入力に戻る</button>
+  </div>
+
+  <!-- 購入セクション(常時表示・無料診断の前でも後でも同じ場所から到達できる) -->
+  <div class="paywall" id="paywall">
+    <div class="pw-title">完全版 鑑定書</div>
+    <div class="pw-hook">無料診断で見えたのは、ほんの入り口。あなたの魅力・NG行動・相性・Erosまで、命式のすべてをここで解き明かします</div>
+    <ul>
+      <li>恋愛・仕事・人間関係、あなたが一番悩んでいる場面を軸に、現在地の解剖からじっくり診断</li>
+      <li>あなたの魅力の三層構造 / 非言語的な魅力・信頼</li>
+      <li>NG行動とリカバリー法</li>
+      <li>悩みの命式的原因と解決策</li>
+      <li>今後伸ばすといい方向性</li>
+      <li>相性占い — ぶつかるポイントとリカバリー法まで</li>
+      <li>Erosパート(18歳以上・任意)</li>
+      <li>短期・中期・長期アクションプラン</li>
+      <li><b>鑑定士とチャットで60分・相談し放題</b>(気になる人との相性の追加質問もOK)</li>
+    </ul>
+    <div class="pw-hook" style="margin:14px 0 0;">相性診断(¥500)もErosパート(¥3,000)も、実はぜんぶ含まれています。バラバラに買うより、まとめてこの一冊のほうが断然お得です。</div>
+    <div class="price">¥8,000<small> (税込)</small></div>
+    <a class="btn ghost" href="https://buy.stripe.com/test_dRm8wO6jP7w98iOeRc0Ba00" style="display:block;text-align:center;text-decoration:none;margin-top:12px;">購入手続きへ進む</a>
+    <div style="font-size:11.5px;color:var(--muted);margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。そのまま下に入力して進めます。</div>
+    <div class="codebox"><input type="text" id="unlockCode" placeholder="解禁コード"></div>
+    <button class="btn" id="unlockBtn" style="margin-top:12px;">完全版をひらく</button>
+    <div class="err" id="unlockErr"></div>
+  </div>
+
+  <!-- 恋愛相性だけ(全年齢) -->
+  <div class="paywall" id="paywallLove">
+    <div class="pw-title">悩んでいる相手との相性診断</div>
+    <div class="price">¥500<small> (税込・年齢制限なし)</small></div>
+    <ul>
+      <li>お相手との相性 — 本質的な関係性・強み</li>
+      <li>ぶつかる場面とその占術的メカニズム</li>
+      <li>リカバリー法 / この関係を活かす一手</li>
+    </ul>
+    <a class="btn ghost" href="https://buy.stripe.com/test_9B67sKcId3fTeHc5gC0Ba01" style="display:block;text-align:center;text-decoration:none;margin-top:12px;">購入手続きへ進む</a>
+    <div style="font-size:11.5px;color:var(--muted);margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。そのまま下に入力して進めます。</div>
+    <div class="codebox"><input type="text" id="unlockCodeLove" placeholder="解禁コード"></div>
+    <button class="btn" id="unlockBtnLove" style="margin-top:12px;">相性診断をひらく</button>
+    <div class="err" id="unlockErrLove"></div>
+  </div>
+
+  <!-- Erosパートだけ(18歳以上限定) -->
+  <div class="paywall" id="paywallEros" style="border-color:#6b4a72;background:linear-gradient(160deg,#1c1428,#231824);">
+    <div class="pw-title" style="color:#eec3d6;">Eros Rich™ — Erosパート単体</div>
+    <div class="price" style="color:#e3a7c0;">¥3,000<small style="color:#b78aa3;"> (税込・18歳以上限定)</small></div>
+    <ul style="color:#dcc6d4;">
+      <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第一の神殿 — 性愛の幸せを感じる状況・相手像</li>
+      <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第二の神殿 — 性欲の波と『内なる男と女』</li>
+      <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第三の神殿 — 悩みの解剖と、性を資産に変える</li>
+    </ul>
+    <a class="btn ghost" href="https://buy.stripe.com/test_fZu28q9w14jX56C10m0Ba02" style="display:block;text-align:center;text-decoration:none;margin-top:12px;border-color:#8a5a94;color:#e3a7c0;">購入手続きへ進む</a>
+    <div style="font-size:11.5px;color:#b78aa3;margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。18歳以上の方のみご利用いただけます。</div>
+    <div class="codebox"><input type="text" id="unlockCodeEros" placeholder="解禁コード"></div>
+    <button class="btn" id="unlockBtnEros" style="margin-top:12px;">Erosパートをひらく</button>
+    <div class="err" id="unlockErrEros"></div>
   </div>
 
   <!-- STEP3: 完全版入力 -->
@@ -931,11 +932,6 @@ $("useSavedBtn").addEventListener("click",()=>{
 });
 loadSavedProfileBanner();
 
-$("quickBuyToggle").addEventListener("click",e=>{
-  e.preventDefault();
-  $("quickBuyBox").classList.toggle("hidden");
-});
-
 $("backToReportBtn").addEventListener("click",()=>show(LAST_RESULT_VIEW));
 
 /* --- アプリ内ブラウザ(LINE等)検知 --- */
@@ -1180,17 +1176,20 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`});
 3. 概念の再発明(キャラクター命名): 四柱推命の星・運気には、キャラクターに名付けるようなオリジナルのニックネームを授ける。中学生でも意味がわかる簡単な単語だけを使い、パッと聞いて笑えるのに「たしかに…!」とハッとする言い当て方にすること(専門用語で煙に巻かない)。まずそのキャッチーな呼び名を先に出し、そのあとで短く「なぜそう言えるか」を添える構成にする。安易な言葉遊びで終わらせず、その星の性質を的確に言い当てる名前にする。
 4. 欲望の絶対肯定: どんな欲望も「それが人間よ」と笑い飛ばして肯定する。悩みは「伸びしろ」、コンプレックスは「最高の武器」という視点を貫く。
 5. 子宮の言語: 頭でっかちな解説で終わらせず、身体感覚・心理に寄り添った生々しく官能的な言葉づかいを使う。
+6. 読みやすさ: 100字を超えるフィールドは、内容の区切りごとにJSON文字列内の改行(\n\n)を入れて2〜3段落に分ける。改行を入れずに長々と一文で書き連ねるのは禁止。
 
 「あんた」呼びは禁止、名前の呼び捨てはOK。性行為そのものの解剖学的・露骨な描写(体位・性器の直接描写など)はしない——比喩とキャラクターの熱量で「際どく・面白く・核心を突く」を成立させる。全フィールドをこの口調で書くこと。${erosPartnerNote}`;
   if(C.eros){
-    add("⑨ 第一の神殿 — 性愛の幸せを感じる状況・相手像",
+    add("⑨ 第一の神殿 — 理想の相手像・性愛の幸せを感じる状況",
 `${EROS_VOICE}
-⑨第一の神殿:日柱干支「DAY_KANSHI」の自然界の物語からエロスの基本設定を読み解く。JSON形式のみで出力:
+⑨第一の神殿:日柱干支「DAY_KANSHI」の自然界の物語から、理想の相手像を「日常の振る舞い」と「エロスで満たす瞬間」の両面から描く。JSON形式のみで出力:
 {"nickname":"日柱DAY_KANSHIへの、この鑑定だけのオリジナルなニックネーム(本質を突いたユーモア)。15字以内",
 "catch":"この人の官能の本質を突く一言(オネエ口調)。30字以内",
-"story":"日柱干支の自然の物語から、究極の快感トリガーと本質的に満たされる相手像を語る。生々しい比喩必須。230字以内",
+"daily":"理想の相手が日常でどんな振る舞いをする人か(会話の間・気遣い方・距離の詰め方など、性的でない具体的な行動)。妙に納得できる生々しい比喩必須。110字以内",
+"erotic":"エロスの場面ではどう満たしてくれるか(究極の快感トリガー)。生々しい比喩必須。130字以内",
+"tieback":"日常でもエロスでも、なぜこの人になら満たされやすいのかを一言でまとめる(オネエ口調)。50字以内",
 "zuboshi":["性愛面の図星2つ(オネエ口調、品位は保つ)。各50字以内",""]}`,
-    (j,b)=>{b.innerHTML=`<div class="persona-in">……さて。ここまでは、いわば『表』のあなたのお話。<br>ここから先は、魂の一番深いところ——本能(Eros)の領域にダイブしていくわよ。正直ここからは、いつもの私みたいに上品ぶって語れるようなもんじゃないの。だから、ちょっとだけ、変わるわよ。心の準備はいいかしら?</div><span class="nickname">あなたの日柱 DAY_KANSHI = ${esc(j.nickname)}</span><div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.story)}</div>${zubo(j.zuboshi,"心当たり、あるでしょう?")}`;},
+    (j,b)=>{b.innerHTML=`<div class="persona-in">……さて。ここまでは、いわば『表』のあなたのお話。<br>ここから先は、魂の一番深いところ——本能(Eros)の領域にダイブしていくわよ。正直ここからは、いつもの私みたいに上品ぶって語れるようなもんじゃないの。だから、ちょっとだけ、変わるわよ。心の準備はいいかしら?</div><span class="nickname">あなたの日柱 DAY_KANSHI = ${esc(j.nickname)}</span><div class="catch">${esc(j.catch)}</div><div class="zubo-title">日常での振る舞い</div><div class="bodytext">${paras(j.daily)}</div><div class="zubo-title" style="margin-top:12px;">エロスで満たす瞬間</div><div class="bodytext">${paras(j.erotic)}</div><div class="action-line">${esc(j.tieback)}</div>${zubo(j.zuboshi,"心当たり、あるでしょう?")}`;},
     {eros:true});
 
     add("⑩ 第二の神殿 — 性欲の波と『内なる男と女』",
@@ -1410,17 +1409,20 @@ $("erosBtn").addEventListener("click",async()=>{
 3. 概念の再発明(キャラクター命名): 四柱推命の星・運気には、キャラクターに名付けるようなオリジナルのニックネームを授ける。中学生でも意味がわかる簡単な単語だけを使い、パッと聞いて笑えるのに「たしかに…!」とハッとする言い当て方にすること(専門用語で煙に巻かない)。まずそのキャッチーな呼び名を先に出し、そのあとで短く「なぜそう言えるか」を添える構成にする。安易な言葉遊びで終わらせず、その星の性質を的確に言い当てる名前にする。
 4. 欲望の絶対肯定: どんな欲望も「それが人間よ」と笑い飛ばして肯定する。悩みは「伸びしろ」、コンプレックスは「最高の武器」という視点を貫く。
 5. 子宮の言語: 頭でっかちな解説で終わらせず、身体感覚・心理に寄り添った生々しく官能的な言葉づかいを使う。
+6. 読みやすさ: 100字を超えるフィールドは、内容の区切りごとにJSON文字列内の改行(\n\n)を入れて2〜3段落に分ける。改行を入れずに長々と一文で書き連ねるのは禁止。
 
 「あんた」呼びは禁止、名前の呼び捨てはOK。性行為そのものの解剖学的・露骨な描写(体位・性器の直接描写など)はしない——比喩とキャラクターの熱量で「際どく・面白く・核心を突く」を成立させる。全フィールドをこの口調で書くこと。`;
   const SECS=[
-    {title:"⑨ 第一の神殿 — 性愛の幸せを感じる状況・相手像",
+    {title:"⑨ 第一の神殿 — 理想の相手像・性愛の幸せを感じる状況",
      prompt:`${EROS_VOICE}
-⑨第一の神殿:日柱干支「DAY_KANSHI」の自然界の物語からエロスの基本設定を読み解く。JSON形式のみで出力:
+⑨第一の神殿:日柱干支「DAY_KANSHI」の自然界の物語から、理想の相手像を「日常の振る舞い」と「エロスで満たす瞬間」の両面から描く。JSON形式のみで出力:
 {"nickname":"日柱DAY_KANSHIへの、この鑑定だけのオリジナルなニックネーム(本質を突いたユーモア)。15字以内",
 "catch":"この人の官能の本質を突く一言(オネエ口調)。30字以内",
-"story":"日柱干支の自然の物語から、究極の快感トリガーと本質的に満たされる相手像を語る。生々しい比喩必須。230字以内",
+"daily":"理想の相手が日常でどんな振る舞いをする人か(会話の間・気遣い方・距離の詰め方など、性的でない具体的な行動)。妙に納得できる生々しい比喩必須。110字以内",
+"erotic":"エロスの場面ではどう満たしてくれるか(究極の快感トリガー)。生々しい比喩必須。130字以内",
+"tieback":"日常でもエロスでも、なぜこの人になら満たされやすいのかを一言でまとめる(オネエ口調)。50字以内",
 "zuboshi":["性愛面の図星2つ(オネエ口調、品位は保つ)。各50字以内",""]}`,
-     render:(j,b)=>{b.innerHTML=`<div class="persona-in">……さて。ここから、魂の一番深いところ——本能(Eros)の領域にダイブしていくわよ。心の準備はいいかしら?</div><span class="nickname">あなたの日柱 DAY_KANSHI = ${esc(j.nickname)}</span><div class="catch">${esc(j.catch)}</div><div class="bodytext">${paras(j.story)}</div>${zubo(j.zuboshi,"心当たり、あるでしょう?")}`;}},
+     render:(j,b)=>{b.innerHTML=`<div class="persona-in">……さて。ここから、魂の一番深いところ——本能(Eros)の領域にダイブしていくわよ。心の準備はいいかしら?</div><span class="nickname">あなたの日柱 DAY_KANSHI = ${esc(j.nickname)}</span><div class="catch">${esc(j.catch)}</div><div class="zubo-title">日常での振る舞い</div><div class="bodytext">${paras(j.daily)}</div><div class="zubo-title" style="margin-top:12px;">エロスで満たす瞬間</div><div class="bodytext">${paras(j.erotic)}</div><div class="action-line">${esc(j.tieback)}</div>${zubo(j.zuboshi,"心当たり、あるでしょう?")}`;}},
     {title:"⑩ 第二の神殿 — 性欲の波と『内なる男と女』",
      prompt:`${EROS_VOICE}
 ⑩第二の神殿:年柱の星(社会的鎧)と日柱の星(本質)を「内なる男」と「内なる女」として擬人化し、性欲の波を両者のバランスとして解説。JSON形式のみで出力:
