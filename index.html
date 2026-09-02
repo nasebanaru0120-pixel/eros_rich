@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#efe8d4; --ink:#241f14; --rose:#3f6146; --rose-deep:#24402c; --rose-soft:#d9e2cf;
+    --bg:#ffffff; --ink:#241f14; --rose:#3f6146; --rose-deep:#24402c; --rose-soft:#d9e2cf;
     --gold:#b5924f; --gold-deep:#8a6a2e; --gold-soft:#e9dcc2; --muted:#7a8072; --night:#10190f;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -46,7 +46,7 @@
   .btn.ghost{background:transparent;color:#a4854a;border:1px solid var(--gold);box-shadow:none;letter-spacing:.2em;font-size:13px;padding:13px;}
   .err{display:none;margin-top:12px;padding:12px 14px;border-radius:6px;border:1px solid #e0a5a5;color:#b05555;font-size:13px;background:#fff;}
   .err.show{display:block;}
-  .client-head{text-align:center;margin-bottom:16px;padding:20px 16px;background:#fff;border:1px solid var(--gold-soft);border-radius:10px;}
+  .client-head{text-align:center;margin-bottom:16px;padding:20px 16px;background:#fff;border:1px solid var(--gold-soft);border-radius:10px;text-wrap:balance;}
   .client-head .nm{font-size:21px;letter-spacing:.18em;font-weight:600;}
   .client-head .sub{font-size:12.5px;color:var(--muted);margin-top:4px;letter-spacing:.1em;}
   .meishiki{background:#fff;border:1px solid var(--gold-soft);border-radius:10px;overflow:hidden;margin-bottom:12px;}
@@ -101,7 +101,7 @@
   .mech-row .m-star span{font-size:10.5px;color:var(--muted);letter-spacing:.05em;}
   .mech-row .m-body{padding:9px 12px;font-size:14.5px;color:#23301c;flex:1;}
   .mech-row .m-body b{color:var(--gold-deep);font-size:12.5px;letter-spacing:.08em;display:block;}
-  .tenkan{margin-top:14px;padding:16px;border-radius:10px;background:linear-gradient(135deg,#2e2438,#24331d);color:#f1ecd8;text-align:center;}
+  .tenkan{margin-top:14px;padding:16px;border-radius:10px;background:linear-gradient(135deg,#2e2438,#24331d);color:#f1ecd8;text-align:center;text-wrap:balance;}
   .tenkan .t-label{font-size:10px;letter-spacing:.35em;color:#c9a468;margin-bottom:6px;}
   .tenkan .t-body{font-size:17px;font-weight:700;line-height:1.7;}
   .layer{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px dashed #dde3d0;}
@@ -158,7 +158,7 @@
   .dotpulse i:nth-child(3){animation-delay:.4s}
   @keyframes dp{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
   @media (prefers-reduced-motion:reduce){.dotpulse i{animation:none;opacity:.6}}
-  .paywall{border:1.5px solid var(--gold);border-radius:14px;background:linear-gradient(160deg,#fffdf8,#eff2e6);padding:24px 20px;text-align:center;margin:26px 0;}
+  .paywall{border:1.5px solid var(--gold);border-radius:14px;background:linear-gradient(160deg,#fffdf8,#eff2e6);padding:24px 20px;text-align:center;margin:26px 0;text-wrap:balance;}
   .paywall .pw-title{font-size:16px;font-weight:700;letter-spacing:.08em;}
   .paywall .price{font-size:30px;color:var(--rose-deep);font-weight:700;margin:8px 0 2px;}
   .paywall .pw-hook{font-size:14px;color:#8a6f52;margin:6px 0 4px;line-height:1.75;}
@@ -221,21 +221,22 @@
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;">
-    <a href="#freeFormFields" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:var(--rose-soft);color:var(--rose-deep);font-size:12.5px;font-weight:700;text-decoration:none;">無料</a>
-    <a href="#paywall" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:var(--gold-soft);color:var(--gold-deep);font-size:12.5px;font-weight:700;text-decoration:none;">フル鑑定書</a>
-    <a href="#paywallLove" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:#ecefe0;color:var(--rose-deep);font-size:12.5px;font-weight:700;text-decoration:none;">相性診断</a>
-    <a href="#paywallEros" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:#231824;color:#e3a7c0;font-size:12.5px;font-weight:700;text-decoration:none;">Eros</a>
+    <a href="#freeFormFields" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:#e3ecdc;box-shadow:0 4px 14px rgba(36,64,44,.08);color:var(--rose-deep);font-size:12.5px;font-weight:700;text-decoration:none;">無料</a>
+    <a href="#paywall" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:var(--gold-soft);box-shadow:0 4px 14px rgba(138,106,46,.1);color:var(--gold-deep);font-size:12.5px;font-weight:700;text-decoration:none;">フル鑑定書</a>
+    <a href="#paywallLove" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:#f3ddd7;box-shadow:0 4px 14px rgba(138,80,68,.1);color:#8a5044;font-size:12.5px;font-weight:700;text-decoration:none;">相性診断</a>
+    <a href="#paywallEros" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:#f2e6ef;box-shadow:0 4px 14px rgba(107,74,114,.1);color:#6b4a72;font-size:12.5px;font-weight:700;text-decoration:none;">Eros</a>
   </div>
 
   <!-- STEP1: 無料入力 -->
   <div id="viewFreeForm">
-    <div class="card">
+    <div class="card" style="background:#f6f9f2;">
       <div class="card-b" style="font-size:15px;color:#26331e;">
-        四柱推命の理論と資料をもとに、細部まで設計を重ねています。実際の診断は、その仕組みの上でAIが一人ひとりに合わせてお答えします。ご希望の方には、Erosパート(性愛の傾向・18歳以上)も選べます。まずは30秒。
+        四柱推命の理論と資料をもとに、細部まで設計を重ねたAIが、あなたの命式と今の悩みに合わせてお答えします。まずは30秒。
       </div>
       <div class="specs" style="border-top:1px dashed #dee6d4;padding-top:10px;">
-        <div class="spec"><span class="ic yes">✓</span>相性診断あり</div>
-        <div class="spec"><span class="ic yes">✓</span>性に特化した診断も選択可能<span class="note">(18歳以上)</span></div>
+        <div class="spec"><span class="ic yes">✓</span>読んでもピンとこなければ、チャットで自分の言葉で聞き直せる</div>
+        <div class="spec"><span class="ic yes">✓</span>鑑定結果はすべてPDFで保存して読み返せる</div>
+        <div class="spec"><span class="ic yes">✓</span>ご希望の方はErosパートも選べる<span class="note">(18歳以上)</span></div>
       </div>
     </div>
 
@@ -243,10 +244,10 @@
       <div class="cp-title">利用者の声</div>
       <div class="cp-sub">実際にご利用いただいた方の感想です(個人が特定されないよう要約しています)</div>
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:2px;">
-        <div style="background:#fff;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「当たりすぎて涙が止まらなかった。自分でも気づいていなかった本質が、ちゃんと言葉になっていた」</div>
-        <div style="background:#fff;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「チャット機能で自分の言葉で聞き直せるのがよかった。鑑定書の内容がちゃんと腹落ちした」</div>
-        <div style="background:#fff;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「Eros診断がドンピシャすぎて、読みながら泣いてしまった。占いというより自分の取扱説明書をもらった感じ」</div>
-        <div style="background:#fff;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「具体的すぎて、次に何をすればいいかまで見えた。感情のデトックスになった」</div>
+        <div style="background:#eef4e7;border:1px solid #cfe0c3;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「当たりすぎて涙が止まらなかった。自分でも気づいていなかった本質が、ちゃんと言葉になっていた」</div>
+        <div style="background:#faf3e2;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「チャット機能で自分の言葉で聞き直せるのがよかった。鑑定書の内容がちゃんと腹落ちした」</div>
+        <div style="background:#f8ece7;border:1px solid #e6c9c2;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「Eros診断がドンピシャすぎて、読みながら泣いてしまった。占いというより自分の取扱説明書をもらった感じ」</div>
+        <div style="background:#f3eaf1;border:1px solid #d9c3d6;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「具体的すぎて、次に何をすればいいかまで見えた。感情のデトックスになった」</div>
       </div>
     </div>
 
@@ -266,20 +267,22 @@
       <div class="cp-sub" id="savedProfileText"></div>
       <button class="btn" id="useSavedBtn" style="width:100%;">これを使う</button>
     </div>
-    <div class="sec-label" id="freeFormFields">無料かんたん診断</div>
-    <div class="row2">
-      <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:あい"></div>
-      <div class="field"><label for="honorific">呼び方</label><select id="honorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
+    <div id="freeFormFields" style="background:#f6f9f2;border:1px solid var(--rose-soft);border-radius:12px;padding:18px;">
+      <div class="sec-label" style="margin-top:0;">無料かんたん診断</div>
+      <div class="row2">
+        <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:あい"></div>
+        <div class="field"><label for="honorific">呼び方</label><select id="honorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="gender">性別</label><select id="gender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
+        <div class="field"><label for="bday">生年月日<span class="req">必須</span></label><input type="date" id="bday"></div>
+      </div>
+      <div class="field"><label for="btime">出生時間(任意・不明なら空欄)</label><input type="time" id="btime"></div>
+      <div class="field"><label for="quickDream">叶えたい未来(恋愛・性についてでもOK)<span class="req">必須</span></label><input type="text" id="quickDream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい"></div>
+      <div class="field"><label for="quickWorry">いま一番モヤモヤしていること(ひとことでOK・任意)</label><input type="text" id="quickWorry" placeholder="例:職場の人間関係に疲れる / 好きになる人がいつも同じタイプで悩む / このままでいいのか不安"></div>
+      <button class="btn" id="freeBtn">無料で占う</button>
+      <div class="err" id="freeErr"></div>
     </div>
-    <div class="row2">
-      <div class="field"><label for="gender">性別</label><select id="gender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
-      <div class="field"><label for="bday">生年月日<span class="req">必須</span></label><input type="date" id="bday"></div>
-    </div>
-    <div class="field"><label for="btime">出生時間(任意・不明なら空欄)</label><input type="time" id="btime"></div>
-    <div class="field"><label for="quickDream">叶えたい未来(恋愛・性についてでもOK)<span class="req">必須</span></label><input type="text" id="quickDream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい"></div>
-    <div class="field"><label for="quickWorry">いま一番モヤモヤしていること(ひとことでOK・任意)</label><input type="text" id="quickWorry" placeholder="例:職場の人間関係に疲れる / 好きになる人がいつも同じタイプで悩む / このままでいいのか不安"></div>
-    <button class="btn" id="freeBtn">無料で占う</button>
-    <div class="err" id="freeErr"></div>
   </div>
 
   <!-- STEP2: 無料結果 -->
@@ -311,7 +314,7 @@
   </div>
 
   <!-- 購入セクション(常時表示・無料診断の前でも後でも同じ場所から到達できる) -->
-  <div class="paywall" id="paywall">
+  <div class="paywall" id="paywall" style="background:linear-gradient(160deg,#fffbf0,#f6ecd4);">
     <div class="pw-title">完全版 鑑定書</div>
     <div class="pw-hook">無料診断で見えたのは、ほんの入り口。あなたの魅力・NG行動・相性・Erosまで、命式のすべてをここで解き明かします</div>
     <ul>
@@ -335,7 +338,7 @@
   </div>
 
   <!-- 恋愛相性だけ(全年齢) -->
-  <div class="paywall" id="paywallLove">
+  <div class="paywall" id="paywallLove" style="border-color:#e6c9c2;background:linear-gradient(160deg,#fef8f6,#f6e7e2);">
     <div class="pw-title">悩んでいる相手との相性診断</div>
     <div class="price">¥500<small> (税込・年齢制限なし)</small></div>
     <ul>
@@ -351,16 +354,16 @@
   </div>
 
   <!-- Erosパートだけ(18歳以上限定) -->
-  <div class="paywall" id="paywallEros" style="border-color:#6b4a72;background:linear-gradient(160deg,#1c1428,#231824);">
-    <div class="pw-title" style="color:#eec3d6;">Eros Rich™ — Erosパート単体</div>
-    <div class="price" style="color:#e3a7c0;">¥3,000<small style="color:#b78aa3;"> (税込・18歳以上限定)</small></div>
-    <ul style="color:#dcc6d4;">
-      <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第一の神殿 — 性愛の幸せを感じる状況・相手像</li>
-      <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第二の神殿 — 性欲の波と『内なる男と女』</li>
-      <li style="color:#dcc6d4;border-bottom-color:#4a3350;">第三の神殿 — 悩みの解剖と、性を資産に変える</li>
+  <div class="paywall" id="paywallEros" style="border-color:#d9c3d6;background:linear-gradient(160deg,#faf5f8,#f2e6ef);">
+    <div class="pw-title" style="color:#6b4a72;">Eros Rich™ — Erosパート単体</div>
+    <div class="price" style="color:#8a5a94;">¥3,000<small style="color:#9c86a0;"> (税込・18歳以上限定)</small></div>
+    <ul style="color:#5c4358;">
+      <li style="color:#5c4358;border-bottom-color:#e3d3e0;">第一の神殿 — 性愛の幸せを感じる状況・相手像</li>
+      <li style="color:#5c4358;border-bottom-color:#e3d3e0;">第二の神殿 — 性欲の波と『内なる男と女』</li>
+      <li style="color:#5c4358;border-bottom-color:#e3d3e0;">第三の神殿 — 悩みの解剖と、性を資産に変える</li>
     </ul>
-    <a class="btn ghost" href="https://buy.stripe.com/test_fZu28q9w14jX56C10m0Ba02" style="display:block;text-align:center;text-decoration:none;margin-top:12px;border-color:#8a5a94;color:#e3a7c0;">購入手続きへ進む</a>
-    <div style="font-size:11.5px;color:#b78aa3;margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。18歳以上の方のみご利用いただけます。</div>
+    <a class="btn ghost" href="https://buy.stripe.com/test_fZu28q9w14jX56C10m0Ba02" style="display:block;text-align:center;text-decoration:none;margin-top:12px;border-color:#8a5a94;color:#8a5a94;">購入手続きへ進む</a>
+    <div style="font-size:11.5px;color:#9c86a0;margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。18歳以上の方のみご利用いただけます。</div>
     <div class="codebox"><input type="text" id="unlockCodeEros" placeholder="解禁コード"></div>
     <button class="btn" id="unlockBtnEros" style="margin-top:12px;">Erosパートをひらく</button>
     <div class="err" id="unlockErrEros"></div>
