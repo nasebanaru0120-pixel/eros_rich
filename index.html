@@ -802,7 +802,7 @@ function prefillSelf(prefix){
   if(src.gender)$(prefix+"Gender").value=src.gender;
   $(prefix+"Bday").value=src.bday||"";
 }
-const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult","viewLoveForm","viewLoveResult","viewErosForm","viewErosResult","viewClaim"].forEach(v=>$(v).classList.toggle("hidden",v!==id));["paywall","paywallLove","paywallEros"].forEach(v=>$(v).classList.toggle("hidden",id==="viewClaim"));if(id.endsWith("Result"))LAST_RESULT_VIEW=id;window.scrollTo({top:0,behavior:"smooth"});};
+const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult","viewLoveForm","viewLoveResult","viewErosForm","viewErosResult","viewClaim"].forEach(v=>$(v).classList.toggle("hidden",v!==id));["paywall","paywallLove","paywallEros"].forEach(v=>$(v).classList.toggle("hidden",id!=="viewFreeForm"&&id!=="viewFreeResult"));if(id.endsWith("Result"))LAST_RESULT_VIEW=id;window.scrollTo({top:0,behavior:"smooth"});};
 
 /* ================= 無料診断 ================= */
 $("freeBtn").addEventListener("click",async()=>{
