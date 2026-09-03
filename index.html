@@ -276,10 +276,7 @@
     </div>
     <div id="freeFormFields" style="background:#f6f9f2;border:1px solid var(--rose-soft);border-radius:12px;padding:18px;">
       <div class="sec-label" style="margin-top:0;">無料かんたん診断</div>
-      <div class="row2">
-        <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:あい"></div>
-        <div class="field"><label for="honorific">呼び方</label><select id="honorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
-      </div>
+      <div class="field"><label for="callname">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="callname" placeholder="例:あい"></div>
       <div class="row2">
         <div class="field"><label for="gender">性別</label><select id="gender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
         <div class="field"><label for="bday">生年月日<span class="req">必須</span></label><input type="date" id="bday"></div>
@@ -386,10 +383,7 @@
   <div id="viewFullForm" class="hidden">
     <div class="sec-label">ご自身について</div>
     <div class="field"><label for="fullSelfName">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="fullSelfName" placeholder="例:あい"></div>
-    <div class="row2">
-      <div class="field"><label for="fullSelfHonorific">呼び方</label><select id="fullSelfHonorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
-      <div class="field"><label for="fullSelfGender">性別</label><select id="fullSelfGender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
-    </div>
+    <div class="field"><label for="fullSelfGender">性別</label><select id="fullSelfGender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
     <div class="row2">
       <div class="field"><label for="fullSelfBday">生年月日<span class="req">必須</span></label><input type="date" id="fullSelfBday"></div>
       <div class="field"><label for="fullSelfBtime">出生時間(任意)</label><input type="time" id="fullSelfBtime"></div>
@@ -466,10 +460,7 @@
   <div id="viewLoveForm" class="hidden">
     <div class="sec-label">ご自身について</div>
     <div class="field"><label for="loveSelfName">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="loveSelfName" placeholder="例:あい"></div>
-    <div class="row2">
-      <div class="field"><label for="loveSelfHonorific">呼び方</label><select id="loveSelfHonorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
-      <div class="field"><label for="loveSelfGender">性別</label><select id="loveSelfGender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
-    </div>
+    <div class="field"><label for="loveSelfGender">性別</label><select id="loveSelfGender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
     <div class="row2">
       <div class="field"><label for="loveSelfBday">生年月日<span class="req">必須</span></label><input type="date" id="loveSelfBday"></div>
       <div class="field"><label for="loveSelfBtime">出生時間(任意)</label><input type="time" id="loveSelfBtime"></div>
@@ -509,10 +500,7 @@
   <div id="viewErosForm" class="hidden">
     <div class="sec-label" style="color:#e3a7c0;">ご自身について</div>
     <div class="field"><label for="erosSelfName">呼ばれたい名前(ひらがな等)<span class="req">必須</span></label><input type="text" id="erosSelfName" placeholder="例:あい"></div>
-    <div class="row2">
-      <div class="field"><label for="erosSelfHonorific">呼び方</label><select id="erosSelfHonorific"><option value="" selected>そのまま(呼び捨て)</option><option value="さん">さん</option><option value="ちゃん">ちゃん</option><option value="くん">くん</option></select></div>
-      <div class="field"><label for="erosSelfGender">性別</label><select id="erosSelfGender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
-    </div>
+    <div class="field"><label for="erosSelfGender">性別</label><select id="erosSelfGender"><option>女性</option><option>男性</option><option>その他・回答しない</option></select></div>
     <div class="row2">
       <div class="field"><label for="erosSelfBday">生年月日<span class="req">必須</span></label><input type="date" id="erosSelfBday"></div>
       <div class="field"><label for="erosSelfBtime">出生時間(任意)</label><input type="time" id="erosSelfBtime"></div>
@@ -798,7 +786,6 @@ function prefillSelf(prefix){
   }
   if(!src||!src.name)return;
   $(prefix+"Name").value=src.name||"";
-  $(prefix+"Honorific").value=src.honorific||"";
   if(src.gender)$(prefix+"Gender").value=src.gender;
   $(prefix+"Bday").value=src.bday||"";
 }
@@ -808,7 +795,7 @@ const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult"
 $("freeBtn").addEventListener("click",async()=>{
   CURRENT_TIER="free";
   const err=$("freeErr");err.classList.remove("show");
-  C={name:$("callname").value.trim(),honorific:$("honorific").value,gender:$("gender").value,bday:$("bday").value,dream:$("quickDream").value.trim(),quickWorry:$("quickWorry").value.trim()};
+  C={name:$("callname").value.trim(),honorific:"",gender:$("gender").value,bday:$("bday").value,dream:$("quickDream").value.trim(),quickWorry:$("quickWorry").value.trim()};
   if(!C.name||!C.bday){err.textContent="呼び名と生年月日を入力してください。";err.classList.add("show");return;}
   if(!C.dream){err.textContent="叶えたい未来を入力してください。";err.classList.add("show");return;}
   logWorry();
@@ -938,7 +925,6 @@ $("useSavedBtn").addEventListener("click",()=>{
   const p=$("savedProfileBox")._data;
   if(!p)return;
   $("callname").value=p.name||"";
-  $("honorific").value=p.honorific||"";
   if(p.gender)$("gender").value=p.gender;
   $("bday").value=p.bday||"";
   $("btime").value=p.btime||"";
@@ -1028,7 +1014,7 @@ $("fullBtn").addEventListener("click",async()=>{
   const err=$("fullErr");err.classList.remove("show");
   const selfName=$("fullSelfName").value.trim(),selfBday=$("fullSelfBday").value;
   if(!selfName||!selfBday){err.textContent="ご自身の呼び名と生年月日は必須です。";err.classList.add("show");return;}
-  C.name=selfName;C.honorific=$("fullSelfHonorific").value;C.gender=$("fullSelfGender").value;C.bday=selfBday;
+  C.name=selfName;C.honorific="";C.gender=$("fullSelfGender").value;C.bday=selfBday;
   const[sy,sm,sd]=selfBday.split("-").map(Number);
   const stv=$("fullSelfBtime").value;let shh,smi;
   if(stv){const t=stv.split(":");shh=+t[0];smi=+t[1];}
@@ -1336,7 +1322,7 @@ $("loveBtn").addEventListener("click",async()=>{
   const relType=$("loveRelType").value,pName=$("lovePName").value.trim(),pBday=$("lovePBday").value;
   if(!selfName||!selfBday){err.textContent="ご自身の呼び名と生年月日は必須です。";err.classList.add("show");return;}
   if(!relType||!pName||!pBday){err.textContent="お相手との関係・呼び名・生年月日は必須です。";err.classList.add("show");return;}
-  C.name=selfName;C.honorific=$("loveSelfHonorific").value;C.gender=$("loveSelfGender").value;C.bday=selfBday;
+  C.name=selfName;C.honorific="";C.gender=$("loveSelfGender").value;C.bday=selfBday;
   const[sy,sm,sd]=selfBday.split("-").map(Number);
   const stv=$("loveSelfBtime").value;let shh,smi;
   if(stv){const t=stv.split(":");shh=+t[0];smi=+t[1];}
@@ -1400,7 +1386,7 @@ $("erosBtn").addEventListener("click",async()=>{
   if(!selfName||!selfBday){err.textContent="ご自身の呼び名と生年月日は必須です。";err.classList.add("show");return;}
   if(!dream||!worry){err.textContent="「叶えたい状態」と「いちばん深い悩み」は必須です。";err.classList.add("show");return;}
   if(!$("erosAgeCheck").checked){err.textContent="18歳以上であることの確認にチェックしてください。";err.classList.add("show");return;}
-  C.name=selfName;C.honorific=$("erosSelfHonorific").value;C.gender=$("erosSelfGender").value;C.bday=selfBday;
+  C.name=selfName;C.honorific="";C.gender=$("erosSelfGender").value;C.bday=selfBday;
   const[sy,sm,sd]=selfBday.split("-").map(Number);
   const stv=$("erosSelfBtime").value;let shh,smi;
   if(stv){const t=stv.split(":");shh=+t[0];smi=+t[1];}
