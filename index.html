@@ -24,6 +24,28 @@
   h1{font-size:27px;letter-spacing:.13em;font-weight:600;}
   h1 .tm{font-size:13px;vertical-align:super;}
   .brand p{font-size:14.5px;letter-spacing:.06em;color:var(--rose);font-weight:600;margin-top:10px;line-height:1.8;text-wrap:balance;}
+  .mini-cast{display:flex;justify-content:center;align-items:flex-end;gap:4px;margin:14px 0 22px;flex-wrap:wrap;}
+  .mini-cast img{height:60px;width:auto;object-fit:contain;filter:drop-shadow(0 6px 8px rgba(0,0,0,.16));opacity:0;transform:translateY(-140vh) rotate(-16deg);animation:castJump 1s cubic-bezier(.28,1.55,.45,1) forwards;}
+  .mini-cast img:nth-child(1){animation-delay:.1s;}
+  .mini-cast img:nth-child(2){animation-delay:.22s;}
+  .mini-cast img:nth-child(3){animation-delay:.34s;}
+  .mini-cast img:nth-child(4){animation-delay:.46s;}
+  .mini-cast img:nth-child(5){animation-delay:.58s;}
+  @keyframes castJump{
+    0%{opacity:0;transform:translateY(-140vh) rotate(-16deg) scale(.9);}
+    60%{opacity:1;}
+    78%{transform:translateY(5px) rotate(3deg) scale(1.05);}
+    88%{transform:translateY(-8px) rotate(-2deg) scale(.98);}
+    100%{opacity:1;transform:translateY(0) rotate(0) scale(1);}
+  }
+  .stage-cast{display:flex;justify-content:center;gap:16px;margin:6px 0 16px;}
+  .stage-cast .sc-item{display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .stage-cast .sc-item span{font-size:10px;color:var(--muted);letter-spacing:.1em;}
+  .stage-cast img{height:88px;width:auto;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(0,0,0,.2));opacity:0;transform:translateY(-140vh) rotate(-16deg);animation:castJump 1s cubic-bezier(.28,1.55,.45,1) forwards;}
+  .stage-cast .sc-item:nth-child(1) img{animation-delay:.1s;}
+  .stage-cast .sc-item:nth-child(2) img{animation-delay:.28s;}
+  .stage-cast .sc-item:nth-child(3) img{animation-delay:.46s;}
+  @media (prefers-reduced-motion:reduce){.mini-cast img,.stage-cast img{opacity:1!important;transform:none!important;animation:none!important;}}
   .sec-label{font-size:14px;letter-spacing:.25em;color:var(--rose);margin:26px 0 12px;display:flex;align-items:center;gap:12px;font-weight:600;}
   .sec-label::after{content:"";flex:1;height:1px;background:var(--rose-soft);}
   .field{margin-bottom:16px;}
@@ -223,6 +245,14 @@
     <p>生年月日から命式を自動算出し<br>現状の悩みと向き合い<br>あなたの傾向を無料で診断します。</p>
   </div>
 
+  <div class="mini-cast">
+    <img src="キャラクター/胎.png" alt="胎">
+    <img src="キャラクター/長生.png" alt="長生">
+    <img src="キャラクター/沐浴.png" alt="沐浴">
+    <img src="キャラクター/冠帯.png" alt="冠帯">
+    <img src="キャラクター/帝旺.png" alt="帝旺">
+  </div>
+
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;">
     <a href="#freeFormFields" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:#e3ecdc;box-shadow:0 4px 14px rgba(36,64,44,.08);color:var(--rose-deep);font-size:12.5px;font-weight:700;text-decoration:none;">無料</a>
     <a href="#paywall" style="display:block;text-align:center;padding:12px 4px;border-radius:8px;background:var(--gold-soft);box-shadow:0 4px 14px rgba(138,106,46,.1);color:var(--gold-deep);font-size:12.5px;font-weight:700;text-decoration:none;">フル鑑定書</a>
@@ -300,6 +330,7 @@
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div class="caution">診断がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が途切れると、最初からやり直しが必要になります。</div>
     <div class="inputcard hidden" id="fInputcard"></div>
+    <div class="stage-cast" id="stageCast"></div>
     <div class="meishiki" id="fChart"></div>
     <div class="caution hidden" id="fNote"></div>
     <div id="freeBlocks"></div>
@@ -613,6 +644,7 @@ const ENERGY={長生:9,沐浴:7,冠帯:10,建禄:11,帝旺:12,衰:8,病:4,死:2,
 const TUHEN_TABLE=[["比肩","劫財"],["食神","傷官"],["偏財","正財"],["偏官","正官"],["偏印","印綬"]];
 const GOGYO=["木","木","火","火","土","土","金","金","水","水"];
 const KANSHI_STORY={"甲":"大樹","乙":"草花","丙":"太陽","丁":"灯火","戊":"山","己":"畑","庚":"刀剣","辛":"宝石","壬":"大海","癸":"雨露"};
+const KANSHI60={"甲子":"厳冬に浸かる若木","甲寅":"芽吹きの季に根を張る大樹","甲辰":"雲を呼ぶ大樹","甲午":"燃え盛る夏に立つ大樹","甲申":"刃の季を生きる大樹","甲戌":"実りを抱く大樹","乙丑":"凍土に耐える草花","乙卯":"春風に伸びる草花","乙巳":"初夏の陽だまりで咲く草花","乙未":"実りの土に守られる草花","乙酉":"澄んだ秋気にそよぐ草花","乙亥":"初冬の静寂に佇む草花","丙子":"深夜に兆す太陽","丙寅":"春の芽吹きを照らす太陽","丙辰":"雲間から差す太陽","丙午":"真夏の正午に輝く太陽","丙申":"秋刀の光を纏う太陽","丙戌":"夕陽が実りを照らす","丁丑":"凍夜を灯す小さな火","丁卯":"春風に揺れる灯火","丁巳":"勢いを増す夏の灯","丁未":"熟れた夏を彩る灯","丁酉":"澄んだ秋夜に灯る火","丁亥":"初冬の闇に灯る小さな火","戊子":"雪解けを待つ山","戊寅":"新緑を宿す山","戊辰":"雲をまとう晩春の山","戊午":"真夏の陽を浴びる山","戊申":"秋の稜線を刻む山","戊戌":"実りを抱く晩秋の山","己丑":"休耕の畑","己卯":"若葉が芽吹く畑","己巳":"陽を浴びて実る畑","己未":"豊かに実った畑","己酉":"収穫を迎える畑","己亥":"次の種を宿す畑","庚子":"冷えた刃","庚寅":"若木を断つ刃","庚辰":"鞘に守られる刃","庚午":"炎に鍛えられる刃","庚申":"研ぎ澄まされゆく刃","庚戌":"鞘に収まる名刀","辛丑":"土中で育つ原石","辛卯":"新緑に映える宝石","辛巳":"炎に照らされる宝石","辛未":"熟した大地に眠る宝石","辛酉":"最も輝きを増す宝石","辛亥":"清水に洗われる宝石","壬子":"極まる大海","壬寅":"春の潮に芽吹く海","壬辰":"深く沈む大海","壬午":"灼熱に蒸発する海","壬申":"秋の水源に満ちる海","壬戌":"堤に守られる海","癸丑":"凍てつく大地に染みる雨露","癸卯":"若葉を潤す雨露","癸巳":"夏の熱に蒸発する雨露","癸未":"乾いた大地に染み込む雨露","癸酉":"澄んだ秋気を纏う雨露","癸亥":"大河となる雨露"};
 const ZOKAN={"子":[["壬",10],["癸",99]],"丑":[["癸",9],["辛",3],["己",99]],"寅":[["戊",7],["丙",7],["甲",99]],"卯":[["甲",5],["乙",99]],"辰":[["乙",9],["癸",3],["戊",99]],"巳":[["戊",5],["庚",9],["丙",99]],"午":[["丙",10],["己",9],["丁",99]],"未":[["丁",9],["乙",3],["己",99]],"申":[["戊",10],["壬",3],["庚",99]],"酉":[["庚",9],["辛",99]],"戌":[["辛",9],["丁",3],["戊",99]],"亥":[["甲",12],["壬",99]]};
 const CHOSEI={"甲":[11,1],"乙":[6,-1],"丙":[2,1],"丁":[9,-1],"戊":[2,1],"己":[9,-1],"庚":[5,1],"辛":[0,-1],"壬":[8,1],"癸":[3,-1]};
 function jdnFromDate(y,m,d){const a=Math.floor((14-m)/12),y2=y+4800-a,m2=m+12*a-3;return d+Math.floor((153*m2+2)/5)+365*y2+Math.floor(y2/4)-Math.floor(y2/100)+Math.floor(y2/400)-32045;}
@@ -703,10 +735,11 @@ ${c.current?`現状:${c.current}`:""}
 ${c.dream?`叶えたい生活:${c.dream}`:""}
 悩み:${c.worry||c.quickWorry||"未回答"}
 【命式(自動計算済み・正確)】日干:${ms.nikkan}(${KANSHI_STORY[ms.nikkan]})
-年柱:${p.year.kanshi} 通変星=${p.year.tuhen} 蔵干通変星=${p.year.zokanTuhen} 十二運=${p.year.stage}
-月柱:${p.month.kanshi} 通変星=${p.month.tuhen} 蔵干通変星=${p.month.zokanTuhen} 十二運=${p.month.stage}
-日柱:${p.day.kanshi} 蔵干通変星=${p.day.zokanTuhen} 十二運=${p.day.stage}
+年柱:${p.year.kanshi} 通変星=${p.year.tuhen} 蔵干通変星=${p.year.zokanTuhen} 十二運=${p.year.stage} 象意=${KANSHI60[p.year.kanshi]||""}
+月柱:${p.month.kanshi} 通変星=${p.month.tuhen} 蔵干通変星=${p.month.zokanTuhen} 十二運=${p.month.stage} 象意=${KANSHI60[p.month.kanshi]||""}
+日柱:${p.day.kanshi} 蔵干通変星=${p.day.zokanTuhen} 十二運=${p.day.stage} 象意=${KANSHI60[p.day.kanshi]||""}
 運勢エネルギー:${ms.totalEnergy} 天中殺:${ms.tenchuDay}(日柱)・${ms.tenchuYear}(年柱)
+【六十干支の象意の使い方】各柱の「象意」は、その干支だけが持つ固有のイメージ(季節・五行の重なりから来る情景)。これを比喩の起点にしてよいが、書き方の型([STYLE]の禁止事項)は必ず守ること
 ${KNOWLEDGE}
 ${STYLE}`;
 }
@@ -777,6 +810,10 @@ function chartHTML(ms){
     <tr><td class="lbl">エネルギー</td>${ks.map(k=>`<td>${p[k].energy}</td>`).join("")}</tr>
   </table>`;
 }
+function stageCastHTML(ms){
+  const p=ms.pillars,ks=[["day","日柱"],["month","月柱"],["year","年柱"]];
+  return ks.map(([k,label])=>`<div class="sc-item"><img src="キャラクター/${p[k].stage}.png" alt="${p[k].stage}"><span>${label}・${p[k].stage}</span></div>`).join("");
+}
 
 /* ================= 状態 ================= */
 let C={};let MS=null;
@@ -812,6 +849,7 @@ $("freeBtn").addEventListener("click",async()=>{
   $("fName").textContent=C.name+(C.honorific?" "+C.honorific:"");
   $("fBirth").textContent=C.bday+" 生";
   $("fChart").innerHTML=chartHTML(MS);
+  $("stageCast").innerHTML=stageCastHTML(MS);
   if(C.dream||C.quickWorry){
     $("fInputcard").innerHTML=`${C.dream?`<b>叶えたい未来</b> ${esc(C.dream)}<br>`:""}${C.quickWorry?`<b>モヤモヤ</b> ${esc(C.quickWorry)}`:""}`;
     $("fInputcard").classList.remove("hidden");
