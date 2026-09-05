@@ -246,11 +246,11 @@
   </div>
 
   <div class="mini-cast">
-    <img src="キャラクター/胎.png" alt="胎">
-    <img src="キャラクター/長生.png" alt="長生">
-    <img src="キャラクター/沐浴.png" alt="沐浴">
-    <img src="キャラクター/冠帯.png" alt="冠帯">
-    <img src="キャラクター/帝旺.png" alt="帝旺">
+    <img src="胎.png" alt="胎">
+    <img src="長生.png" alt="長生">
+    <img src="沐浴.png" alt="沐浴">
+    <img src="冠帯.png" alt="冠帯">
+    <img src="帝旺.png" alt="帝旺">
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;">
@@ -812,7 +812,7 @@ function chartHTML(ms){
 }
 function stageCastHTML(ms){
   const p=ms.pillars,ks=[["day","日柱"],["month","月柱"],["year","年柱"]];
-  return ks.map(([k,label])=>`<div class="sc-item"><img src="キャラクター/${p[k].stage}.png" alt="${p[k].stage}"><span>${label}・${p[k].stage}</span></div>`).join("");
+  return ks.map(([k,label])=>`<div class="sc-item"><img src="${p[k].stage}.png" alt="${p[k].stage}"><span>${label}・${p[k].stage}</span></div>`).join("");
 }
 
 /* ================= 状態 ================= */
