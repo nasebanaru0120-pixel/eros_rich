@@ -374,14 +374,6 @@
       </div>
     </div>
 
-    <div class="chatpreview" id="feedbackBox">
-      <div class="cp-title">感想を聞かせてください</div>
-      <div class="cp-sub">送っていただいた感想は、内容を確認のうえ、匿名でトップページの「利用者の声」に掲載させていただく場合があります。</div>
-      <textarea id="feedbackText" placeholder="診断を受けてみた感想を教えてください" style="width:100%;min-height:80px;border:1px solid var(--rose-soft);border-radius:8px;padding:10px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
-      <button class="btn" id="feedbackBtn" style="width:100%;margin-top:10px;">感想を送る</button>
-      <div id="feedbackMsg" style="font-size:12.5px;color:var(--muted);margin-top:8px;"></div>
-    </div>
-
     <button class="btn ghost" id="backBtn1">入力に戻る</button>
   </div>
 
@@ -517,6 +509,15 @@
       </div>
       <p class="hint">例:「彼との相性は? 1992年4月2日生まれ」「今の仕事は続けるべき?」— 生年月日を書くと、その場で命式を計算して読みます。</p>
     </div>
+  </div>
+
+  <!-- 感想フォーム(チャット終了後、chatCardのすぐ下に表示) -->
+  <div class="chatpreview hidden" id="feedbackBox">
+    <div class="cp-title">感想を聞かせてください</div>
+    <div class="cp-sub">送っていただいた感想は、内容を確認のうえ、匿名でトップページの「利用者の声」に掲載させていただく場合があります。</div>
+    <textarea id="feedbackText" placeholder="診断を受けてみた感想を教えてください" style="width:100%;min-height:80px;border:1px solid var(--rose-soft);border-radius:8px;padding:10px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
+    <button class="btn" id="feedbackBtn" style="width:100%;margin-top:10px;">感想を送る</button>
+    <div id="feedbackMsg" style="font-size:12.5px;color:var(--muted);margin-top:8px;"></div>
   </div>
 
   <!-- 恋愛相性(単体・全年齢): 入力 -->
@@ -1728,6 +1729,7 @@ async function initChat(baseCtx,opts){
   BASE_CTX=baseCtx;
   CHAT_HIST=[];
   $("chatCard").classList.remove("hidden");
+  $("feedbackBox").classList.remove("hidden");
   $("chatMsgs").innerHTML="";
   $("chatInput").disabled=false;$("chatSend").disabled=false;
   if(opts.trial){
