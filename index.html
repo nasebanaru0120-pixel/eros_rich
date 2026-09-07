@@ -100,10 +100,9 @@
   .spec .ic.no{background:#e6e2d4;color:#a89f88;}
   .spec .note{font-size:11px;color:var(--muted);font-weight:500;margin-left:2px;}
   .chatpreview{background:#fff;border:1px solid var(--gold-soft);border-radius:12px;padding:16px;margin:18px 0;}
-  .testimon-rows{display:flex;flex-direction:column;gap:10px;margin-top:2px;}
-  .testimon-scroll{display:flex;flex-direction:row;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:4px;scrollbar-width:none;}
+  .testimon-scroll{display:flex;flex-direction:row;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:4px;margin-top:2px;scrollbar-width:none;}
   .testimon-scroll::-webkit-scrollbar{display:none;}
-  .testimon-scroll>div{flex:0 0 78%;scroll-snap-align:start;}
+  .testimon-scroll>div{flex:0 0 92%;scroll-snap-align:center;}
   .chatpreview .cp-title{font-size:14.5px;font-weight:700;color:var(--rose-deep);margin-bottom:2px;}
   .chatpreview .cp-sub{font-size:13px;color:var(--muted);margin-bottom:12px;}
   .caution{font-size:11.5px;color:#a4854a;background:#fdf8ec;border:1px solid #ecdfc0;border-radius:6px;padding:10px 12px;margin-bottom:14px;line-height:1.7;}
@@ -294,18 +293,14 @@
     <div class="chatpreview">
       <div class="cp-title">利用者の声</div>
       <div class="cp-sub">実際にご利用いただいた方の感想です(個人が特定されないよう要約しています)</div>
-      <div class="testimon-rows">
-        <div class="testimon-scroll" id="testimonRow1">
-          <div style="background:#eef4e7;border:1px solid #cfe0c3;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「当たりすぎて涙が止まらなかった。自分でも気づいていなかった本質が、ちゃんと言葉になっていた」</div>
-          <div style="background:#f8ece7;border:1px solid #e6c9c2;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「Eros診断がドンピシャすぎて、読みながら泣いてしまった。占いというより自分の取扱説明書をもらった感じ」</div>
-          <div style="background:#eef4e7;border:1px solid #cfe0c3;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「驚きすぎて顎が外れるかと思った。今まで受けたどんな占い・診断とも違った」</div>
-          <div style="background:#f8ece7;border:1px solid #e6c9c2;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「元カノにちゃんと謝れて、反省してメッセージが送れた。読みながら泣きすぎて、もうすぐ仕事なのにヤバかった」</div>
-        </div>
-        <div class="testimon-scroll" id="testimonRow2">
-          <div style="background:#faf3e2;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「チャット機能で自分の言葉で聞き直せるのがよかった。鑑定書の内容がちゃんと腹落ちした」</div>
-          <div style="background:#f3eaf1;border:1px solid #d9c3d6;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「具体的すぎて、次に何をすればいいかまで見えた。感情のデトックスになった」</div>
-          <div style="background:#faf3e2;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「これは革命だと思う。読みながら泣かされた」</div>
-        </div>
+      <div class="testimon-scroll" id="testimonList">
+        <div style="background:#eef4e7;border:1px solid #cfe0c3;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「当たりすぎて涙が止まらなかった。自分でも気づいていなかった本質が、ちゃんと言葉になっていた」</div>
+        <div style="background:#faf3e2;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「チャット機能で自分の言葉で聞き直せるのがよかった。鑑定書の内容がちゃんと腹落ちした」</div>
+        <div style="background:#f8ece7;border:1px solid #e6c9c2;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「Eros診断がドンピシャすぎて、読みながら泣いてしまった。占いというより自分の取扱説明書をもらった感じ」</div>
+        <div style="background:#f3eaf1;border:1px solid #d9c3d6;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「具体的すぎて、次に何をすればいいかまで見えた。感情のデトックスになった」</div>
+        <div style="background:#eef4e7;border:1px solid #cfe0c3;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「驚きすぎて顎が外れるかと思った。今まで受けたどんな占い・診断とも違った」</div>
+        <div style="background:#faf3e2;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「これは革命だと思う。読みながら泣かされた」</div>
+        <div style="background:#f8ece7;border:1px solid #e6c9c2;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「元カノにちゃんと謝れて、反省してメッセージが送れた。読みながら泣きすぎて、もうすぐ仕事なのにヤバかった」</div>
       </div>
     </div>
 
@@ -987,45 +982,32 @@ $("feedbackBtn").addEventListener("click",async()=>{
       method:"POST",headers:{"Content-Type":"application/json"},body:"{}"
     });
     const d=await r.json();
-    const rows=[$("testimonRow1"),$("testimonRow2")];
-    if(!rows[0]||!rows[1]||!Array.isArray(d.list))return;
+    const list=$("testimonList");
+    if(!list||!Array.isArray(d.list))return;
     const colors=[["#eef4e7","#cfe0c3"],["#faf3e2","var(--gold-soft)"],["#f8ece7","#e6c9c2"],["#f3eaf1","#d9c3d6"]];
     d.list.forEach((t,i)=>{
       const[bg,bd]=colors[i%colors.length];
       const el=document.createElement("div");
       el.style.cssText=`background:${bg};border:1px solid ${bd};border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;`;
       el.textContent=`「${t.text}」`;
-      const row=rows[i%2];
-      row.insertBefore(el,row.firstChild);
+      list.insertBefore(el,list.firstChild);
     });
   }catch(e){}
 })();
 
-/* --- 利用者の声を自動で横スライド(上下二段、逆方向) --- */
+/* --- 利用者の声を自動で横スライド(1枚ずつ、ゆっくり) --- */
 (function(){
-  function setupRow(id,reverse){
-    const el=$(id);
-    if(!el)return;
-    let paused=false;
-    el.addEventListener("touchstart",()=>{paused=true;},{passive:true});
-    el.addEventListener("mousedown",()=>{paused=true;});
-    if(reverse){
-      requestAnimationFrame(()=>{el.scrollLeft=el.scrollWidth-el.clientWidth;});
-    }
-    setInterval(()=>{
-      if(paused||!el.firstElementChild)return;
-      const step=el.firstElementChild.getBoundingClientRect().width+12;
-      if(reverse){
-        const atStart=el.scrollLeft<=4;
-        el.scrollTo({left:atStart?el.scrollWidth-el.clientWidth:el.scrollLeft-step,behavior:"smooth"});
-      }else{
-        const atEnd=el.scrollLeft+el.clientWidth>=el.scrollWidth-4;
-        el.scrollTo({left:atEnd?0:el.scrollLeft+step,behavior:"smooth"});
-      }
-    },4000);
-  }
-  setupRow("testimonRow1",false);
-  setupRow("testimonRow2",true);
+  const el=$("testimonList");
+  if(!el)return;
+  let paused=false;
+  el.addEventListener("touchstart",()=>{paused=true;},{passive:true});
+  el.addEventListener("mousedown",()=>{paused=true;});
+  setInterval(()=>{
+    if(paused||!el.firstElementChild)return;
+    const step=el.firstElementChild.getBoundingClientRect().width+12;
+    const atEnd=el.scrollLeft+el.clientWidth>=el.scrollWidth-4;
+    el.scrollTo({left:atEnd?0:el.scrollLeft+step,behavior:"smooth"});
+  },6000);
 })();
 
 /* --- 恋愛相性(単体・全年齢)のペイウォール --- */
