@@ -290,7 +290,7 @@
     <div class="chatpreview">
       <div class="cp-title">利用者の声</div>
       <div class="cp-sub">実際にご利用いただいた方の感想です(個人が特定されないよう要約しています)</div>
-      <div style="display:flex;flex-direction:column;gap:12px;margin-top:2px;">
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:2px;" id="testimonList">
         <div style="background:#eef4e7;border:1px solid #cfe0c3;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「当たりすぎて涙が止まらなかった。自分でも気づいていなかった本質が、ちゃんと言葉になっていた」</div>
         <div style="background:#faf3e2;border:1px solid var(--gold-soft);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「チャット機能で自分の言葉で聞き直せるのがよかった。鑑定書の内容がちゃんと腹落ちした」</div>
         <div style="background:#f8ece7;border:1px solid #e6c9c2;border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;">「Eros診断がドンピシャすぎて、読みながら泣いてしまった。占いというより自分の取扱説明書をもらった感じ」</div>
@@ -343,6 +343,7 @@
     <div class="client-head"><div class="nm" id="fName"></div><div class="sub" id="fBirth"></div></div>
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div class="caution">診断がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が途切れると、最初からやり直しが必要になります。</div>
+    <div style="background:#f6f9f2;border:1px solid var(--rose-soft);border-radius:8px;padding:10px 14px;font-size:12.5px;color:#3f6146;margin-bottom:14px;">💬 言葉が難しいと感じたら、下のチャットで「簡単に言うと?」と聞いてみてください。</div>
     <div class="inputcard hidden" id="fInputcard"></div>
     <div class="stage-cast" id="stageCast"></div>
     <div class="meishiki" id="fChart"></div>
@@ -368,6 +369,14 @@
         <div class="cb cb-u">具体的には、日常でどうすればいいの?</div>
         <div class="cb cb-a">例えば彼が家事をしてくれた日は「今日は甘えていい?」って素直に頼ってみて。何もない日はいつも通り自分のペースで過ごせばいいの。してもらったらお返しする、それくらいの気軽さでちょうどいいのよ</div>
       </div>
+    </div>
+
+    <div class="chatpreview" id="feedbackBox">
+      <div class="cp-title">感想を聞かせてください</div>
+      <div class="cp-sub">送っていただいた感想は、内容を確認のうえ、匿名でトップページの「利用者の声」に掲載させていただく場合があります。</div>
+      <textarea id="feedbackText" placeholder="診断を受けてみた感想を教えてください" style="width:100%;min-height:80px;border:1px solid var(--rose-soft);border-radius:8px;padding:10px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
+      <button class="btn" id="feedbackBtn" style="width:100%;margin-top:10px;">感想を送る</button>
+      <div id="feedbackMsg" style="font-size:12.5px;color:var(--muted);margin-top:8px;"></div>
     </div>
 
     <button class="btn ghost" id="backBtn1">入力に戻る</button>
@@ -484,6 +493,7 @@
     <div class="client-head"><div class="nm" id="rName"></div><div class="sub">Eros Rich Method™ 完全版鑑定書</div></div>
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div class="caution">鑑定がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が切れると、コードを1回消費したまま鑑定が完了しない場合があります。</div>
+    <div style="background:#f6f9f2;border:1px solid var(--rose-soft);border-radius:8px;padding:10px 14px;font-size:12.5px;color:#3f6146;margin-bottom:14px;">💬 言葉が難しいと感じたら、下のチャットで「簡単に言うと?」と聞いてみてください。</div>
     <div class="inputcard hidden" id="rInputcard"></div>
     <div id="fullBlocks"></div>
     <div class="legal">
@@ -539,6 +549,7 @@
     <div class="client-head"><div class="nm" id="loveName"></div><div class="sub">相性診断</div></div>
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div class="caution">鑑定がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が切れると、コードを1回消費したまま鑑定が完了しない場合があります。</div>
+    <div style="background:#f6f9f2;border:1px solid var(--rose-soft);border-radius:8px;padding:10px 14px;font-size:12.5px;color:#3f6146;margin-bottom:14px;">💬 言葉が難しいと感じたら、下のチャットで「簡単に言うと?」と聞いてみてください。</div>
     <div id="loveBlocks"></div>
     <div class="legal">
       【注意】本診断は自己理解・関係理解を深めるための分析結果です。関係性の断定や保証を行うものではありません。深刻なお悩みは専門家にご相談ください。
@@ -573,6 +584,7 @@
     <div class="client-head"><div class="nm" id="erosName"></div><div class="sub">Eros Rich Method™ — Erosパート</div></div>
     <button class="print-btn" onclick="window.print()">📄 PDFとして保存する</button>
     <div class="caution">鑑定がすべて出そろうまで、ブラウザを閉じたり他のアプリに切り替えたりしないでください。途中で通信が切れると、コードを1回消費したまま鑑定が完了しない場合があります。</div>
+    <div style="background:#f6f9f2;border:1px solid var(--rose-soft);border-radius:8px;padding:10px 14px;font-size:12.5px;color:#3f6146;margin-bottom:14px;">💬 言葉が難しいと感じたら、下のチャットで「簡単に言うと?」と聞いてみてください。</div>
     <div id="erosBlocks"></div>
     <div class="legal">
       【法的・倫理的注意喚起】本診断は自己理解を深めるための分析結果であり、効果や成果を保証するものではありません。心身の不調や深い悩みは、必ず専門の医療機関やカウンセラーにご相談ください。
@@ -932,6 +944,44 @@ $("unlockBtn").addEventListener("click",async()=>{
 });
 $("relType").addEventListener("change",()=>{$("partnerFields").classList.toggle("hidden",!$("relType").value);});
 $("backBtn1").addEventListener("click",()=>show("viewFreeForm"));
+
+/* --- 感想投稿(AIモデレーション後、匿名で「利用者の声」に反映) --- */
+$("feedbackBtn").addEventListener("click",async()=>{
+  const text=$("feedbackText").value.trim();
+  const msg=$("feedbackMsg");
+  if(!text){msg.textContent="感想を入力してください。";return;}
+  $("feedbackBtn").disabled=true;msg.textContent="送信中…";
+  try{
+    const r=await fetch(WORKER_URL.replace(/\/$/,"")+"/feedback",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({text})
+    });
+    const d=await r.json();
+    if(d.ok){msg.textContent="ありがとうございます!送信しました。";$("feedbackText").value="";}
+    else{msg.textContent="送信できませんでした。内容を見直してもう一度お試しください。";}
+  }catch(e){msg.textContent="通信エラーが発生しました。";}
+  $("feedbackBtn").disabled=false;
+});
+
+/* --- 公開済みの感想を「利用者の声」に動的に反映 --- */
+(async()=>{
+  try{
+    const r=await fetch(WORKER_URL.replace(/\/$/,"")+"/testimonials",{
+      method:"POST",headers:{"Content-Type":"application/json"},body:"{}"
+    });
+    const d=await r.json();
+    const list=$("testimonList");
+    if(!list||!Array.isArray(d.list))return;
+    const colors=[["#eef4e7","#cfe0c3"],["#faf3e2","var(--gold-soft)"],["#f8ece7","#e6c9c2"],["#f3eaf1","#d9c3d6"]];
+    d.list.forEach((t,i)=>{
+      const[bg,bd]=colors[i%colors.length];
+      const el=document.createElement("div");
+      el.style.cssText=`background:${bg};border:1px solid ${bd};border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.8;color:#23301c;`;
+      el.textContent=`「${t.text}」`;
+      list.insertBefore(el,list.firstChild);
+    });
+  }catch(e){}
+})();
 
 /* --- 恋愛相性(単体・全年齢)のペイウォール --- */
 $("unlockBtnLove").addEventListener("click",async()=>{
