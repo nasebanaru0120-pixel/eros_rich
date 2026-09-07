@@ -357,6 +357,15 @@
       <div class="cp-sub" id="trialSub">診断の続きが気になることを、直接聞いてみませんか?</div>
       <button class="btn" id="trialBtn" style="width:100%;">5分間の無料チャットを試す</button>
     </div>
+
+    <div class="chatpreview" id="feedbackBox">
+      <div class="cp-title">感想を聞かせてください</div>
+      <div class="cp-sub">送っていただいた感想は、内容を確認のうえ、匿名でトップページの「利用者の声」に掲載させていただく場合があります。</div>
+      <textarea id="feedbackText" placeholder="診断を受けてみた感想を教えてください" style="width:100%;min-height:80px;border:1px solid var(--rose-soft);border-radius:8px;padding:10px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
+      <button class="btn" id="feedbackBtn" style="width:100%;margin-top:10px;">感想を送る</button>
+      <div id="feedbackMsg" style="font-size:12.5px;color:var(--muted);margin-top:8px;"></div>
+    </div>
+
     <div class="chatpreview">
       <div class="cp-title">こんな相談ができます(チャットのプレビュー)</div>
       <div class="cp-sub">同じ人がずっと相談を続けているイメージです。話の流れを覚えていて、深掘りしてくれます。</div>
@@ -494,6 +503,13 @@
     <div class="legal">
       【法的・倫理的注意喚起】本診断は、あなたの可能性を多角的に探求し、自己理解を深めるための「分析結果」を提供するものです。ビジネスの成功、特定の成果、心身の健康を保証するものではありません。心身の不調や深い精神的苦痛、トラウマに関するお悩みは、必ず専門の医療機関やカウンセラー、その他の資格を持つ専門家にご相談ください。最終的な判断と行動は、ご自身の責任において行われることをお願いいたします。
     </div>
+    <div class="chatpreview" id="feedbackBoxFull">
+      <div class="cp-title">感想を聞かせてください</div>
+      <div class="cp-sub">送っていただいた感想は、内容を確認のうえ、匿名でトップページの「利用者の声」に掲載させていただく場合があります。</div>
+      <textarea id="feedbackTextFull" placeholder="診断を受けてみた感想を教えてください" style="width:100%;min-height:80px;border:1px solid var(--rose-soft);border-radius:8px;padding:10px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
+      <button class="btn" id="feedbackBtnFull" style="width:100%;margin-top:10px;">感想を送る</button>
+      <div id="feedbackMsgFull" style="font-size:12.5px;color:var(--muted);margin-top:8px;"></div>
+    </div>
   </div>
 
   <!-- 鑑定士とのチャット(フル鑑定書・お試し共通。どの結果画面でも表示されうる) -->
@@ -509,15 +525,6 @@
       </div>
       <p class="hint">例:「彼との相性は? 1992年4月2日生まれ」「今の仕事は続けるべき?」— 生年月日を書くと、その場で命式を計算して読みます。</p>
     </div>
-  </div>
-
-  <!-- 感想フォーム(チャット終了後、chatCardのすぐ下に表示) -->
-  <div class="chatpreview hidden" id="feedbackBox">
-    <div class="cp-title">感想を聞かせてください</div>
-    <div class="cp-sub">送っていただいた感想は、内容を確認のうえ、匿名でトップページの「利用者の声」に掲載させていただく場合があります。</div>
-    <textarea id="feedbackText" placeholder="診断を受けてみた感想を教えてください" style="width:100%;min-height:80px;border:1px solid var(--rose-soft);border-radius:8px;padding:10px;font-family:inherit;font-size:14px;resize:vertical;box-sizing:border-box;"></textarea>
-    <button class="btn" id="feedbackBtn" style="width:100%;margin-top:10px;">感想を送る</button>
-    <div id="feedbackMsg" style="font-size:12.5px;color:var(--muted);margin-top:8px;"></div>
   </div>
 
   <!-- 恋愛相性(単体・全年齢): 入力 -->
@@ -959,22 +966,28 @@ $("relType").addEventListener("change",()=>{$("partnerFields").classList.toggle(
 $("backBtn1").addEventListener("click",()=>show("viewFreeForm"));
 
 /* --- 感想投稿(AIモデレーション後、匿名で「利用者の声」に反映) --- */
-$("feedbackBtn").addEventListener("click",async()=>{
-  const text=$("feedbackText").value.trim();
-  const msg=$("feedbackMsg");
-  if(!text){msg.textContent="感想を入力してください。";return;}
-  $("feedbackBtn").disabled=true;msg.textContent="送信中…";
-  try{
-    const r=await fetch(WORKER_URL.replace(/\/$/,"")+"/feedback",{
-      method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({text})
-    });
-    const d=await r.json();
-    if(d.ok){msg.textContent="ありがとうございます!送信しました。";$("feedbackText").value="";}
-    else{msg.textContent="送信できませんでした。内容を見直してもう一度お試しください。";}
-  }catch(e){msg.textContent="通信エラーが発生しました。";}
-  $("feedbackBtn").disabled=false;
-});
+function wireFeedbackForm(btnId,textId,msgId){
+  const btn=$(btnId);
+  if(!btn)return;
+  btn.addEventListener("click",async()=>{
+    const text=$(textId).value.trim();
+    const msg=$(msgId);
+    if(!text){msg.textContent="感想を入力してください。";return;}
+    btn.disabled=true;msg.textContent="送信中…";
+    try{
+      const r=await fetch(WORKER_URL.replace(/\/$/,"")+"/feedback",{
+        method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({text})
+      });
+      const d=await r.json();
+      if(d.ok){msg.textContent="ありがとうございます!送信しました。";$(textId).value="";}
+      else{msg.textContent="送信できませんでした。内容を見直してもう一度お試しください。";}
+    }catch(e){msg.textContent="通信エラーが発生しました。";}
+    btn.disabled=false;
+  });
+}
+wireFeedbackForm("feedbackBtn","feedbackText","feedbackMsg");
+wireFeedbackForm("feedbackBtnFull","feedbackTextFull","feedbackMsgFull");
 
 /* --- 公開済みの感想を「利用者の声」に動的に反映 --- */
 (async()=>{
@@ -1729,7 +1742,6 @@ async function initChat(baseCtx,opts){
   BASE_CTX=baseCtx;
   CHAT_HIST=[];
   $("chatCard").classList.remove("hidden");
-  $("feedbackBox").classList.remove("hidden");
   $("chatMsgs").innerHTML="";
   $("chatInput").disabled=false;$("chatSend").disabled=false;
   if(opts.trial){
