@@ -614,11 +614,12 @@
 /* ================= 設定 ================= */
 const MODE = "production"; // "claude"=Claude内テスト用 / "production"=本番(Worker経由)
 const WORKER_URL = "https://uranai.nasebanaru0120.workers.dev"; // 本番URL設定済み(2026-08-06)
+const REFERRER=(function(){try{const q=new URLSearchParams(location.search);return q.get("utm_source")||document.referrer||"direct";}catch(e){return "unknown";}})();
 function logWorry(){
   try{
     fetch(WORKER_URL.replace(/\/$/,"")+"/log",{
       method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({name:C.name||"",bday:C.bday||"",dream:C.dream||"",worry:C.worry||C.quickWorry||""})
+      body:JSON.stringify({name:C.name||"",bday:C.bday||"",dream:C.dream||"",worry:C.worry||C.quickWorry||"",referrer:REFERRER})
     }).catch(()=>{});
   }catch(e){}
 }
@@ -807,7 +808,15 @@ async function askJSON(ctx,prompt,retry){
   if(!retry){return askJSON(ctx,prompt+"\n\n※前回の出力はJSONとして不正でした。必ず有効なJSONオブジェクトのみを出力してください。",true);}
   throw new Error("AIの応答を解析できませんでした。もう一度お試しください。");
 }
-const failMsg=e=>`<p style="color:#b05555;font-size:12.5px;line-height:1.8;">生成に失敗しました。<br><span style="font-size:11px;color:#a98;">詳細: ${esc(e&&e.message?e.message:e)}</span></p>`;
+async function askJSONSafe(ctx,prompt){
+  let lastErr;
+  for(let attempt=0;attempt<3;attempt++){
+    try{return await askJSON(ctx,prompt);}
+    catch(e){lastErr=e;if(attempt<2)await new Promise(r=>setTimeout(r,700*(attempt+1)));}
+  }
+  throw lastErr;
+}
+const failMsg=e=>`<p style="color:#b05555;font-size:12.5px;line-height:1.8;">この項目の生成に失敗しました。ページを再読み込みすると直ることが多いです。<br>チャット機能がご利用いただける場合は、そちらで「この項目について教えて」と聞いていただくこともできます。<br><span style="font-size:11px;color:#a98;">詳細: ${esc(e&&e.message?e.message:e)}</span></p>`;
 
 /* ================= 描画部品 ================= */
 const $=id=>document.getElementById(id);
@@ -896,7 +905,7 @@ $("freeBtn").addEventListener("click",async()=>{
   show("viewFreeResult");
   const body=cardShell($("freeBlocks"),`${C.name}${C.honorific}の傾向`);
   try{
-    const j=await askJSON(ctxOf(C,MS),
+    const j=await askJSONSafe(ctxOf(C,MS),
 `無料の簡易診断。まず「${C.dream}」という叶えたい未来${C.quickWorry?`と「${C.quickWorry}」というモヤモヤ`:""}から、この人が恋愛・仕事・人間関係のどの場面を最も気にしているかを読み取り、その場面を軸に据える(性的な傾向に限らない)。
 年柱・月柱・日柱それぞれの性質がどう絡み合って作用しているかを解き明かし、単独の星の説明で終わらせず、
 3つの組み合わせとして統合的に語ること。JSON形式のみで出力:
@@ -1391,7 +1400,7 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`});
       const i=cursor++;
       const {s,body}=slots[i];
       try{
-        const j=await askJSON(ctx+(s.ctxExtra||""),fill(s.prompt));
+        const j=await askJSONSafe(ctx+(s.ctxExtra||""),fill(s.prompt));
         s.render(j,body);
         try{DIGEST.push(s.title+" → "+(j.catch||j.total||j.declare||j.message||(j.plan?j.plan.long:"")||""));}catch(_){}
         body.innerHTML=body.innerHTML.replaceAll("DAY_KANSHI",p.day.kanshi);
@@ -1467,7 +1476,7 @@ $("loveBtn").addEventListener("click",async()=>{
 ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`;
   const body=cardShell(LB,`相性 — ${C.pName}さん(${C.relType})`,false);
   try{
-    const j=await askJSON(ctx+ctxExtra,fill(prompt));
+    const j=await askJSONSafe(ctx+ctxExtra,fill(prompt));
     body.innerHTML=`
       <div class="meishiki" style="margin-bottom:14px;"><table>
         <tr><th></th><th>${esc(C.name)}${C.honorific}</th><th>${esc(C.pName)}さん</th></tr>
@@ -1578,7 +1587,7 @@ $("erosBtn").addEventListener("click",async()=>{
     while(cursor<slots.length){
       const i=cursor++;const{s,body}=slots[i];
       try{
-        const j=await askJSON(ctx,fill(s.prompt));
+        const j=await askJSONSafe(ctx,fill(s.prompt));
         s.render(j,body);
         body.innerHTML=body.innerHTML.replaceAll("DAY_KANSHI",p.day.kanshi);
       }
@@ -1662,7 +1671,7 @@ async function chatCall(messages){
   if(MODE==="production"){
     const res=await fetch(WORKER_URL.replace(/\/$/,"")+"/chat",{
       method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({token:SESSION.token,ctx:BASE_CTX+chatRules(),messages})
+      body:JSON.stringify({token:SESSION.token,ctx:BASE_CTX+chatRules(),messages,name:(C&&C.name)||"",bday:(C&&C.bday)||"",referrer:REFERRER})
     });
     const data=await res.json();
     if(data.error)throw new Error(data.error);
