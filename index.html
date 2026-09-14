@@ -403,6 +403,7 @@
       <li><b>鑑定士とチャットで60分・相談し放題</b>(気になる人との相性の追加質問もOK)</li>
     </ul>
     <div class="pw-hook" style="margin:14px 0 0;">相性診断(¥500)もErosパート(¥3,000)も、実はぜんぶ含まれています。バラバラに買うより、まとめてこの一冊のほうが断然お得です。</div>
+    <div class="pw-hook" style="margin:6px 0 0;">本格的な鑑定は、通常5万円を超えることも珍しくありません。私自身、これまで100万円以上をかけて様々な鑑定を受けてきたからこそ、その内容をこの価格でお届けしています。</div>
     <div class="price">¥8,000<small> (税込)</small></div>
     <a class="btn ghost" href="https://buy.stripe.com/7sY14m0QTfhodiTaur1gs00" style="display:block;text-align:center;text-decoration:none;margin-top:12px;">購入手続きへ進む</a>
     <div style="font-size:11.5px;color:var(--muted);margin-top:14px;">お支払い後、自動でこのサイトに戻り、解禁コードが表示されます。そのまま下に入力して進めます。</div>
@@ -931,7 +932,8 @@ $("freeBtn").addEventListener("click",async()=>{
 "zuboshi":["3つの星の陰転を素材に、思わず『私のことだ』と声が出る図星を2つ。各42字以内",""],
 "tenkan":"その弱さこそが魅力である、という思考の転換のパンチライン。38字以内",
 "hint":"もっと深く知る方向性のヒント(完全版への興味が残る程度に)。65字以内",
-"tags":["キーワード3つ(各6字以内)","",""]}`);
+"tags":["キーワード3つ(各6字以内)","",""],
+"matome":"ここまでの内容を、読解力に自信がない人でも一読で理解できるくらい平易な言葉で言い換える(専門用語や星の名前は使わず日常語だけで2〜3文)。続けて、この無料診断はまだ大きな傾向を知るための入り口であり、お相手を深く知って具体的な行動ステップに落とし込むにはフル鑑定が必要だという趣旨を、押し付けがましくなく自然な一文で添える。全体150字以内"}`);
     body.innerHTML=`
       <div class="catch">${esc(j.catch)}</div>
       ${chips(j.tags)}
@@ -940,7 +942,9 @@ $("freeBtn").addEventListener("click",async()=>{
       <div class="bodytext" style="margin-top:12px;">${paras(j.synthesis)}</div>
       ${zubo(j.zuboshi)}
       ${tenkan(j.tenkan)}
-      <div class="action-line">${esc(j.hint)}</div>`;
+      <div class="action-line">${esc(j.hint)}</div>
+      <div class="zubo-title" style="margin-top:14px;">まとめ</div>
+      <div class="bodytext">${paras(j.matome)}</div>`;
   }catch(e){body.innerHTML=failMsg(e);}
 });
 
@@ -1443,6 +1447,15 @@ ${C.relDetail?`【お相手との現状】${C.relDetail}`:""}`});
     }
   }
   await Promise.all([worker(),worker(),worker()]);
+  try{
+    const matomeBody=cardShell(FB,"まとめ — 今日伝えたこと");
+    const mj=await askJSONSafe(ctx,
+`以下は${C.name}${C.honorific}への鑑定で伝えた要点の一覧。これを、読解力に自信がない人でも一読で理解できるくらい平易な言葉で(専門用語や星の名前は使わず日常語だけで)言い換えてまとめ直す。単なる要約ではなく、一番伝えたいメッセージを軸に、次にどう動けばいいかが分かる形で締めくくる。JSON形式のみで出力:
+【鑑定で伝えた要点】
+${DIGEST.map((d,i)=>`${i+1}. ${d}`).join("\n")}
+{"matome":"平易な言葉でのまとめ。4〜5文、220字以内"}`);
+    matomeBody.innerHTML=`<div class="bodytext">${paras(mj.matome)}</div>`;
+  }catch(e){}
   const partnerCtx=PMS?`
 【お相手(${C.relType}):${C.pName}さん】生年月日:${C.pBday}
 日干:${PMS.nikkan}(${KANSHI_STORY[PMS.nikkan]}) 年柱:${PMS.pillars.year.kanshi}(${PMS.pillars.year.stage}/蔵干通変星${PMS.pillars.year.zokanTuhen}) 月柱:${PMS.pillars.month.kanshi}(${PMS.pillars.month.stage}/通変星${PMS.pillars.month.tuhen}) 日柱:${PMS.pillars.day.kanshi}(${PMS.pillars.day.stage}) 運勢エネルギー:${PMS.totalEnergy}
