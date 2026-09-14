@@ -352,10 +352,11 @@
     <div class="meishiki" id="fChart"></div>
     <div class="caution hidden" id="fNote"></div>
     <div id="freeBlocks"></div>
+    <div id="freeTeaser" style="background:linear-gradient(160deg,#fffbf0,#f6ecd4);border:1.5px solid var(--gold);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;line-height:1.9;color:#5a4520;"></div>
     <div class="chatpreview" id="trialBox">
-      <div class="cp-title">鑑定士と5分だけ話してみる(無料)</div>
+      <div class="cp-title">鑑定士と3分だけ話してみる(無料)</div>
       <div class="cp-sub" id="trialSub">診断の続きが気になることを、直接聞いてみませんか?</div>
-      <button class="btn" id="trialBtn" style="width:100%;">5分間の無料チャットを試す</button>
+      <button class="btn" id="trialBtn" style="width:100%;">3分間の無料チャットを試す</button>
     </div>
 
     <div class="chatpreview" id="feedbackBox">
@@ -896,6 +897,7 @@ $("freeBtn").addEventListener("click",async()=>{
   $("fBirth").textContent=C.bday+" 生";
   $("fChart").innerHTML=chartHTML(MS);
   $("stageCast").innerHTML=stageCastHTML(MS);
+  $("freeTeaser").innerHTML=`これは、まだ氷山の一角。<br>年柱の${esc(MS.pillars.year.stage)}、月柱の${esc(MS.pillars.month.stage)}、日柱の${esc(MS.pillars.day.stage)}——${C.name}${C.honorific}の命式には、まだ言葉にしていない層が眠っています。<br>フル鑑定書では、その全部を読み解きます。`;
   if(C.dream||C.quickWorry){
     $("fInputcard").innerHTML=`${C.dream?`<b>叶えたい未来</b> ${esc(C.dream)}<br>`:""}${C.quickWorry?`<b>モヤモヤ</b> ${esc(C.quickWorry)}`:""}`;
     $("fInputcard").classList.remove("hidden");
@@ -904,7 +906,8 @@ $("freeBtn").addEventListener("click",async()=>{
     $("trialBtn").disabled=true;$("trialBtn").textContent="お試し利用済み";
     $("trialSub").textContent="お試しチャットはご利用済みです。フル鑑定書なら60分たっぷり相談できます。";
   }else{
-    $("trialBtn").disabled=false;$("trialBtn").textContent="5分間の無料チャットを試す";
+    $("trialSub").textContent=C.quickWorry?`「${C.quickWorry}」について、もっと直接聞いてみませんか?`:"診断の続きが気になることを、直接聞いてみませんか?";
+    $("trialBtn").disabled=false;$("trialBtn").textContent="3分間の無料チャットを試す";
     $("trialSub").textContent="診断の続きが気になることを、直接聞いてみませんか?";
   }
   const notes=[];
@@ -1632,7 +1635,17 @@ $("erosBtn").addEventListener("click",async()=>{
 
 /* ================= 対話モード(鑑定士と1時間) ================= */
 const DIGEST=[];
-let SESSION=null,CHAT_HIST=[],BASE_CTX="",CHAT_TIMER=null,PENDING_CHAT_CTX="";
+let SESSION=null,CHAT_HIST=[],BASE_CTX="",CHAT_TIMER=null,PENDING_CHAT_CTX="",IS_TRIAL=false,TRIAL_CTA_SHOWN=false;
+function appendTrialCTA(){
+  if(TRIAL_CTA_SHOWN)return;
+  TRIAL_CTA_SHOWN=true;
+  const box=$("chatMsgs");
+  const cta=document.createElement("div");
+  cta.style.cssText="margin-top:14px;padding:16px;border-radius:10px;background:linear-gradient(160deg,#fffbf0,#f6ecd4);border:1.5px solid var(--gold);text-align:center;";
+  cta.innerHTML=`<div style="font-size:13.5px;font-weight:700;margin-bottom:6px;">続きが気になりましたか?</div><div style="font-size:12.5px;color:var(--muted);margin-bottom:12px;">フル鑑定書なら、今日の続きを60分たっぷり話せます。</div><a href="#paywall" style="display:inline-block;padding:10px 24px;border-radius:8px;background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;font-weight:700;font-size:13px;text-decoration:none;">フル鑑定書を見てみる</a>`;
+  box.appendChild(cta);
+  box.scrollTop=box.scrollHeight;
+}
 
 function chatRules(){
   return `
@@ -1733,20 +1746,22 @@ async function initChat(baseCtx,opts){
       if(!d.token)throw new Error(d.error||"セッションを開始できませんでした");
       SESSION={token:d.token,exp:d.exp};
     }else{
-      SESSION={token:"local",exp:Date.now()+(opts.trial?5:CHAT_MINUTES)*60000};
+      SESSION={token:"local",exp:Date.now()+(opts.trial?3:CHAT_MINUTES)*60000};
     }
   }catch(e){
-    if(opts.trial){$("trialSub").textContent="ただいま混み合っています。少し時間をおいてお試しください。";$("trialBtn").disabled=false;$("trialBtn").textContent="5分間の無料チャットを試す";}
+    if(opts.trial){$("trialSub").textContent="ただいま混み合っています。少し時間をおいてお試しください。";$("trialBtn").disabled=false;$("trialBtn").textContent="3分間の無料チャットを試す";}
     return; // チャット無しでも鑑定書は成立
   }
   BASE_CTX=baseCtx;
   CHAT_HIST=[];
+  IS_TRIAL=!!opts.trial;
+  TRIAL_CTA_SHOWN=false;
   $("chatCard").classList.remove("hidden");
   $("chatMsgs").innerHTML="";
   $("chatInput").disabled=false;$("chatSend").disabled=false;
   if(opts.trial){
     $("chatCard").scrollIntoView({behavior:"smooth",block:"start"});
-    addBubble("assistant",`${C.name}${C.honorific}、ここから5分間だけ、私に直接なんでも聞いてください(気になる人との相性も、生年月日を「1992年4月2日」の形で書けば読めます)。フル鑑定書なら60分たっぷり相談できます。`);
+    addBubble("assistant",`${C.name}${C.honorific}、ここから3分間だけ、私に直接なんでも聞いてください(気になる人との相性も、生年月日を「1992年4月2日」の形で書けば読めます)。フル鑑定書なら60分たっぷり相談できます。`);
   }else{
     addBubble("assistant",`${C.name}${C.honorific}、鑑定書はここまで。ここからの${Math.round((SESSION.exp-Date.now())/60000)}分間は、私に直接なんでも聞いてください。鑑定の深掘りでも、気になる人との相性でも(生年月日を「1992年4月2日」の形で書けば、その場で命式を出して読みます)。`);
   }
@@ -1763,14 +1778,7 @@ async function initChat(baseCtx,opts){
       $("chatTimer").textContent="終了";
       chatFloat.classList.add("hidden");
       addBubble("assistant","……お時間になりました。今日渡した言葉のうち、ひとつでいい、明日の朝いちばんに実行してみて。星は準備ができてる。あとはあなたの番よ。");
-      if(opts.trial){
-        const box=$("chatMsgs");
-        const cta=document.createElement("div");
-        cta.style.cssText="margin-top:14px;padding:16px;border-radius:10px;background:linear-gradient(160deg,#fffbf0,#f6ecd4);border:1.5px solid var(--gold);text-align:center;";
-        cta.innerHTML=`<div style="font-size:13.5px;font-weight:700;margin-bottom:6px;">続きが気になりましたか?</div><div style="font-size:12.5px;color:var(--muted);margin-bottom:12px;">フル鑑定書なら、今日の続きを60分たっぷり話せます。</div><a href="#paywall" style="display:inline-block;padding:10px 24px;border-radius:8px;background:linear-gradient(135deg,var(--rose),var(--rose-deep));color:#fff;font-weight:700;font-size:13px;text-decoration:none;">フル鑑定書を見てみる</a>`;
-        box.appendChild(cta);
-        box.scrollTop=box.scrollHeight;
-      }
+      if(opts.trial)appendTrialCTA();
     }
   },1000);
   if(!initChat._wired){
@@ -1800,6 +1808,7 @@ async function sendChat(){
     CHAT_HIST.push({role:"assistant",content:reply});
     wait.classList.remove("cb-wait");
     wait.textContent=reply;
+    if(IS_TRIAL&&CHAT_HIST.filter(h=>h.role==="assistant").length===1)appendTrialCTA();
   }catch(e){
     wait.classList.remove("cb-wait");
     wait.textContent="(通信に失敗しました: "+(e.message||e)+" — もう一度送ってみてください)";
