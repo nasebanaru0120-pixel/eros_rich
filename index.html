@@ -345,6 +345,7 @@
       <div class="field"><label for="btime">出生時間(任意・不明なら空欄)</label><input type="time" id="btime"></div>
       <div class="field"><label for="quickDream">叶えたい未来(恋愛・性についてでもOK)<span class="req">必須</span></label><input type="text" id="quickDream" placeholder="例:本音で向き合える相手と、安心できる関係を築きたい"></div>
       <div class="field"><label for="quickWorry">いま一番モヤモヤしていること(ひとことでOK・任意)</label><input type="text" id="quickWorry" placeholder="例:職場の人間関係に疲れる / 好きになる人がいつも同じタイプで悩む / このままでいいのか不安"></div>
+      <div class="field"><label for="referredBy">紹介してくれた方のお名前(任意)</label><input type="text" id="referredBy" placeholder="例:あやっぺ"></div>
       <button class="btn" id="freeBtn">無料で占う</button>
       <div class="err" id="freeErr"></div>
     </div>
@@ -636,11 +637,12 @@
 const MODE = "production"; // "claude"=Claude内テスト用 / "production"=本番(Worker経由)
 const WORKER_URL = "https://uranai.nasebanaru0120.workers.dev"; // 本番URL設定済み(2026-08-06)
 const REFERRER=(function(){try{const q=new URLSearchParams(location.search);return q.get("utm_source")||document.referrer||"direct";}catch(e){return "unknown";}})();
+const REF_PARAM=(function(){try{return new URLSearchParams(location.search).get("ref")||"";}catch(e){return "";}})();
 function logWorry(){
   try{
     fetch(WORKER_URL.replace(/\/$/,"")+"/log",{
       method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({name:C.name||"",bday:C.bday||"",dream:C.dream||"",worry:C.worry||C.quickWorry||"",referrer:REFERRER})
+      body:JSON.stringify({name:C.name||"",bday:C.bday||"",dream:C.dream||"",worry:C.worry||C.quickWorry||"",referrer:REFERRER,referredBy:C.referredBy||""})
     }).catch(()=>{});
   }catch(e){}
 }
@@ -841,6 +843,7 @@ const failMsg=e=>`<p style="color:#b05555;font-size:12.5px;line-height:1.8;">こ
 
 /* ================= 描画部品 ================= */
 const $=id=>document.getElementById(id);
+if(REF_PARAM&&$("referredBy"))$("referredBy").value=REF_PARAM;
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 const paras=t=>String(t??"").split(/\n+/).filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join("");
 const chips=a=>a&&a.length?`<div class="chips">${a.map(t=>`<span class="chip">${esc(t)}</span>`).join("")}</div>`:"";
@@ -893,7 +896,7 @@ const show=id=>{["viewFreeForm","viewFreeResult","viewFullForm","viewFullResult"
 $("freeBtn").addEventListener("click",async()=>{
   CURRENT_TIER="free";
   const err=$("freeErr");err.classList.remove("show");
-  C={name:$("callname").value.trim(),honorific:"",gender:$("gender").value,bday:$("bday").value,dream:$("quickDream").value.trim(),quickWorry:$("quickWorry").value.trim()};
+  C={name:$("callname").value.trim(),honorific:"",gender:$("gender").value,bday:$("bday").value,dream:$("quickDream").value.trim(),quickWorry:$("quickWorry").value.trim(),referredBy:$("referredBy").value.trim()};
   if(!C.name||!C.bday){err.textContent="呼び名と生年月日を入力してください。";err.classList.add("show");return;}
   if(!C.dream){err.textContent="叶えたい未来を入力してください。";err.classList.add("show");return;}
   logWorry();
@@ -1737,7 +1740,7 @@ async function chatCall(messages){
   if(MODE==="production"){
     const res=await fetch(WORKER_URL.replace(/\/$/,"")+"/chat",{
       method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({token:SESSION.token,ctx:BASE_CTX+chatRules(),messages,name:(C&&C.name)||"",bday:(C&&C.bday)||"",referrer:REFERRER})
+      body:JSON.stringify({token:SESSION.token,ctx:BASE_CTX+chatRules(),messages,name:(C&&C.name)||"",bday:(C&&C.bday)||"",referrer:REFERRER,referredBy:(C&&C.referredBy)||""})
     });
     const data=await res.json();
     if(data.error)throw new Error(data.error);
